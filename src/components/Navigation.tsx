@@ -1,8 +1,12 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { NavLink } from 'react-router-dom'
 import { Navbar, Dropdown, Avatar } from 'flowbite-react'
 
 const NavBar = () => {
+  const activeStyle = {
+    color: '#1d4ed8'
+  }
+
   return (
     <Navbar fluid={true}>
       <Navbar.Brand href="#">
@@ -19,13 +23,7 @@ const NavBar = () => {
         <Dropdown
           arrowIcon={false}
           inline={true}
-          label={
-            <Avatar
-              alt="User settings"
-              img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-              rounded={true}
-            />
-          }
+          label={<Avatar alt="User settings" img="../../public/assets/6912.png" rounded={true} />}
         >
           <Dropdown.Header>
             <span className="block text-sm">Bonnie Green</span>
@@ -40,13 +38,22 @@ const NavBar = () => {
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
-        <Navbar.Link href="/navbars" active={true}>
-          Home
+        <Navbar.Link>
+          <NavLink to="/" className={({ isActive }) => (isActive ? 'text-[#1d4ed8]' : undefined)}>
+            Home
+          </NavLink>
         </Navbar.Link>
-        <Navbar.Link href="/navbars">About</Navbar.Link>
-        <Navbar.Link href="/navbars">Services</Navbar.Link>
-        <Navbar.Link href="/navbars">Pricing</Navbar.Link>
-        <Navbar.Link href="/navbars">Contact</Navbar.Link>
+        <Navbar.Link>
+          <NavLink
+            to="/map"
+            className={({ isActive }) => (isActive ? 'text-[#1d4ed8]' : undefined)}
+          >
+            Map
+          </NavLink>
+        </Navbar.Link>
+        <Navbar.Link>Services</Navbar.Link>
+        <Navbar.Link>Pricing</Navbar.Link>
+        <Navbar.Link>Contact</Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
   )
