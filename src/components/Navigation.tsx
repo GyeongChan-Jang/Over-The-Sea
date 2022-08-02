@@ -26,8 +26,8 @@ const NavBar = () => {
           label={<Avatar alt="User settings" img="../../public/assets/6912.png" rounded={true} />}
         >
           <Dropdown.Header>
-            <span className="block text-sm">Bonnie Green</span>
-            <span className="block truncate text-sm font-medium">name@flowbite.com</span>
+            <span className="block text-sm">GyeongChan</span>
+            <span className="block truncate text-sm font-medium">cham9994@gmail.com</span>
           </Dropdown.Header>
           <Dropdown.Item>Dashboard</Dropdown.Item>
           <Dropdown.Item>Settings</Dropdown.Item>
@@ -38,19 +38,26 @@ const NavBar = () => {
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
-        <Navbar.Link>
-          <NavLink to="/" className={({ isActive }) => (isActive ? 'text-[#1d4ed8]' : undefined)}>
-            Home
-          </NavLink>
-        </Navbar.Link>
-        <Navbar.Link>
-          <NavLink
-            to="/map"
-            className={({ isActive }) => (isActive ? 'text-[#1d4ed8]' : undefined)}
-          >
-            Map
-          </NavLink>
-        </Navbar.Link>
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive
+              ? 'text-[#1d4ed8] block py-2 pr-4 pl-3 md:p-0 bg-blue-700 text-white dark:text-white md:bg-transparent md:text-blue-700'
+              : ' block py-2 pr-4 pl-3 md:p-0 border-b border-gray-100  text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-white'
+          }
+        >
+          Home
+        </NavLink>
+        <NavLink
+          to="/map"
+          className={({ isActive }) =>
+            isActive
+              ? 'text-[#1d4ed8] block py-2 pr-4 pl-3 md:p-0 bg-blue-700 text-white dark:text-white md:bg-transparent md:text-blue-700'
+              : 'block py-2 pr-4 pl-3 md:p-0 border-b border-gray-100  text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-white'
+          }
+        >
+          Map
+        </NavLink>
         <Navbar.Link>Services</Navbar.Link>
         <Navbar.Link>Pricing</Navbar.Link>
         <Navbar.Link>Contact</Navbar.Link>

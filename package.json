@@ -20,10 +20,12 @@
     "path": "^0.12.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-naver-maps": "^0.0.13",
     "react-router-dom": "^6.3.0",
     "redux-thunk": "^2.4.1"
   },
   "devDependencies": {
+    "@types/navermaps": "^3.0.17",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "@vitejs/plugin-react": "^2.0.0",
