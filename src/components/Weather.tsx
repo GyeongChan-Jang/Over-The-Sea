@@ -1,6 +1,7 @@
 import { dialogActionsClasses } from '@mui/material'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import WeatherView from './WeatherView'
 
 const Weather = () => {
   const [data, setData] = useState([])
@@ -30,6 +31,7 @@ const Weather = () => {
   }
   useEffect(() => {
     fecthData()
+    console.log(data)
   }, [])
 
   return (
@@ -39,9 +41,14 @@ const Weather = () => {
           <p className="text-slate-600">오늘의 날씨는?!</p>
           {data.map((item) => {
             return (
-              <p>
-                {item.fcstDate} {item.fcstTime} {item.category} {item.fcstValue}
-              </p>
+              <>
+                <WeatherView
+                  fcstDate={item.fcstDate}
+                  fcstTime={item.fcstTime}
+                  fcstCategory={item.category}
+                  fcstValue={item.fcstValue}
+                />
+              </>
             )
           })}
         </div>

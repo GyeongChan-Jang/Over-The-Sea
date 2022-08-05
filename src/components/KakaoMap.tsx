@@ -5,6 +5,7 @@ import { Map, MapMarker } from 'react-kakao-maps-sdk'
 import useGeolocation from '~/hooks/useGeolocation'
 import { Tabs } from 'flowbite-react'
 import ToggleButton from '~/components/UI/ToggleButton'
+import SearchMap from './SearchMap'
 
 const BEACH_API_KEY =
   'YKhkbWsCsaTywu2QHRS70v5QGa6XB6aK%2FBVsqughtWFRU2Q00gi6uJ4WiXK6oirbBZmFThW4heHbnOa9XJpWZA%3D%3D'
@@ -13,7 +14,6 @@ const regions = [
   '부산',
   '인천',
   '울산',
-  '서울',
   '경기',
   '강원',
   '충남',
@@ -28,17 +28,17 @@ const KakaoMap = () => {
   const location = useGeolocation()
   useEffect(() => {
     // 해수욕장 정보 가져오기
-    async function getBeach() {
-      try {
-        const response = await axios.get(
-          `http://apis.data.go.kr/1192000/service/OceansBeachInfoService1/getOceansBeachInfo1?pageNo=1&numOfRows=10&resultType=json&SIDO_NM=대구&ServiceKey=${BEACH_API_KEY}`
-        )
-        console.log(response)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    getBeach()
+    // async function getBeach() {
+    //   try {
+    //     const response = await axios.get(
+    //       `http://apis.data.go.kr/1192000/service/OceansBeachInfoService1/getOceansBeachInfo1?pageNo=1&numOfRows=10&resultType=json&SIDO_NM=대구&ServiceKey=${BEACH_API_KEY}`
+    //     )
+    //     console.log(response)
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // }
+    // getBeach()
   }, [])
 
   return (
@@ -56,14 +56,13 @@ const KakaoMap = () => {
             <Tabs.Group aria-label="Full width tabs" style="pills">
               {regions.map((region) => {
                 return (
-                  <Tabs.Item title={region}>
+                  <Tabs.Item title={region} key="region">
                     <button className="text-lg" value={region}></button>
                   </Tabs.Item>
                 )
               })}
             </Tabs.Group>
           </div>
-          <div className="border"></div>
         </div>
 
         {location.loaded ? (
@@ -83,6 +82,9 @@ const KakaoMap = () => {
             <Loading />
           </div>
         )}
+      </div>
+      <div>
+        <SearchMap />
       </div>
     </div>
   )
