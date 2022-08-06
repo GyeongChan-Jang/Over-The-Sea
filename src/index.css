@@ -31,14 +31,14 @@ a:hover {
 }
 
 /* button 기본 스타일링 제거 */
-button {
+/* button {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   outline: none;
   border: none;
   background-color: inherit;
-}
+} */
 
 /* toggle 버튼 만들기 */
 /* The switch - the box around the slider */

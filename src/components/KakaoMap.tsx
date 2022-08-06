@@ -6,6 +6,7 @@ import useGeolocation from '~/hooks/useGeolocation'
 import { Tabs } from 'flowbite-react'
 import ToggleButton from '~/components/UI/ToggleButton'
 import SearchMap from './SearchMap'
+import { ImportExportTwoTone } from '@mui/icons-material'
 
 const BEACH_API_KEY =
   'YKhkbWsCsaTywu2QHRS70v5QGa6XB6aK%2FBVsqughtWFRU2Q00gi6uJ4WiXK6oirbBZmFThW4heHbnOa9XJpWZA%3D%3D'
@@ -24,21 +25,39 @@ const regions = [
   '제주'
 ]
 
+interface RequestQuery {
+  ServiceKey: string
+  pageNo: number
+  numOfRows: number
+  SIDO_NM: string
+  resultType: string
+}
+
 const KakaoMap = () => {
   const location = useGeolocation()
+  const queryParams: RequestQuery = {
+    ServiceKey: import.meta.env.VITE_BEACH_API_KEY,
+    pageNo: 1,
+    numOfRows: 100,
+    SIDO_NM: '강원',
+    resultType: 'json'
+  }
   useEffect(() => {
     // 해수욕장 정보 가져오기
-    // async function getBeach() {
-    //   try {
-    //     const response = await axios.get(
-    //       `http://apis.data.go.kr/1192000/service/OceansBeachInfoService1/getOceansBeachInfo1?pageNo=1&numOfRows=10&resultType=json&SIDO_NM=대구&ServiceKey=${BEACH_API_KEY}`
-    //     )
-    //     console.log(response)
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // }
-    // getBeach()
+    async function getBeach() {
+      try {
+        const response = await axios.get(
+          '/api/1192000/service/OceansBeachInfoService1/getOceansBeachInfo1',
+          {
+            params: queryParams
+          }
+        )
+        console.log(response)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getBeach()
   }, [])
 
   return (
@@ -55,11 +74,7 @@ const KakaoMap = () => {
           <div className="mt-4">
             <Tabs.Group aria-label="Full width tabs" style="pills">
               {regions.map((region) => {
-                return (
-                  <Tabs.Item title={region} key="region">
-                    <button className="text-lg" value={region}></button>
-                  </Tabs.Item>
-                )
+                return <Tabs.Item title={region}></Tabs.Item>
               })}
             </Tabs.Group>
           </div>
@@ -67,11 +82,13 @@ const KakaoMap = () => {
 
         {location.loaded ? (
           <Map
+            // @ts-ignore
             center={{ lat: location.coordinates?.lat, lng: location.coordinates?.lng }}
             className="w-full h-[360px] rounded ring ring-[#cfe8ef]"
             level={5}
           >
             <MapMarker
+              // @ts-ignore
               position={{ lat: location.coordinates?.lat, lng: location.coordinates?.lng }}
             >
               <div className="text-red-500 text-lg text-center">현재 위치!</div>
