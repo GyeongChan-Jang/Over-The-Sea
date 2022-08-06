@@ -6,24 +6,9 @@ import useGeolocation from '~/hooks/useGeolocation'
 import { Tabs } from 'flowbite-react'
 import ToggleButton from '~/components/UI/ToggleButton'
 import SearchMap from './SearchMap'
-import { ImportExportTwoTone } from '@mui/icons-material'
+import { getBeach } from '~/utils/getBeach'
 
-const BEACH_API_KEY =
-  'YKhkbWsCsaTywu2QHRS70v5QGa6XB6aK%2FBVsqughtWFRU2Q00gi6uJ4WiXK6oirbBZmFThW4heHbnOa9XJpWZA%3D%3D'
-
-const regions = [
-  '부산',
-  '인천',
-  '울산',
-  '경기',
-  '강원',
-  '충남',
-  '전북',
-  '전남',
-  '경북',
-  '경남',
-  '제주'
-]
+const regions = ['부산', '인천', '울산', '강원', '충남', '전북', '전남', '경북', '경남', '제주']
 
 interface RequestQuery {
   ServiceKey: string
@@ -44,20 +29,7 @@ const KakaoMap = () => {
   }
   useEffect(() => {
     // 해수욕장 정보 가져오기
-    async function getBeach() {
-      try {
-        const response = await axios.get(
-          '/api/1192000/service/OceansBeachInfoService1/getOceansBeachInfo1',
-          {
-            params: queryParams
-          }
-        )
-        console.log(response)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    getBeach()
+    getBeach('강원')
   }, [])
 
   return (
@@ -74,7 +46,7 @@ const KakaoMap = () => {
           <div className="mt-4">
             <Tabs.Group aria-label="Full width tabs" style="pills">
               {regions.map((region) => {
-                return <Tabs.Item title={region}></Tabs.Item>
+                return <Tabs.Item title={region} key={region}></Tabs.Item>
               })}
             </Tabs.Group>
           </div>

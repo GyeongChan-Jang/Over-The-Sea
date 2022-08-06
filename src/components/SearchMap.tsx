@@ -1,61 +1,32 @@
+import { CloseFullscreen } from '@mui/icons-material'
 import React, { useState, useEffect, useRef } from 'react'
 import { Map, MapMarker } from 'react-kakao-maps-sdk'
 import ToggleButton from '~/components/UI/ToggleButton'
-import { Tabs } from 'flowbite-react'
-
-const regions = [
-  '부산',
-  '인천',
-  '울산',
-  '경기',
-  '강원',
-  '충남',
-  '전북',
-  '전남',
-  '경북',
-  '경남',
-  '제주'
-]
+import { getBeach } from '~/utils/getBeach'
 
 const SearchMap = () => {
-  const [info, setInfo] = useState()
-  const [markers, setMarkers] = useState<any>([])
-  const [map, setMap] = useState<any>()
-  const [region, setRegion] = useState('')
+  const [regions, setRegions] = useState([
+    '부산',
+    '인천',
+    '울산',
+    '경기',
+    '강원',
+    '충남',
+    '전북',
+    '전남',
+    '경북',
+    '경남',
+    '제주'
+  ])
+  const [locations, setLocations] = useState<any>()
 
   useEffect(() => {
-    if (!map) return
-    const ps = new kakao.maps.services.Places()
-
-    ps.keywordSearch('강원', (data, status, _pagination) => {
-      if (status === kakao.maps.services.Status.OK) {
-        // console.log(data)
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-        // LatLngBounds 객체에 좌표를 추가합니다
-        // LatLngBounds 객체: 좌표계에서 사각영역 정보를 표현하는 객체 생성
-        const bounds = new kakao.maps.LatLngBounds()
-        let markers = []
-
-        for (var i = 0; i < data.length; i++) {
-          // @ts-ignore
-          markers.push({
-            position: {
-              lat: data[i].y, // 위도
-              lng: data[i].x // 경도
-            },
-            content: data[i].place_name
-          })
-          // @ts-ignore
-          // .extend(lat, lng): 인수로 주어진 좌표를 포함하도록 영역 정보 확장
-          bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x))
-        }
-        setMarkers(markers)
-
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-        map.setBounds(bounds)
-      }
+    getBeach(regions[0]).then((res) => {
+      setLocations(res)
     })
-  }, [map])
+  }, [])
+
+  // locations.map((location: any) => console.log(typeof location.lat, location.lon))
   return (
     <>
       <div className="list pt-10">
@@ -64,33 +35,39 @@ const SearchMap = () => {
           <ToggleButton />
         </div>
         <div className="mt-4">
-          <button type="button" name="버튼" onClick={(e) => console.log(e.target.name)}>
-            버튼
-          </button>
+          {regions.map((region: any) => (
+            <button key={region} name={region}>
+              {region}
+            </button>
+          ))}
         </div>
         <div>
-          <Map // 로드뷰를 표시할 Container
+          <Map // 지도를 표시할 Container
             center={{
-              lat: 37.566826,
-              lng: 126.9786567
+              // 지도의 중심좌표
+              lat: 33.450701,
+              lng: 126.570667
             }}
             style={{
+              // 지도의 크기
               width: '100%',
-              height: '350px'
+              height: '450px'
             }}
-            level={3}
-            onCreate={setMap}
+            level={3} // 지도의 확대 레벨
           >
-            {markers.map((marker) => (
+            {locations?.map((location: any, index: any) => (
               <MapMarker
-                key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
-                position={marker.position}
-                onClick={() => setInfo(marker)}
-              >
-                {info && info.content === marker.content && (
-                  <div style={{ color: '#000' }}>{marker.content}</div>
-                )}
-              </MapMarker>
+                key={`${location.sta_nm}-${location.latlng}`}
+                position={{ lat: location.lat, lng: location.lon }} // 마커를 표시할 위치
+                image={{
+                  src: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', // 마커이미지의 주소입니다
+                  size: {
+                    width: 24,
+                    height: 35
+                  } // 마커이미지의 크기입니다
+                }}
+                title={location.sta_nm} // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+              />
             ))}
           </Map>
         </div>
