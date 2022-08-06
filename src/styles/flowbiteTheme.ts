@@ -28,12 +28,10 @@ const flowbiteTheme: CustomFlowbiteTheme = {
       base: 'cursor-pointer h-3 w-3 rounded-full'
     }
   },
-  tab: {
-    tablist: {
-      base: 'flex flex-wrap items-center justify-center shadow-md rounded-lg py-2',
-      tabitem: {
-        base: 'whitespace-nowrap cursor-pointer flex items-center justify-between px-6 py-4 rounded-full text-lg font-medium text-gray-700/80 hover:bg-blue-700 hover:text-gray-100 focus:text-gray-100 focus:bg-blue-700 group-focus:outline-none group-focus:ring-2 group-focus:ring-gray-100 dark:text-gray-200 dark:group-hover:bg-gray-700 dark:group-focus:ring-gray-700'
-      }
+  button: {
+    base: 'cursor-pointer border-0 bg-white/50 group-hover:bg-white/70 group-focus:outline-none group-focus:ring-4 group-focus:ring-white dark:bg-gray-800/30 dark:group-hover:bg-gray-800/60 dark:group-focus:ring-gray-800/70',
+    color: {
+      dark: 'text-gray-700 bg-white border border-transparent hover:bg-gray-900 hover:text-white focus:ring-4 focus:ring-gray-300 disabled:hover:bg-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-800 dark:border-gray-700 dark:disabled:hover:bg-gray-800'
     }
   }
 }

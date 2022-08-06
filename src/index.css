@@ -38,6 +38,8 @@ button {
   outline: none;
   border: none;
   background-color: inherit;
+  cursor: pointer;
+  font-family: Jalnanche;
 }
 
 /* toggle 버튼 만들기 */

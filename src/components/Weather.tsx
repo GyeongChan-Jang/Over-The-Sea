@@ -10,7 +10,7 @@ const Weather = () => {
     pageNo: 1,
     numOfRows: 100,
     dataType: 'JSON',
-    base_date: '20220803',
+    base_date: '20220806',
     base_time: '1700',
     nx: 55,
     ny: 127
@@ -24,7 +24,8 @@ const Weather = () => {
           params: queryParams
         }
       )
-      setData(response.data.response.body.items.item)
+      // setData(response.data.response.body.items.item)
+      console.log(response)
     } catch (e) {
       console.log(e)
     }
