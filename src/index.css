@@ -105,3 +105,23 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.spinner {
+  width: 100px;
+  height: 100px;
+  animation: Morph 2000ms infinite;
+}
+
+@keyframes Morph {
+  0%,
+  100% {
+    border-radius: 50%;
+    transform: rotate(0deg);
+    background-color: #0099ff;
+  }
+  50% {
+    border-radius: 0%;
+    transform: rotate(180deg);
+    background-color: #a2d9ff;
+  }
+}
