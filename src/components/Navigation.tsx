@@ -15,7 +15,7 @@ const NavBar = () => {
           className="mr-3 h-6 sm:h-9"
           alt="Flowbite Logo"
         />
-        <span className="self-center whitespace-nowrap text-2xl bg-gradient-to-r text-transparent bg-clip-text from-blue-400 to-blue-900 dark:text-white">
+        <span className="self-center whitespace-nowrap text-2xl bg-gradient-to-r text-transparent bg-clip-text from-[#0099ff] to-blue-900 dark:text-white">
           바다어때.
         </span>
       </Navbar.Brand>
@@ -42,7 +42,7 @@ const NavBar = () => {
           to="/"
           className={({ isActive }) =>
             isActive
-              ? 'text-[#1d4ed8] block py-2 pr-4 pl-3 md:p-0 bg-blue-700 dark:text-white md:bg-transparent md:text-blue-700'
+              ? 'text-[#1d4ed8] block py-2 pr-4 pl-3 md:p-0 bg-white dark:text-white md:bg-transparent md:text-blue-700'
               : ' block py-2 pr-4 pl-3 md:p-0 border-b border-gray-100  text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-white'
           }
         >
@@ -52,7 +52,7 @@ const NavBar = () => {
           to="/map"
           className={({ isActive }) =>
             isActive
-              ? 'text-[#1d4ed8] block py-2 pr-4 pl-3 md:p-0 bg-blue-700 dark:text-white md:bg-transparent md:text-blue-700'
+              ? 'text-[#1d4ed8] block py-2 pr-4 pl-3 md:p-0 bg-white dark:text-white md:bg-transparent md:text-blue-700'
               : 'block py-2 pr-4 pl-3 md:p-0 border-b border-gray-100  text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-white'
           }
         >
@@ -62,7 +62,7 @@ const NavBar = () => {
           to="/weather"
           className={({ isActive }) =>
             isActive
-              ? 'text-[#1d4ed8] block py-2 pr-4 pl-3 md:p-0 bg-blue-700 dark:text-white md:bg-transparent md:text-blue-700'
+              ? 'text-[#1d4ed8] block py-2 pr-4 pl-3 md:p-0 bg-white dark:text-white md:bg-transparent md:text-blue-700'
               : 'block py-2 pr-4 pl-3 md:p-0 border-b border-gray-100  text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-white'
           }
         >

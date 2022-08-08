@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Map, MapMarker, MarkerClusterer } from 'react-kakao-maps-sdk'
 import ToggleButton from '~/components/UI/ToggleButton'
 import { getBeach } from '~/utils/getBeach'
-import { Button } from 'flowbite-react'
+import { Button, Card } from 'flowbite-react'
 
 const SearchMap = () => {
   const regions = ['부산', '인천', '울산', '강원', '충남', '전북', '전남', '경북', '경남', '제주']
@@ -10,7 +10,7 @@ const SearchMap = () => {
   const [locations, setLocations] = useState<any>()
   const [info, setInfo] = useState<any>()
   const [map, setMap] = useState<any>()
-  const [positions, setPositions] = useState<any>()
+  const [isOpen, setIsOpen] = useState<boolean>(false)
   const bounds = new kakao.maps.LatLngBounds()
 
   const regionClickHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -38,11 +38,12 @@ const SearchMap = () => {
   return (
     <>
       <div className="list pt-10">
-        <div className="title flex justify-between border-b-4">
-          <h2>지역</h2>
+        <div className="title flex justify-between ">
+          <h1>지역</h1>
           <ToggleButton />
         </div>
-        <div className="my-4 flex flex-wrap justify-center gap-4 rounded shadow-lg p-4">
+        <div className="divide h-[2px] bg-[#333] my-4"></div>
+        <div className="my-4 flex flex-wrap justify-center gap-4 rounded-md shadow-lg p-4 bg-slate-50">
           {regions.map((region: any) => (
             <Button
               color="dark"
@@ -55,8 +56,9 @@ const SearchMap = () => {
             </Button>
           ))}
         </div>
-        <div>
+        <div className="rounded shadow-lg">
           <Map // 지도를 표시할 Container
+            className="w-full h-[360px] rounded ring ring-[#cfe8ef]"
             center={{
               // 지도의 중심좌표
               lat: 35.1796,
@@ -85,7 +87,16 @@ const SearchMap = () => {
                 title={location.sta_nm} // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
               >
                 {info && info.sta_nm === location.sta_nm && (
-                  <div className="w-full h-full p-2 text-sm rounded" key={location.num}>
+                  <div
+                    style={{
+                      borderRadius: '12px',
+                      backgroundColor: '#fff',
+                      padding: '14px',
+                      margin: '-4px'
+                    }}
+                    className="w-full h-full p-2 rounded-lg text-sm"
+                    key={location.num}
+                  >
                     <p className="text-blue-600">
                       해수욕장 이름: <span className="text-blue-500"> {location.sta_nm}</span>
                     </p>
