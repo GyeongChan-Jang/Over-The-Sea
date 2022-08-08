@@ -7,6 +7,7 @@ import { Tabs } from 'flowbite-react'
 import ToggleButton from '~/components/UI/ToggleButton'
 import BeachMap from './BeachMap'
 import { getBeach } from '~/utils/getBeach'
+import Weather from './Weather'
 
 const regions = ['부산', '인천', '울산', '강원', '충남', '전북', '전남', '경북', '경남', '제주']
 

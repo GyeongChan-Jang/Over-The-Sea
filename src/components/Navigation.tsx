@@ -11,7 +11,7 @@ const NavBar = () => {
     <Navbar fluid={true}>
       <Navbar.Brand href="#">
         <img
-          src="../../public/assets/overthesea.png"
+          src="../../public/assets/images/overthesea.png"
           className="mr-3 h-6 sm:h-9"
           alt="Flowbite Logo"
         />
@@ -23,7 +23,9 @@ const NavBar = () => {
         <Dropdown
           arrowIcon={false}
           inline={true}
-          label={<Avatar alt="User settings" img="../../public/assets/6912.png" rounded={true} />}
+          label={
+            <Avatar alt="User settings" img="../../public/assets/images/6912.png" rounded={true} />
+          }
         >
           <Dropdown.Header>
             <span className="block text-sm">GyeongChan</span>

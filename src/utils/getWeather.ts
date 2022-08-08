@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { useEffect, useState } from 'react'
 
 interface WeatherQuery {
   serviceKey: string
@@ -11,7 +12,16 @@ interface WeatherQuery {
   ny: number
 }
 
+function getToday() {
+  var date = new Date()
+  var year = date.getFullYear()
+  var month = ('0' + (1 + date.getMonth())).slice(-2)
+  var day = ('0' + date.getDate()).slice(-2)
+
+  return year + month + day
+}
 // const regions = ['부산', '인천', '울산', '강원', '충남', '전북', '전남', '경북', '경남', '제주']
+const nowDate = getToday()
 
 const queryParams: WeatherQuery = {
   serviceKey: import.meta.env.VITE_WEATHER_API_KEY,

@@ -3,6 +3,7 @@ import { Map, MapMarker, MarkerClusterer } from 'react-kakao-maps-sdk'
 import ToggleButton from '~/components/UI/ToggleButton'
 import { getBeach } from '~/utils/getBeach'
 import { Button, Card } from 'flowbite-react'
+import Weather from './Weather'
 
 const SearchMap = () => {
   const regions = ['부산', '인천', '울산', '강원', '충남', '전북', '전남', '경북', '경남', '제주']
@@ -12,6 +13,7 @@ const SearchMap = () => {
   const [map, setMap] = useState<any>()
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const bounds = new kakao.maps.LatLngBounds()
+  const [markers, setMarkers] = useState<any>([])
 
   const regionClickHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
@@ -21,19 +23,38 @@ const SearchMap = () => {
       setLocations(res)
     })
 
-    if (locations !== undefined) {
-      bounds.extend(new kakao.maps.LatLng(locations[0].lat, locations[0].lon))
-      map.setBounds(bounds)
-      map.setLevel(10)
-    }
+    if (!map) return
+    const ps = new kakao.maps.services.Places()
+    ps.keywordSearch(name, (data, status, _pagination) => {
+      if (status === kakao.maps.services.Status.OK) {
+        const bounds = new kakao.maps.LatLngBounds()
+        let markers = []
+        for (let i = 0; i < data.length; i++) {
+          markers.push({
+            position: {
+              lat: data[i].y,
+              lng: data[i].x
+            },
+            content: data[i].place_name
+          })
+          // @ts-ignore
+          bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x))
+        }
+        setMarkers(markers)
+        map.setBounds(bounds)
+      }
+    })
   }
 
-  useEffect(() => {
-    // getBeach(regions[0]).then((res) => {
-    //   setLocations(res)
-    // })
-    // setPositions(clusterPositionsData.positions)
-  }, [])
+  // 토글 -> 내 위치로 이동
+  const toggleHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {}
+
+  const markerClickHandler = (location: any) => {
+    setInfo(location)
+    console.log(location)
+  }
+
+  useEffect(() => {}, [])
 
   return (
     <>
@@ -69,7 +90,7 @@ const SearchMap = () => {
               width: '100%',
               height: '450px'
             }}
-            level={10} // 지도의 확대 레벨
+            level={7} // 지도의 확대 레벨
             onCreate={setMap}
           >
             {locations?.map((location: any) => (
@@ -83,7 +104,7 @@ const SearchMap = () => {
                     height: 35
                   }
                 }}
-                onClick={() => setInfo(location)}
+                onClick={() => markerClickHandler(location)}
                 title={location.sta_nm} // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
               >
                 {info && info.sta_nm === location.sta_nm && (
@@ -114,6 +135,9 @@ const SearchMap = () => {
               </MapMarker>
             ))}
           </Map>
+        </div>
+        <div className="mt-4">
+          <Weather />
         </div>
       </div>
     </>
