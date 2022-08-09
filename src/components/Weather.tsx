@@ -22,7 +22,7 @@ const Weather = () => {
 
   useEffect(() => {
     getWeather(50, 156).then((res) => {
-      console.log(res)
+      // console.log(res)
       res.map((item: any) => {
         if (item.category === 'POP') {
           setPop((prev: any) => [...prev, item])
@@ -36,14 +36,14 @@ const Weather = () => {
       })
     })
   }, [])
-  console.log(sky)
+  console.log(pop)
 
   return (
-    <div className="overflow-x-auto">
+    <div className="">
       <p className="text-slate-600 pt-10 lg:text-2xl py-4 sm:text-xl">일기 예보</p>
-      <div className="flex flex-col lg:text-2xl p-4 sm:text-xl rounded-2xl shadow-2xl">
+      <div className="flex flex-col gap-2 lg:text-2xl p-4 sm:text-xl rounded-2xl shadow-2xl bg-white overflow-x-auto">
         <div>기온</div>
-        <div className="flex">
+        <div className="flex gap-4">
           {tmp.map((item: any) => {
             return (
               <div className="flex flex-col">
@@ -71,13 +71,21 @@ const Weather = () => {
           })}
         </div>
         <div>강수확률</div>
-        <div className="flex">
+        <div className="flex gap-4">
           {pop.map((item: any, index: any) => {
             return (
               <div key={index}>
                 <div>
-                  {item.category === 'POP' && (
-                    <img src="../../public/assets/weather/rainy-6.svg" alt="rain" />
+                  {item.fcstValue === 0 ? (
+                    <img src="../../public/assets/weather/day.svg" alt="rain" />
+                  ) : item.fcstValue >= 10 && item.fcstValue < 40 ? (
+                    <img src="../../public/assets/weather/rainy-4.svg" alt="" />
+                  ) : item.fcstValue >= 40 && item.fcstValue < 70 ? (
+                    <img src="../../public/assets/weather/rainy-5.svg" alt="" />
+                  ) : item.fcstValue >= 70 ? (
+                    <img src="../../public/assets/weather/rainy-6.svg" alt="" />
+                  ) : (
+                    ''
                   )}
                 </div>
                 <div>{item.fcstValue}%</div>
