@@ -41,7 +41,8 @@ const flowbiteTheme: CustomFlowbiteTheme = {
       tabitem: {
         base: 'flex items-center justify-center p-2 text-sm font-medium first:ml-0 disabled:cursor-not-allowed disabled:text-gray-400 disabled:dark:text-gray-500 whitespace-nowrap'
       }
-    }
+    },
+    tabpanel: 'p-2'
   }
 }
 

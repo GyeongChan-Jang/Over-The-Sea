@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 interface WeatherPayload {
   today: string
   nowForcastTime: string
+  nx?: number
+  ny?: number
 }
 
 interface WeatherQuery {
@@ -35,8 +37,8 @@ export const getWeather = async (payload: any) => {
       {
         params: {
           ...queryParams,
-          nx: 55,
-          ny: 127,
+          nx: parseFloat(payload.nx),
+          ny: parseFloat(payload.ny),
           base_date: payload.today,
           base_time: payload.nowForcastTime
         }

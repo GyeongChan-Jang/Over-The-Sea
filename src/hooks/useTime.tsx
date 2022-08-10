@@ -24,7 +24,7 @@ const useTime: any = (): UseTimeReturn => {
   let minutes: string | number = date.getMinutes() < 10 ? '0' + afterFiveHours : afterFiveHours
   const forecastTime = ['02', '05', '08', '11', '14', '17', '20', '23']
 
-  let today: number | string = year + '' + month + '' + day
+  let today: number | string = year + '' + '0' + month + '' + day
 
   useEffect(() => {
     if (month < 10) {
@@ -36,9 +36,8 @@ const useTime: any = (): UseTimeReturn => {
     if (day < 10) {
       setDay('0' + day)
     }
+    today = year + '' + month + '' + day
   }, [])
-
-  today = year + '' + month + '' + day
 
   for (let i = 0; i < forecastTime.length; i++) {
     let h = Number(forecastTime[i]) - Number(hours)
@@ -52,9 +51,8 @@ const useTime: any = (): UseTimeReturn => {
     }
   }
   if (nowForcastTime < 10) {
-    nowForcastTime = '0' + nowForcastTime
+    nowForcastTime = nowForcastTime + '00'
   }
-  nowForcastTime = nowForcastTime + '00'
 
   return {
     today,

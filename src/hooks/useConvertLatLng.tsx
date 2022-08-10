@@ -46,7 +46,7 @@ const useConvertLatLng = ({ geoX, geoY }: LatLngTypes) => {
   console.log(rs.y)
 
   return {
-    rs: rs
+    rs
   }
 }
 

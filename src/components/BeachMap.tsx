@@ -7,6 +7,7 @@ import Weather from './Weather'
 import useGeolocation from '~/hooks/useGeolocation'
 import { LocationType } from '~/hooks/useGeolocation'
 import MapOverlay from './UI/MapOverlay'
+import { getWeather } from '~/utils/getWeather'
 
 const SearchMap = () => {
   const regions = ['부산', '인천', '울산', '강원', '충남', '전북', '전남', '경북', '경남', '제주']
@@ -21,6 +22,7 @@ const SearchMap = () => {
   const [markers, setMarkers] = useState<any>([])
   const currentLocation: LocationType = useGeolocation()
   const [isCurrentLocation, setIsCurrentLocation] = useState<boolean>(false)
+  const [sky, setSky] = useState<string | number>()
 
   const regionClickHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
@@ -72,7 +74,6 @@ const SearchMap = () => {
 
   const markerClickHandler = () => {
     setIsOpen(true)
-    console.log('커스텀 오버레이 열기!')
   }
 
   const onClusterclick = (_target: any, cluster: any) => {

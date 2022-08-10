@@ -1,4 +1,4 @@
-import { imageListClasses } from '@mui/material'
+import { getTableBodyUtilityClass, imageListClasses } from '@mui/material'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import useConvertLatLng from '~/hooks/useConvertLatLng'
@@ -7,7 +7,7 @@ import useTime from '~/hooks/useTime'
 
 const Weather = () => {
   const { today, nowForcastTime } = useTime()
-  console.log(today, nowForcastTime)
+  // const { lat, lng } = useConvertLatLng()
   // const [data, setData] = useState<any>([
   //   pop: [],
   //   pcp: [],
@@ -22,12 +22,13 @@ const Weather = () => {
   const [reh, setPcp] = useState<any>([])
   const [tmp, setTmp] = useState<any>([])
   const [sky, setSky] = useState<any>([])
-  const payload = { today, nowForcastTime }
 
   useEffect(() => {
+    const payload = { today, nowForcastTime }
+    console.log(payload)
     getWeather(payload)
       .then((res) => {
-        // console.log(res)
+        console.log(res)
         res?.map((item: any) => {
           if (item.category === 'POP') {
             setPop((prev: any) => [...prev, item])
@@ -39,8 +40,6 @@ const Weather = () => {
             setSky((prev: any) => [...prev, item])
           }
         })
-        setData(res)
-        console.log(res)
       })
       .catch((err) => console.log(err))
   }, [])
