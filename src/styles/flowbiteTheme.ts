@@ -1,3 +1,4 @@
+import { style } from '@mui/system'
 import { CustomFlowbiteTheme } from 'flowbite-react'
 
 const flowbiteTheme: CustomFlowbiteTheme = {
@@ -32,6 +33,14 @@ const flowbiteTheme: CustomFlowbiteTheme = {
     base: 'cursor-pointer border-0 bg-white/50 group-hover:bg-white/70 group-focus:outline-none group-focus:ring-4 group-focus:ring-white dark:bg-gray-800/30 dark:group-hover:bg-gray-800/60 dark:group-focus:ring-gray-800/70',
     color: {
       dark: 'text-gray-700 bg-white border border-transparent hover:bg-gray-900 hover:text-white focus:ring-4 focus:ring-gray-300 disabled:hover:bg-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-800 dark:border-gray-700 dark:disabled:hover:bg-gray-800'
+    }
+  },
+  tab: {
+    tablist: {
+      base: 'flex text-center',
+      tabitem: {
+        base: 'flex items-center justify-center p-2 text-sm font-medium first:ml-0 disabled:cursor-not-allowed disabled:text-gray-400 disabled:dark:text-gray-500 whitespace-nowrap'
+      }
     }
   }
 }

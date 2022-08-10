@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { CustomOverlayMap, Map, MapMarker, MarkerClusterer } from 'react-kakao-maps-sdk'
+import { CustomOverlayMap, Map, MapMarker, MarkerClusterer, Roadview } from 'react-kakao-maps-sdk'
 import ToggleButton from '~/components/UI/ToggleButton'
 import { getBeach } from '~/utils/getBeach'
 import { Button, Card } from 'flowbite-react'
@@ -66,6 +66,10 @@ const SearchMap = () => {
     }
   }
 
+  const markerOutHandler = () => {
+    setIsWindow(false)
+  }
+
   const markerClickHandler = () => {
     setIsOpen(true)
     console.log('커스텀 오버레이 열기!')
@@ -75,7 +79,6 @@ const SearchMap = () => {
     const map = mapRef.current
     // 현재 지도 레벨에서 1레벨 확대한 레벨
     const level = map.getLevel() - 1
-
     // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다
     map.setLevel(level, { anchor: cluster.getCenter() })
   }
@@ -128,7 +131,7 @@ const SearchMap = () => {
                 <MapMarker
                   onClick={markerClickHandler}
                   onMouseOver={() => markerOverHandler(location)}
-                  onMouseOut={() => setIsWindow(false)}
+                  onMouseOut={markerOutHandler}
                   position={{ lat: location.lat, lng: location.lon }}
                   key={`${location.sta_nm}-${location.latlng}`}
                   image={{
@@ -170,7 +173,7 @@ const SearchMap = () => {
                         <span className="text-gray-500">
                           {location.beach_len ? (
                             <span className="text-black">
-                              해변 총길이:{' '}
+                              해변 총 길이:{' '}
                               <span className="text-gray-500">{location.beach_len}m</span>
                             </span>
                           ) : (
