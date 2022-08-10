@@ -39,11 +39,10 @@ const KakaoMap = () => {
         <div className="title lg:text-2xl py-4 sm:text-xl">
           <p className="text-slate-600">지도에서 해수욕장 찾기</p>
         </div>
-        <div className="list pt-10"></div>
-
+        <div className="list"></div>
         {location.loaded ? (
           <>
-            <Map
+            {/* <Map
               // @ts-ignore
               center={{ lat: location.coordinates?.lat, lng: location.coordinates?.lng }}
               className="w-full h-[360px] rounded ring ring-[#cfe8ef]"
@@ -55,7 +54,7 @@ const KakaoMap = () => {
               >
                 <div className="text-red-500 text-lg text-center">현재 위치!</div>
               </MapMarker>
-            </Map>
+            </Map> */}
             <BeachMap />
           </>
         ) : (
@@ -64,15 +63,17 @@ const KakaoMap = () => {
           </div>
         )}
       </div>
-      <div>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-          <path
-            fill="#0099ff"
-            fillOpacity="1"
-            d="M0,96L48,85.3C96,75,192,53,288,69.3C384,85,480,139,576,133.3C672,128,768,64,864,80C960,96,1056,192,1152,192C1248,192,1344,96,1392,48L1440,0L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-          ></path>
-        </svg>
-      </div>
+      {location.loaded && (
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+            <path
+              fill="#0099ff"
+              fillOpacity="1"
+              d="M0,96L48,85.3C96,75,192,53,288,69.3C384,85,480,139,576,133.3C672,128,768,64,864,80C960,96,1056,192,1152,192C1248,192,1344,96,1392,48L1440,0L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+            ></path>
+          </svg>
+        </div>
+      )}
     </div>
   )
 }

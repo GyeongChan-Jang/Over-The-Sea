@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 
-interface locationType {
+export interface LocationType {
   loaded: boolean
   coordinates?: { lat: number; lng: number }
   error?: { code: number; message: string }
 }
 
 const useGeolocation = () => {
-  const [location, setLocation] = useState<locationType>({
+  const [location, setLocation] = useState<LocationType>({
     loaded: false,
     coordinates: { lat: 0, lng: 0 }
   })

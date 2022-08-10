@@ -1,9 +1,9 @@
 import React from 'react'
 
-const ToggleButton = () => {
+const ToggleButton = ({ toggleHandler }: any) => {
   return (
     <div>
-      <div className="toggle">
+      <div className="toggle" onClick={toggleHandler}>
         <label className="switch">
           <input type="checkbox" />
           <span className="slider round"></span>

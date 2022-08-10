@@ -4,6 +4,8 @@ import ToggleButton from '~/components/UI/ToggleButton'
 import { getBeach } from '~/utils/getBeach'
 import { Button, Card } from 'flowbite-react'
 import Weather from './Weather'
+import useGeolocation from '~/hooks/useGeolocation'
+import { LocationType } from '~/hooks/useGeolocation'
 
 const SearchMap = () => {
   const regions = ['부산', '인천', '울산', '강원', '충남', '전북', '전남', '경북', '경남', '제주']
@@ -12,8 +14,9 @@ const SearchMap = () => {
   const [info, setInfo] = useState<any>()
   const [map, setMap] = useState<any>()
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const bounds = new kakao.maps.LatLngBounds()
   const [markers, setMarkers] = useState<any>([])
+  const currentLocation: LocationType = useGeolocation()
+  const [isCurrentLocation, setIsCurrentLocation] = useState<boolean>(false)
 
   const regionClickHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
@@ -47,7 +50,9 @@ const SearchMap = () => {
   }
 
   // 토글 -> 내 위치로 이동
-  const toggleHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {}
+  const toggleHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    setIsCurrentLocation((prev) => !prev)
+  }
 
   const markerClickHandler = (location: any) => {
     setInfo(location)
@@ -61,10 +66,10 @@ const SearchMap = () => {
       <div className="list pt-10">
         <div className="title flex justify-between ">
           <h1>지역</h1>
-          <ToggleButton />
+          <ToggleButton toggleHandler={toggleHandler} />
         </div>
         <div className="divide h-[2px] bg-[#333] my-4"></div>
-        <div className="my-4 flex flex-wrap justify-center gap-4 rounded-md shadow-lg p-4 bg-slate-50">
+        <div className="my-4 flex flex-wrap justify-center gap-4 rounded-md shadow-xl p-4 bg-white">
           {regions.map((region: any) => (
             <Button
               color="dark"
@@ -77,9 +82,9 @@ const SearchMap = () => {
             </Button>
           ))}
         </div>
-        <div className="rounded shadow-lg">
+        <div className="rounded-2xl shadow-2xl">
           <Map // 지도를 표시할 Container
-            className="w-full h-[360px] rounded ring ring-[#cfe8ef]"
+            className="w-full h-[360px] bg-white rounded-2xl shadow-2xl"
             center={{
               // 지도의 중심좌표
               lat: 35.1796,
@@ -95,8 +100,10 @@ const SearchMap = () => {
           >
             {locations?.map((location: any) => (
               <MapMarker
+                onMouseOver={() => markerClickHandler(location)}
                 key={`${location.sta_nm}-${location.latlng}`}
-                position={{ lat: location.lat, lng: location.lon }} // 마커를 표시할 위치
+                position={{ lat: location.lat, lng: location.lon }}
+                // position={{ lat: location.lat, lng: location.lon }} // 마커를 표시할 위치
                 image={{
                   src: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', // 마커이미지의 주소입니다
                   size: {
@@ -104,7 +111,6 @@ const SearchMap = () => {
                     height: 35
                   }
                 }}
-                onClick={() => markerClickHandler(location)}
                 title={location.sta_nm} // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
               >
                 {info && info.sta_nm === location.sta_nm && (
@@ -115,20 +121,46 @@ const SearchMap = () => {
                       padding: '14px',
                       margin: '-4px'
                     }}
-                    className="w-full h-full p-2 rounded-lg text-sm"
+                    className="w-full h-full p-2 rounded-lg text-sm shadow-2xl"
                     key={location.num}
                   >
-                    <p className="text-blue-600">
-                      해수욕장 이름: <span className="text-blue-500"> {location.sta_nm}</span>
-                    </p>
-                    <p className="text-red-600">
-                      긴급전화: <span className="text-red-500"> {location.link_tel}</span>
+                    <p className="text-blue-500 text-center pb-1">
+                      <span className="text-blue-600 text-lg"> "{location.sta_nm}"</span>
+                      <span> 해수욕장</span>
                     </p>
                     <p className="text-slate-800">
-                      해변 폭: <span className="text-gray-500"> {location.beach_wid}m</span>
+                      <span className="text-gray-500">
+                        {location.beach_wid ? (
+                          <span className="text-black">
+                            해변 폭: <span className="text-gray-500">{location.beach_wid}m</span>
+                          </span>
+                        ) : (
+                          ''
+                        )}
+                      </span>
                     </p>
                     <p className="text-slate-800">
-                      해변 총 연장: <span className="text-gray-500"> {location.beach_len}m</span>
+                      <span className="text-gray-500">
+                        {location.beach_len ? (
+                          <span className="text-black">
+                            해변 총길이:{' '}
+                            <span className="text-gray-500">{location.beach_len}m</span>
+                          </span>
+                        ) : (
+                          ''
+                        )}
+                      </span>
+                    </p>
+                    <p className="text-slate-800">
+                      <span className="text-gray-500">
+                        {location.beach_knd ? (
+                          <span className="text-black">
+                            해변종류: <span className="text-amber-600">{location.beach_knd}</span>
+                          </span>
+                        ) : (
+                          ''
+                        )}
+                      </span>
                     </p>
                   </div>
                 )}
@@ -136,9 +168,9 @@ const SearchMap = () => {
             ))}
           </Map>
         </div>
-        <div className="mt-4">
+        {/* <div className="mt-4">
           <Weather />
-        </div>
+        </div> */}
       </div>
     </>
   )

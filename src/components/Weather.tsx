@@ -3,8 +3,11 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import useConvertLatLng from '~/hooks/useConvertLatLng'
 import { getWeather } from '~/utils/getWeather'
+import useTime from '~/hooks/useTime'
 
 const Weather = () => {
+  const { today, nowForcastTime } = useTime()
+  console.log(today, nowForcastTime)
   // const [data, setData] = useState<any>([
   //   pop: [],
   //   pcp: [],
@@ -19,30 +22,35 @@ const Weather = () => {
   const [reh, setPcp] = useState<any>([])
   const [tmp, setTmp] = useState<any>([])
   const [sky, setSky] = useState<any>([])
+  const payload = { today, nowForcastTime }
 
   useEffect(() => {
-    getWeather(50, 156).then((res) => {
-      // console.log(res)
-      res.map((item: any) => {
-        if (item.category === 'POP') {
-          setPop((prev: any) => [...prev, item])
-        } else if (item.category === 'REH') {
-          setPcp((prev: any) => [...prev, item])
-        } else if (item.category === 'TMP') {
-          setTmp((prev: any) => [...prev, item])
-        } else if (item.category === 'SKY') {
-          setSky((prev: any) => [...prev, item])
-        }
+    getWeather(payload)
+      .then((res) => {
+        // console.log(res)
+        res?.map((item: any) => {
+          if (item.category === 'POP') {
+            setPop((prev: any) => [...prev, item])
+          } else if (item.category === 'REH') {
+            setPcp((prev: any) => [...prev, item])
+          } else if (item.category === 'TMP') {
+            setTmp((prev: any) => [...prev, item])
+          } else if (item.category === 'SKY') {
+            setSky((prev: any) => [...prev, item])
+          }
+        })
+        setData(res)
+        console.log(res)
       })
-    })
+      .catch((err) => console.log(err))
   }, [])
-  console.log(pop)
 
   return (
     <div className="">
       <p className="text-slate-600 pt-10 lg:text-2xl py-4 sm:text-xl">일기 예보</p>
       <div className="flex flex-col gap-2 lg:text-2xl p-4 sm:text-xl rounded-2xl shadow-2xl bg-white overflow-x-auto">
         <div>기온</div>
+        <div>{data}</div>
         <div className="flex gap-4">
           {tmp.map((item: any) => {
             return (
