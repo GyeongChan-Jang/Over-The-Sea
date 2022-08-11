@@ -46,12 +46,12 @@ const useTime: any = (): UseTimeReturn => {
       nowForcastTime = forecastTime[i]
     }
     if (hours == 0 || hours == 1) {
-      today = Number(year + '' + month + day) - 1
+      today = Number(year + '0' + month + day) - 1
       nowForcastTime = forecastTime[7]
     }
   }
   if (nowForcastTime < 10) {
-    nowForcastTime = '0' + nowForcastTime + '00'
+    nowForcastTime = nowForcastTime + '00'
   } else if (nowForcastTime >= 10) {
     nowForcastTime = nowForcastTime + '00'
   }

@@ -16,8 +16,7 @@ interface WeatherResponse {
   ny: number
 }
 
-const MapOverlay = ({ setIsOpen, location, seaWater }: any) => {
-  let waterInfo: any = []
+const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
   const { today, nowForcastTime } = useTime()
   const [isLoading, setIsLoading] = useState(true)
   const [sky, setSky] = useState<any>([])
@@ -47,6 +46,8 @@ const MapOverlay = ({ setIsOpen, location, seaWater }: any) => {
       })
       .catch((err) => console.log(err))
   }, [])
+
+  console.log(sand)
 
   return (
     <div className="overlaybox">
@@ -139,9 +140,130 @@ const MapOverlay = ({ setIsOpen, location, seaWater }: any) => {
                   )}
                 </Tabs.Item>
                 <Tabs.Item title="수 질 🌊">
-                  <div>{seaWater.res_yn}</div>
+                  <div className="flex justify-around">
+                    <div>
+                      {seaWater.res_yn === '적합' ? (
+                        <div>
+                          <img
+                            src="../../../public/assets/images/appropriate.png"
+                            width={40}
+                            height={40}
+                            className="mt-1"
+                          />{' '}
+                          <p className="mt-6">{seaWater.res_yn}</p>
+                        </div>
+                      ) : seaWater.res_yn === '부적합' ? (
+                        <div>
+                          <img
+                            src="../../../public/assets/images/inappropriate.png"
+                            width={40}
+                            height={40}
+                          />{' '}
+                          <p className="text-red-600">{seaWater.res_yn}</p>
+                        </div>
+                      ) : (
+                        <p>수질 정보 없음</p>
+                      )}
+                    </div>
+                    <div>
+                      {seaWater.res1 ? (
+                        <div>
+                          <img
+                            src="../../../public/assets/images/bacteria.png"
+                            width={40}
+                            height={40}
+                            className="ml-3"
+                          />
+                          <p className="mt-2 text-center mb-1 text-slate-500">
+                            {seaWater.res1.includes('&lt;1')
+                              ? seaWater.res1.replace('&lt;1', '1미만')
+                              : seaWater.res1}
+                          </p>
+                          <p>(대장균)</p>
+                        </div>
+                      ) : (
+                        <p>정보 없음</p>
+                      )}
+                    </div>
+                    <div>
+                      {seaWater.res1 ? (
+                        <div>
+                          <img
+                            src="../../../public/assets/images/biology.png"
+                            width={40}
+                            height={40}
+                            className="ml-3"
+                          />
+                          <p className="mt-2 text-center mb-1 text-slate-500">
+                            {seaWater.res2.includes('&lt;1')
+                              ? seaWater.res2.replace('&lt;1', '1미만')
+                              : seaWater.res2}
+                          </p>
+                          <p>(장구균)</p>
+                        </div>
+                      ) : (
+                        <p>정보 없음</p>
+                      )}
+                    </div>
+                  </div>
                 </Tabs.Item>
-                <Tabs.Item title="백 사 장 🏖️">백사장정보</Tabs.Item>
+                <Tabs.Item title="백 사 장 🏖️">
+                  <div className="flex justify-around">
+                    <div>
+                      {sand.res_yn === '적합' ? (
+                        <div>
+                          <img
+                            width={40}
+                            height={40}
+                            src="../../../public/assets/images/appropriate.png"
+                          />
+                          <p className="mt-7">{sand.res_yn}</p>
+                        </div>
+                      ) : (
+                        <div>
+                          <img
+                            width={40}
+                            height={40}
+                            src="../../../public/assets/images/inappropriate.png"
+                          />
+                          <p className="mt-7 text-red-600">{sand.res_yn}</p>
+                        </div>
+                      )}
+                    </div>
+                    <div>
+                      {sand.res3 ? (
+                        <div>
+                          <img
+                            width={40}
+                            height={40}
+                            src="../../../public/assets/images/cadmium.png"
+                            className="ml-2.5"
+                          />
+                          <p className="mt-2 text-center mb-1 text-slate-500">{sand.res1}</p>
+                          <p>(카드뮴)</p>
+                        </div>
+                      ) : (
+                        <p>정보 없음</p>
+                      )}
+                    </div>
+                    <div>
+                      {sand.res3 ? (
+                        <div>
+                          <img
+                            width={40}
+                            height={40}
+                            src="../../../public/assets/images/mercury.png"
+                            className="ml-1"
+                          />
+                          <p className=" mt-2 text-center mb-1 text-slate-500">{sand.res3}</p>
+                          <p>(수은)</p>
+                        </div>
+                      ) : (
+                        <p>정보 없음</p>
+                      )}
+                    </div>
+                  </div>
+                </Tabs.Item>
               </Tabs.Group>
             </div>
           </div>

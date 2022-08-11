@@ -8,6 +8,7 @@ import useGeolocation from '~/hooks/useGeolocation'
 import { LocationType } from '~/hooks/useGeolocation'
 import MapOverlay from './UI/MapOverlay'
 import { getSeaWater } from '~/utils/getSeaWater'
+import { getSand } from '~/utils/getSand'
 
 const SearchMap = () => {
   const regions = ['부산', '인천', '울산', '강원', '충남', '전북', '전남', '경북', '경남', '제주']
@@ -23,6 +24,7 @@ const SearchMap = () => {
   const currentLocation: LocationType = useGeolocation()
   const [isCurrentLocation, setIsCurrentLocation] = useState<boolean>(false)
   const [seaWater, setSeaWater] = useState<any>([])
+  const [sand, setSand] = useState<any>([])
 
   const regionClickHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
@@ -64,10 +66,21 @@ const SearchMap = () => {
     setIsOpen(true)
     try {
       const res = await getSeaWater(location.sido_nm)
-      console.log(res)
+      // console.log(res)
       res.item.filter((item: any) => {
         if (item.sta_nm === location.sta_nm) {
           setSeaWater(item)
+        }
+      })
+    } catch (err) {
+      console.log(err)
+    }
+    try {
+      const res = await getSand(location.sido_nm)
+      console.log(res)
+      res.item.filter((item: any) => {
+        if (item.sta_nm === location.sta_nm) {
+          setSand(item)
         }
       })
     } catch (err) {
@@ -195,7 +208,12 @@ const SearchMap = () => {
                       </p>
                     </div>
                   ) : isOpen && info && info.sta_nm === location.sta_nm ? (
-                    <MapOverlay setIsOpen={setIsOpen} location={location} seaWater={seaWater} />
+                    <MapOverlay
+                      setIsOpen={setIsOpen}
+                      location={location}
+                      seaWater={seaWater}
+                      sand={sand}
+                    />
                   ) : (
                     ''
                   )}

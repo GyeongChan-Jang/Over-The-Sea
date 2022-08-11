@@ -45,7 +45,7 @@ const Weather = () => {
   }, [])
 
   return (
-    <div className="container max-w-7xl mx-auto sm:w-9/12 lg:w-9/12">
+    <div>
       <p className="text-slate-600 pt-10 lg:text-2xl py-4 sm:text-xl">일기 예보</p>
       <div className="flex flex-col gap-2 lg:text-2xl p-4 sm:text-xl rounded-2xl shadow-2xl bg-white overflow-x-auto">
         <div>기온</div>
