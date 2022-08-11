@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { CustomOverlayMap, Map, MapMarker, MarkerClusterer, Roadview } from 'react-kakao-maps-sdk'
+import { Map, MapMarker, MarkerClusterer, Roadview } from 'react-kakao-maps-sdk'
 import ToggleButton from '~/components/UI/ToggleButton'
 import { getBeach } from '~/utils/getBeach'
 import { Button, Card } from 'flowbite-react'
@@ -7,7 +7,7 @@ import Weather from './Weather'
 import useGeolocation from '~/hooks/useGeolocation'
 import { LocationType } from '~/hooks/useGeolocation'
 import MapOverlay from './UI/MapOverlay'
-import { getWeather } from '~/utils/getWeather'
+import { getSeaWater } from '~/utils/getSeaWater'
 
 const SearchMap = () => {
   const regions = ['부산', '인천', '울산', '강원', '충남', '전북', '전남', '경북', '경남', '제주']
@@ -22,37 +22,25 @@ const SearchMap = () => {
   const [markers, setMarkers] = useState<any>([])
   const currentLocation: LocationType = useGeolocation()
   const [isCurrentLocation, setIsCurrentLocation] = useState<boolean>(false)
-  const [sky, setSky] = useState<string | number>()
+  const [seaWater, setSeaWater] = useState<any>([])
 
-  const regionClickHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const regionClickHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
     const { name } = e.currentTarget
-    getBeach(name).then((res) => {
+    console.log(name)
+    try {
+      const res = await getBeach(name)
       console.log(res)
       setLocations(res)
-    })
-
-    if (!map) return
-    const ps = new kakao.maps.services.Places()
-    ps.keywordSearch(name, (data, status, _pagination) => {
-      if (status === kakao.maps.services.Status.OK) {
-        const bounds = new kakao.maps.LatLngBounds()
-        let markers = []
-        for (let i = 0; i < data.length; i++) {
-          markers.push({
-            position: {
-              lat: data[i].y,
-              lng: data[i].x
-            },
-            content: data[i].place_name
-          })
-          // @ts-ignore
-          bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x))
-        }
-        setMarkers(markers)
-        map.setBounds(bounds)
+      if (!map) return
+      const bounds = new kakao.maps.LatLngBounds()
+      for (let i = 0; i < res.length; i++) {
+        bounds.extend(new kakao.maps.LatLng(res[i].lat, res[i].lon))
       }
-    })
+      map.panTo(bounds)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   // 토글 -> 내 위치로 이동
@@ -72,8 +60,19 @@ const SearchMap = () => {
     setIsWindow(false)
   }
 
-  const markerClickHandler = () => {
+  const markerClickHandler = async (location: any) => {
     setIsOpen(true)
+    try {
+      const res = await getSeaWater(location.sido_nm)
+      console.log(res)
+      res.item.filter((item: any) => {
+        if (item.sta_nm === location.sta_nm) {
+          setSeaWater(item)
+        }
+      })
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   const onClusterclick = (_target: any, cluster: any) => {
@@ -118,7 +117,7 @@ const SearchMap = () => {
               width: '100%',
               height: '450px'
             }}
-            level={10} // 지도의 확대 레벨
+            level={7} // 지도의 확대 레벨
             onCreate={setMap}
             ref={mapRef}
           >
@@ -130,7 +129,7 @@ const SearchMap = () => {
             >
               {locations?.map((location: any) => (
                 <MapMarker
-                  onClick={markerClickHandler}
+                  onClick={() => markerClickHandler(location)}
                   onMouseOver={() => markerOverHandler(location)}
                   onMouseOut={markerOutHandler}
                   position={{ lat: location.lat, lng: location.lon }}
@@ -196,7 +195,7 @@ const SearchMap = () => {
                       </p>
                     </div>
                   ) : isOpen && info && info.sta_nm === location.sta_nm ? (
-                    <MapOverlay setIsOpen={setIsOpen} location={location} />
+                    <MapOverlay setIsOpen={setIsOpen} location={location} seaWater={seaWater} />
                   ) : (
                     ''
                   )}
@@ -205,9 +204,9 @@ const SearchMap = () => {
             </MarkerClusterer>
           </Map>
         </div>
-        {/* <div className="mt-4">
+        <div className="mt-4">
           <Weather />
-        </div> */}
+        </div>
       </div>
     </>
   )

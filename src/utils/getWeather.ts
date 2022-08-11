@@ -37,8 +37,8 @@ export const getWeather = async (payload: any) => {
       {
         params: {
           ...queryParams,
-          nx: parseFloat(payload.nx),
-          ny: parseFloat(payload.ny),
+          nx: parseFloat(payload.nx) || 55,
+          ny: parseFloat(payload.ny) || 127,
           base_date: payload.today,
           base_time: payload.nowForcastTime,
           numOfRows: payload.numOfRows || 100

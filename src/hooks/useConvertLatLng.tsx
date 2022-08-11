@@ -4,7 +4,7 @@ export interface LatLngTypes {
   geoX: number
 }
 const useConvertLatLng = ({ geoX, geoY }: LatLngTypes) => {
-  console.log(geoY, geoX)
+  // console.log(geoY, geoX)
   const RE = 6371.00877 // 지구 반경(km)
   const GRID = 5.0 // 격자 간격(km)
   const SLAT1 = 30.0 // 투영 위도1(degree)
@@ -42,8 +42,8 @@ const useConvertLatLng = ({ geoX, geoY }: LatLngTypes) => {
   theta *= sn
   rs['x'] = Math.floor(ra * Math.sin(theta) + XO + 0.5)
   rs['y'] = Math.floor(ro - ra * Math.cos(theta) + YO + 0.5)
-  console.log(rs.x)
-  console.log(rs.y)
+  // console.log(rs.x)
+  // console.log(rs.y)
 
   return {
     rs

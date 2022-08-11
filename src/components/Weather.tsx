@@ -24,7 +24,7 @@ const Weather = () => {
   const [sky, setSky] = useState<any>([])
 
   useEffect(() => {
-    const payload = { today, nowForcastTime }
+    const payload = { today, nowForcastTime, numOfRows: 500 }
     console.log(payload)
     getWeather(payload)
       .then((res) => {
@@ -45,7 +45,7 @@ const Weather = () => {
   }, [])
 
   return (
-    <div className="">
+    <div className="container max-w-7xl mx-auto sm:w-9/12 lg:w-9/12">
       <p className="text-slate-600 pt-10 lg:text-2xl py-4 sm:text-xl">일기 예보</p>
       <div className="flex flex-col gap-2 lg:text-2xl p-4 sm:text-xl rounded-2xl shadow-2xl bg-white overflow-x-auto">
         <div>기온</div>
@@ -65,10 +65,12 @@ const Weather = () => {
             return (
               <div key={index}>
                 <div className="text-slate-600">
-                  {item.fcstValue >= 0 || item.fcstValue < 6 ? (
-                    <img src="../../public/assets/weather/day.svg" alt="sunny" />
-                  ) : item.fcstValue >= 6 ? (
-                    <img src="../../public/assets/weather/cloudy.svg" alt="cloudy" />
+                  {item.fcstValue == 1 ? (
+                    <img src="../../public/assets/weather/day.svg" />
+                  ) : item.fcstValue == 2 ? (
+                    <img src="../../public/assets/weather/cloudy-day-3.svg" />
+                  ) : item.fcstValue >= 3 ? (
+                    <img src="../../public/assets/weather/cloudy.svg" />
                   ) : (
                     ''
                   )}
@@ -85,21 +87,18 @@ const Weather = () => {
                 <div>
                   {item.fcstValue === 0 ? (
                     <img src="../../public/assets/weather/day.svg" alt="rain" />
-                  ) : item.fcstValue >= 10 && item.fcstValue < 40 ? (
+                  ) : item.fcstValue >= 0 && item.fcstValue < 30 ? (
                     <img src="../../public/assets/weather/rainy-4.svg" alt="" />
-                  ) : item.fcstValue >= 40 && item.fcstValue < 70 ? (
+                  ) : item.fcstValue >= 30 && item.fcstValue < 60 ? (
                     <img src="../../public/assets/weather/rainy-5.svg" alt="" />
-                  ) : item.fcstValue >= 70 ? (
+                  ) : item.fcstValue >= 60 ? (
                     <img src="../../public/assets/weather/rainy-6.svg" alt="" />
                   ) : (
                     ''
                   )}
                 </div>
                 <div>{item.fcstValue}%</div>
-                <div>
-                  <span>시간</span>
-                  {item.fcstTime}
-                </div>
+                <div>{item.fcstTime}</div>
               </div>
             )
           })}

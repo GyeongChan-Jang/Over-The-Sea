@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, Tabs } from 'flowbite-react'
-import { imageListClasses } from '@mui/material'
 import useTime from '~/hooks/useTime'
 import useConvertLatLng from '~/hooks/useConvertLatLng'
 import { getWeather } from '~/utils/getWeather'
@@ -17,7 +16,8 @@ interface WeatherResponse {
   ny: number
 }
 
-const MapOverlay = ({ setIsOpen, location }: any) => {
+const MapOverlay = ({ setIsOpen, location, seaWater }: any) => {
+  let waterInfo: any = []
   const { today, nowForcastTime } = useTime()
   const [isLoading, setIsLoading] = useState(true)
   const [sky, setSky] = useState<any>([])
@@ -33,7 +33,6 @@ const MapOverlay = ({ setIsOpen, location }: any) => {
     getWeather({ today, nowForcastTime, nx: x, ny: y, numOfRows: 80 })
       .then((res) => {
         setIsLoading(false)
-        console.log(res)
         res?.map((item: WeatherResponse) => {
           if (item.category === 'SKY') {
             setSky((prev: any) => [...prev, item])
@@ -48,9 +47,6 @@ const MapOverlay = ({ setIsOpen, location }: any) => {
       })
       .catch((err) => console.log(err))
   }, [])
-  console.log(today)
-  console.log(sky)
-  console.log(parseInt(nowForcastTime), sky[0]?.fcstTime)
 
   return (
     <div className="overlaybox">
@@ -142,7 +138,9 @@ const MapOverlay = ({ setIsOpen, location }: any) => {
                     </div>
                   )}
                 </Tabs.Item>
-                <Tabs.Item title="수 질 🌊">수질정보</Tabs.Item>
+                <Tabs.Item title="수 질 🌊">
+                  <div>{seaWater.res_yn}</div>
+                </Tabs.Item>
                 <Tabs.Item title="백 사 장 🏖️">백사장정보</Tabs.Item>
               </Tabs.Group>
             </div>
