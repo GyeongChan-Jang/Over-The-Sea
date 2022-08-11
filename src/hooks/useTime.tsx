@@ -51,6 +51,8 @@ const useTime: any = (): UseTimeReturn => {
     }
   }
   if (nowForcastTime < 10) {
+    nowForcastTime = '0' + nowForcastTime + '00'
+  } else if (nowForcastTime >= 10) {
     nowForcastTime = nowForcastTime + '00'
   }
 
