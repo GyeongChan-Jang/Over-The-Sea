@@ -80,12 +80,12 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
                             <img src="../../../public/assets/weather/day.svg" />
                             <p className="leading-6 text-center text-neutral-700">맑음!</p>
                           </div>
-                        ) : sky[0]?.fcstValue == 2 ? (
+                        ) : sky[0]?.fcstValue == 3 ? (
                           <div>
                             <img src="../../../public/assets/weather/cloudy-day-3.svg" />
                             <p className="leading-6 text-center text-neutral-700">구름 많음!</p>
                           </div>
-                        ) : sky[0]?.fcstValue >= 3 ? (
+                        ) : sky[0]?.fcstValue == 4 ? (
                           <div>
                             <img src="../../../public/assets/weather/cloudy.svg" />
                             <p className="leading-6 text-center text-neutral-700">흐림!</p>
@@ -150,7 +150,7 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
                             height={40}
                             className="mt-1"
                           />{' '}
-                          <p className="mt-6">{seaWater.res_yn}</p>
+                          <p className="mt-6 text-green-500 ">{seaWater.res_yn}</p>
                         </div>
                       ) : seaWater.res_yn === '부적합' ? (
                         <div>
@@ -159,7 +159,7 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
                             width={40}
                             height={40}
                           />{' '}
-                          <p className="text-red-600">{seaWater.res_yn}</p>
+                          <p className="mt-6 text-red-600">{seaWater.res_yn}</p>
                         </div>
                       ) : (
                         <p>정보 없음</p>
@@ -175,8 +175,8 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
                             className="ml-3"
                           />
                           <p className="mt-2 text-center mb-1 text-slate-500">
-                            {seaWater.res1.includes('&lt;1')
-                              ? seaWater.res1.replace('&lt;1', '1미만')
+                            {seaWater.res1.includes('&lt;')
+                              ? seaWater.res1.replace('&lt;', '미만')
                               : seaWater.res1}
                           </p>
                           <p>(대장균)</p>
@@ -195,8 +195,12 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
                             className="ml-3"
                           />
                           <p className="mt-2 text-center mb-1 text-slate-500">
-                            {seaWater.res2.includes('&lt;1')
-                              ? seaWater.res2.replace('&lt;1', '1미만')
+                            {seaWater.res2.includes('&lt;')
+                              ? seaWater.res2
+                                  .replace('&lt;', '미만')
+                                  .split('미만')
+                                  .reverse()
+                                  .join('미만')
                               : seaWater.res2}
                           </p>
                           <p>(장구균)</p>
@@ -217,7 +221,7 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
                             height={40}
                             src="../../../public/assets/images/appropriate.png"
                           />
-                          <p className="mt-7">{sand.res_yn}</p>
+                          <p className="mt-7 ml-1 text-green-500">{sand.res_yn}</p>
                         </div>
                       ) : (
                         <div>
@@ -226,7 +230,7 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
                             height={40}
                             src="../../../public/assets/images/inappropriate.png"
                           />
-                          <p className="mt-7 text-red-600">{sand.res_yn}</p>
+                          <p className="mt-7 ml-1 text-red-600">{sand.res_yn}</p>
                         </div>
                       )}
                     </div>

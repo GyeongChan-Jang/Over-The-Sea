@@ -7,10 +7,19 @@
   src: url('../public/assets/fonts/Jalnanche.ttf');
 }
 
+@font-face {
+  font-family: 'NexonGothicLight';
+  src: url('../public/assets/fonts/NexonGothicLight.ttf');
+}
+
+@font-face {
+  font-family: 'NexonGothicMedium';
+  src: url('../public/assets/fonts/NexonGothicMedium.ttf');
+}
 body {
   font-family: 'Jalnanche';
   background-color: azure;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.7px;
 }
 
 a {

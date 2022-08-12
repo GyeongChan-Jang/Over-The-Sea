@@ -13,7 +13,6 @@ const AppRouter = () => {
       <Route path="/login" element={<Auth />} />
       <Route path="/mypage" element={<MyPage />} />
       <Route path="/map" element={<Map />} />
-      <Route path="/weather" element={<Weather />} />
     </Routes>
   )
 }

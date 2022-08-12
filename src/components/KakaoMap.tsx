@@ -1,15 +1,9 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react'
-import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import Loading from './Loading'
-import { Map, MapMarker } from 'react-kakao-maps-sdk'
 import useGeolocation from '~/hooks/useGeolocation'
-import { Tabs } from 'flowbite-react'
-import ToggleButton from '~/components/UI/ToggleButton'
 import BeachMap from './BeachMap'
 import { getBeach } from '~/utils/getBeach'
 import Weather from './Weather'
-
-const regions = ['부산', '인천', '울산', '강원', '충남', '전북', '전남', '경북', '경남', '제주']
 
 interface RequestQuery {
   ServiceKey: string
@@ -20,45 +14,63 @@ interface RequestQuery {
 }
 
 const KakaoMap = () => {
+  const [regionName, setRegionName] = useState<any>('')
+
+  // 현재 위치 가져오기
   const location = useGeolocation()
-  const queryParams: RequestQuery = {
-    ServiceKey: import.meta.env.VITE_BEACH_API_KEY,
-    pageNo: 1,
-    numOfRows: 100,
-    SIDO_NM: '강원',
-    resultType: 'json'
+  const [map, setMap] = useState<any>()
+  const [locations, setLocations] = useState<any>()
+
+  const regionClickHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault()
+    const { name } = e.currentTarget
+    setRegionName(name)
+    try {
+      const res = await getBeach(name)
+      setLocations(res)
+      if (!map) return
+      const bounds = new kakao.maps.LatLngBounds()
+      for (let i = 0; i < res.length; i++) {
+        bounds.extend(new kakao.maps.LatLng(res[i].lat, res[i].lon))
+      }
+      map.panTo(bounds)
+    } catch (e) {
+      console.log(e)
+    }
   }
-  useEffect(() => {
-    // 해수욕장 정보 가져오기
-    getBeach('강원')
-  }, [])
 
   return (
     <div>
-      <div className="container max-w-7xl mx-auto sm:w-9/12 lg:w-9/12">
-        <div className="title lg:text-2xl py-4 sm:text-xl">
-          <p className="text-slate-600">지도에서 해수욕장 찾기</p>
-        </div>
-        <div className="list"></div>
+      <div className="container max-w-7xl mx-auto sm:w-9/12 lg:w-9/12 xs:w-10/12 relative">
         {location.loaded ? (
           <>
-            {/* <Map
-              // @ts-ignore
-              center={{ lat: location.coordinates?.lat, lng: location.coordinates?.lng }}
-              className="w-full h-[360px] rounded ring ring-[#cfe8ef]"
-              level={5}
-            >
-              <MapMarker
-                // @ts-ignore
-                position={{ lat: location.coordinates?.lat, lng: location.coordinates?.lng }}
-              >
-                <div className="text-red-500 text-lg text-center">현재 위치!</div>
-              </MapMarker>
-            </Map> */}
-            <BeachMap />
+            <div className="title lg:text-2xl py-4 sm:text-xl">
+              <p className="text-slate-600 pt-2">지도에서 해수욕장 찾기</p>
+            </div>
+            <BeachMap
+              regionName={regionName}
+              setRegionName={setRegionName}
+              regionClickHandler={regionClickHandler}
+              setMap={setMap}
+              map={map}
+              locations={locations}
+            />
+
+            {locations ? (
+              <>
+                <div className="title lg:text-2xl py-4 sm:text-xl">
+                  <p className="text-slate-600 pt-2">날씨 정보</p>
+                </div>
+                <Weather regionName={regionName} locations={locations} />
+              </>
+            ) : (
+              <div className="absolute inset-y-1/2 left-1/2">
+                <Loading />
+              </div>
+            )}
           </>
         ) : (
-          <div className="absolute inset-y-1/2 left-1/2">
+          <div className="absolute inset-y-1/2 left-1/2 -translate-x-10 -translate-y-10">
             <Loading />
           </div>
         )}

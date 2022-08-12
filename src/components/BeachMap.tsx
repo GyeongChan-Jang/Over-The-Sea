@@ -9,16 +9,21 @@ import { LocationType } from '~/hooks/useGeolocation'
 import MapOverlay from './UI/MapOverlay'
 import { getSeaWater } from '~/utils/getSeaWater'
 import { getSand } from '~/utils/getSand'
-import { LocalAtmRounded } from '@mui/icons-material'
 
-const SearchMap = () => {
+const BeachMap = ({
+  regionName,
+  setRegionName,
+  regionClickHandler,
+  setMap,
+  map,
+  locations
+}: any) => {
   const regions = ['부산', '인천', '울산', '강원', '충남', '전북', '전남', '경북', '경남', '제주']
-
   const mapRef = useRef<any>()
-  const [locations, setLocations] = useState<any>()
+
   // info -> 마커 클릭시 해당 마커 위치 정보
   const [info, setInfo] = useState<any>()
-  const [map, setMap] = useState<any>()
+
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [isWindow, setIsWindow] = useState<boolean>(false)
   const [markers, setMarkers] = useState<any>([])
@@ -27,24 +32,7 @@ const SearchMap = () => {
   const [seaWater, setSeaWater] = useState<any>([])
   const [sand, setSand] = useState<any>([])
 
-  const regionClickHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault()
-    const { name } = e.currentTarget
-    console.log(name)
-    try {
-      const res = await getBeach(name)
-      console.log(res)
-      setLocations(res)
-      if (!map) return
-      const bounds = new kakao.maps.LatLngBounds()
-      for (let i = 0; i < res.length; i++) {
-        bounds.extend(new kakao.maps.LatLng(res[i].lat, res[i].lon))
-      }
-      map.panTo(bounds)
-    } catch (e) {
-      console.log(e)
-    }
-  }
+  useEffect(() => {}, [])
 
   // 토글 -> 내 위치로 이동
   const toggleHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -101,13 +89,13 @@ const SearchMap = () => {
 
   return (
     <>
-      <div className="list pt-10">
+      <div className="list">
         <div className="title flex justify-between ">
-          <span className="mt-2 text-[#333]">지역</span>
-          <p className="flex gap-2">
+          <span className="mt-2 text-blue-800 text-xl tracking-widest">{regionName}</span>
+          <div className="flex gap-2">
             <span className="mt-2 text-[#333]">내 위치</span>
             <ToggleButton toggleHandler={toggleHandler} />
-          </p>
+          </div>
         </div>
         <div className="divide h-[2px] bg-[#333] my-4"></div>
         <div className="my-4 flex flex-wrap justify-center gap-4 rounded-md shadow-xl p-4 bg-white">
@@ -123,9 +111,9 @@ const SearchMap = () => {
             </Button>
           ))}
         </div>
-        <div className="rounded-2xl shadow-2xl">
+        <div className="rounded-2xl shadow-2xl mb-10">
           <Map // 지도를 표시할 Container
-            className="w-full h-[360px] bg-white rounded-2xl shadow-2xl"
+            className="w-full h-[450px] bg-white rounded-2xl shadow-2xl"
             center={{
               // 지도의 중심좌표
               lat:
@@ -137,14 +125,10 @@ const SearchMap = () => {
                   ? currentLocation.coordinates!.lng
                   : 126.978
             }}
-            style={{
-              // 지도의 크기
-              width: '100%',
-              height: '450px'
-            }}
             level={7} // 지도의 확대 레벨
             onCreate={setMap}
             ref={mapRef}
+            onClick={() => setIsOpen(false)}
           >
             <MarkerClusterer
               averageCenter={true}
@@ -251,12 +235,9 @@ const SearchMap = () => {
             </MarkerClusterer>
           </Map>
         </div>
-        <div className="mt-4">
-          <Weather />
-        </div>
       </div>
     </>
   )
 }
 
-export default SearchMap
+export default BeachMap
