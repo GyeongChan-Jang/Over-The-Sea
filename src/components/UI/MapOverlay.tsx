@@ -162,7 +162,7 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
                           <p className="text-red-600">{seaWater.res_yn}</p>
                         </div>
                       ) : (
-                        <p>수질 정보 없음</p>
+                        <p>정보 없음</p>
                       )}
                     </div>
                     <div>

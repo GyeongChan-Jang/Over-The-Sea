@@ -9,6 +9,7 @@ import { LocationType } from '~/hooks/useGeolocation'
 import MapOverlay from './UI/MapOverlay'
 import { getSeaWater } from '~/utils/getSeaWater'
 import { getSand } from '~/utils/getSand'
+import { LocalAtmRounded } from '@mui/icons-material'
 
 const SearchMap = () => {
   const regions = ['부산', '인천', '울산', '강원', '충남', '전북', '전남', '경북', '경남', '제주']
@@ -47,7 +48,9 @@ const SearchMap = () => {
 
   // 토글 -> 내 위치로 이동
   const toggleHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    setIsCurrentLocation((prev) => !prev)
+    setIsCurrentLocation(!isCurrentLocation)
+    console.log(isCurrentLocation)
+    console.log(e)
   }
 
   const markerOverHandler = (location: any) => {
@@ -100,8 +103,11 @@ const SearchMap = () => {
     <>
       <div className="list pt-10">
         <div className="title flex justify-between ">
-          <h1>지역</h1>
-          <ToggleButton toggleHandler={toggleHandler} />
+          <span className="mt-2 text-[#333]">지역</span>
+          <p className="flex gap-2">
+            <span className="mt-2 text-[#333]">내 위치</span>
+            <ToggleButton toggleHandler={toggleHandler} />
+          </p>
         </div>
         <div className="divide h-[2px] bg-[#333] my-4"></div>
         <div className="my-4 flex flex-wrap justify-center gap-4 rounded-md shadow-xl p-4 bg-white">
@@ -122,8 +128,14 @@ const SearchMap = () => {
             className="w-full h-[360px] bg-white rounded-2xl shadow-2xl"
             center={{
               // 지도의 중심좌표
-              lat: 35.1796,
-              lng: 129.0756
+              lat:
+                isCurrentLocation && currentLocation.loaded
+                  ? currentLocation.coordinates!.lat
+                  : 37.5665,
+              lng:
+                isCurrentLocation && currentLocation.loaded
+                  ? currentLocation.coordinates!.lng
+                  : 126.978
             }}
             style={{
               // 지도의 크기
@@ -140,6 +152,23 @@ const SearchMap = () => {
               onClusterclick={onClusterclick}
               disableClickZoom={true}
             >
+              {isCurrentLocation && currentLocation.loaded ? (
+                <MapMarker
+                  position={{
+                    lat: currentLocation.coordinates!.lat,
+                    lng: currentLocation.coordinates!.lng
+                  }}
+                  image={{
+                    src: '../../public/assets/images/navigation.png', // 마커이미지의 주소입니다
+                    size: {
+                      width: 38,
+                      height: 38
+                    }
+                  }}
+                />
+              ) : (
+                ''
+              )}
               {locations?.map((location: any) => (
                 <MapMarker
                   onClick={() => markerClickHandler(location)}
