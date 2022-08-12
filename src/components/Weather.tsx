@@ -4,6 +4,9 @@ import { getWeather } from '~/utils/getWeather'
 import useTime from '~/hooks/useTime'
 import useConvertLatLng from '~/hooks/useConvertLatLng'
 import Loading from './Loading'
+import { Box, Tab, Tabs } from '@mui/material'
+import TabPanel from '~/components/UI/TabPanel'
+import WeatherGraph from './Graph/WeatherGraph'
 
 const Weather = ({ regionName, locations }: any) => {
   const { rs } = useConvertLatLng({
@@ -20,14 +23,22 @@ const Weather = ({ regionName, locations }: any) => {
   const [todayHigh, setTodayHigh] = useState<any>()
   const [todayWeather, setTodayWeather] = useState<any>()
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [value, setValue] = useState<number>(0)
+  const [forecastWeather, setForecastWeather] = useState<any>()
+  const [forecastTmp, setForecastTmp] = useState<any>()
+
+  const tabHandler = (event: any, newValue: any) => {
+    setValue(newValue)
+  }
 
   useEffect(() => {
     const payload = { today, nowForcastTime, numOfRows: 1000, nx: rs.x, ny: rs.y }
     getWeather(payload)
       .then((res) => {
         setIsLoading(false)
-        console.log(res)
+
         setTodayWeather(res.slice(0, 12))
+        setForecastTmp(res.slice(0, 301).filter((item: any) => item.category === 'TMP'))
         res.find((item: any) => {
           if (item.category === 'TMN') {
             setTodayLow(item.fcstValue)
@@ -51,12 +62,13 @@ const Weather = ({ regionName, locations }: any) => {
       .catch((err) => console.log(err))
   }, [])
 
-  console.log(todayWeather)
+  console.log(forecastTmp)
+  console.log(forecastWeather)
 
   return (
     <>
       <div>
-        <div className="flex flex-col gap-2 lg:text-2xl p-4 sm:text-xl rounded-2xl shadow-2xl bg-white overflow-x-auto h-[450px] relative ">
+        <div className="flex flex-col gap-2 lg:text-2xl p-4 sm:text-xl rounded-2xl shadow-2xl bg-white overflow-x-auto h-[560px] relative ">
           {!isLoading ? (
             <>
               <div className="my-4 text-center text-3xl text-slate-800">
@@ -112,6 +124,24 @@ const Weather = ({ regionName, locations }: any) => {
                     </p>
                   </div>
                 </div>
+                <Box className="w-full mt-10">
+                  <Box className="border-b-1 divide-blue-500">
+                    <Tabs value={value} onChange={tabHandler} variant="fullWidth">
+                      <Tab label="날씨" className="font-jalnanche" />
+                      <Tab label="습도" className="font-jalnanche" />
+                      <Tab label="바람" className="font-jalnanche" />
+                    </Tabs>
+                  </Box>
+                  <TabPanel value={value} index={0}>
+                    <WeatherGraph forecastTmp={forecastTmp} />
+                  </TabPanel>
+                  <TabPanel value={value} index={1}>
+                    2
+                  </TabPanel>
+                  <TabPanel value={value} index={2}>
+                    3
+                  </TabPanel>
+                </Box>
               </div>
             </>
           ) : (
