@@ -47,17 +47,6 @@ const Weather = ({ regionName, locations }: any) => {
             setTodayHigh(item.fcstValue)
           }
         })
-        // res?.map((item: any) => {
-        //   if (item.category === 'POP') {
-        //     setPop((prev: any) => [...prev, item])
-        //   } else if (item.category === 'REH') {
-        //     setPcp((prev: any) => [...prev, item])
-        //   } else if (item.category === 'TMP') {
-        //     setTmp((prev: any) => [...prev, item])
-        //   } else if (item.category === 'SKY') {
-        //     setSky((prev: any) => [...prev, item])
-        //   }
-        // })
       })
       .catch((err) => console.log(err))
   }, [])
@@ -74,18 +63,30 @@ const Weather = ({ regionName, locations }: any) => {
               <div className="my-4 text-center text-3xl text-slate-800">
                 {regionName} /{' '}
                 {todayWeather[5].fcstValue == 1 ? (
-                  <img src="../../public/assets/weather/day.svg" />
+                  <img
+                    className="relative top-6 bottom-4 "
+                    src="../../public/assets/weather/day.svg"
+                  />
                 ) : todayWeather[5].fcstValue == 3 ? (
                   <img
                     className="relative top-6 bottom-4 "
                     src="../../public/assets/weather/cloudy-day-3.svg"
                   />
                 ) : todayWeather[5].fcstValue == 4 ? (
-                  <img src="../../public/assets/weather/cloudy.svg" />
+                  <img
+                    className="relative top-6 bottom-4 "
+                    src="../../public/assets/weather/cloudy.svg"
+                  />
                 ) : todayWeather[5].fcstValue == 3 && todayWeather[6] == 1 ? (
-                  <img src="../../public/assets/weather/rainy-4.svg" />
+                  <img
+                    className="relative top-6 bottom-4 "
+                    src="../../public/assets/weather/rainy-4.svg"
+                  />
                 ) : todayWeather[5].fcstValue == 4 && todayWeather[6] == 1 ? (
-                  <img src="../../public/assets/weather/rainy-5.svg" />
+                  <img
+                    className="relative top-6 bottom-4 "
+                    src="../../public/assets/weather/rainy-5.svg"
+                  />
                 ) : (
                   ''
                 )}
@@ -132,7 +133,7 @@ const Weather = ({ regionName, locations }: any) => {
                       <Tab label="바람" className="font-jalnanche" />
                     </Tabs>
                   </Box>
-                  <TabPanel value={value} index={0}>
+                  <TabPanel value={value} index={0} className="w-full">
                     <WeatherGraph forecastTmp={forecastTmp} />
                   </TabPanel>
                   <TabPanel value={value} index={1}>

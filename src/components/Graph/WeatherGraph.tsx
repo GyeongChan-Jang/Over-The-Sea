@@ -6,7 +6,7 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 
 const CustomizedLabel = ({ x, y, value }: any) => (
-  <text x={x} y={y} dy={-4} fontSize={12} textAnchor="middle">
+  <text x={x} y={y} dy={-10} fontSize={14} textAnchor="middle">
     {value}℃
   </text>
 )
@@ -17,7 +17,7 @@ const LignGraph = ({ forecastTmp, num }: any) => {
       <LineChart
         width={960}
         height={200}
-        data={forecastTmp.slice(num * 6, (num + 1) * 6).map(({ fcstValue, fcstTime }: any) => ({
+        data={forecastTmp?.slice(num * 6, (num + 1) * 6).map(({ fcstValue, fcstTime }: any) => ({
           fcstValue,
           fcstTime
         }))}
@@ -30,7 +30,7 @@ const LignGraph = ({ forecastTmp, num }: any) => {
       >
         {/* <Tooltip /> */}
         <XAxis dataKey="fcstTime" fontSize={16} />
-        <Line type="monotone" dataKey="fcstValue" stroke="#8884d8" strokeWidth={3}>
+        <Line type="monotone" dataKey="fcstValue" stroke="#8884d8" strokeWidth={4}>
           <LabelList content={<CustomizedLabel />} />
         </Line>
       </LineChart>
