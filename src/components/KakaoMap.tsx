@@ -38,7 +38,6 @@ const KakaoMap = () => {
       console.log(e)
     }
   }
-  console.log(locationWeather)
 
   return (
     <div>

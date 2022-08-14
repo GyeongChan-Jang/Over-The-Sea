@@ -1,4 +1,3 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { getWeather } from '~/utils/getWeather'
 import useTime from '~/hooks/useTime'
@@ -10,6 +9,7 @@ import WeatherGraph from './Graph/WeatherGraph'
 import HumidityGraph from './Graph/HumidityGraph'
 import 'swiper/css'
 import 'swiper/css/navigation'
+import WindGraph from './Graph/WindGraph'
 
 const Weather = ({ locationWeather }: any) => {
   const { rs } = useConvertLatLng({
@@ -25,9 +25,9 @@ const Weather = ({ locationWeather }: any) => {
   const [todayWeather, setTodayWeather] = useState<any>()
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [value, setValue] = useState<number>(0)
-  const [forecastWeather, setForecastWeather] = useState<any>()
   const [forecastTmp, setForecastTmp] = useState<any>()
   const [forecastHum, setForecastHum] = useState<any>()
+  const [forecastWind, setForecastWind] = useState<any>()
 
   const tabHandler = (event: any, newValue: any) => {
     setValue(newValue)
@@ -43,6 +43,7 @@ const Weather = ({ locationWeather }: any) => {
         setTodayWeather(res.slice(0, 12))
         setForecastTmp(res.slice(0, 301).filter((item: any) => item.category === 'TMP'))
         setForecastHum(res.slice(0, 301).filter((item: any) => item.category === 'REH'))
+        setForecastWind(res.slice(0, 301).filter((item: any) => item.category === 'WSD'))
         res.find((item: any) => {
           if (item.category === 'TMN') {
             setTodayLow(item.fcstValue)
@@ -55,9 +56,8 @@ const Weather = ({ locationWeather }: any) => {
       .catch((err) => console.log(err))
   }, [])
 
-  // console.log(forecastTmp)
-  // console.log(forecastHum)
-  // console.log(forecastWeather)
+  console.log(forecastTmp)
+  console.log(forecastHum)
 
   return (
     <>
@@ -138,14 +138,14 @@ const Weather = ({ locationWeather }: any) => {
                       <Tab label="바람" className="font-jalnanche" />
                     </Tabs>
                   </Box>
-                  <TabPanel value={value} index={0} className="w-full">
+                  <TabPanel value={value} index={0}>
                     <WeatherGraph forecastTmp={forecastTmp} />
                   </TabPanel>
                   <TabPanel value={value} index={1}>
                     <HumidityGraph forecastHum={forecastHum} />
                   </TabPanel>
                   <TabPanel value={value} index={2}>
-                    3
+                    <WindGraph forecastWind={forecastWind} />
                   </TabPanel>
                 </Box>
               </div>

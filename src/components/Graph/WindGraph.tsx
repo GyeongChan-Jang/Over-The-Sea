@@ -1,10 +1,11 @@
+import React from 'react'
 import { BarChart, XAxis, Bar, LabelList } from 'recharts'
 import { Navigation } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 const CustomizedLabel = ({ x, y, value }: any) => (
   <text x={x} y={y} dy={-10} fontSize={14} textAnchor="middle">
-    {value}%
+    {value}m/s
   </text>
 )
 
@@ -19,12 +20,13 @@ const formXAxis = (data: any): string => {
   return data
 }
 
-const BarGraph = ({ forecastHum, num }: any) => {
+const WindGraph = ({ forecastWind, num }: any) => {
+  console.log(forecastWind)
   return (
     <BarChart
       width={900}
       height={200}
-      data={forecastHum}
+      data={forecastWind}
       margin={{ top: 30, right: 30, left: 30, bottom: 10 }}
     >
       <XAxis dataKey="fcstTime" fontSize={16} tickFormatter={formXAxis} />
@@ -35,25 +37,4 @@ const BarGraph = ({ forecastHum, num }: any) => {
   )
 }
 
-const HumidityGraph = ({ forecastHum }: any) => {
-  console.log(forecastHum)
-  // const slides = []
-
-  // for (let i = 0; i < 2; i++) {
-  //   slides.push(
-  //     <SwiperSlide key={i}>
-  //       <BarGraph forecastTmp={forecastHum} num={i} />
-  //     </SwiperSlide>
-  //   )
-  // }
-  return (
-    <div>
-      {/* <Swiper navigation={true} modules={[Navigation]}>
-        {slides}
-      </Swiper> */}
-      <BarGraph forecastHum={forecastHum} num={0} />
-    </div>
-  )
-}
-
-export default HumidityGraph
+export default WindGraph

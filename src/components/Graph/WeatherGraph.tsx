@@ -3,6 +3,17 @@ import { LineChart, XAxis, Line, Tooltip, LabelList } from 'recharts'
 import { Navigation } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
+const formXAxis = (data: any): string => {
+  if (data === '0000') {
+    return '12시'
+  }
+  if (data.includes('0')) {
+    data = data.replace('00', '')
+    return data + '시'
+  }
+  return data
+}
+
 const CustomizedLabel = ({ x, y, value }: any) => (
   <text x={x} y={y} dy={-10} fontSize={14} textAnchor="middle">
     {value}℃
@@ -27,7 +38,7 @@ const LignGraph = ({ forecastTmp, num }: any) => {
         }}
       >
         {/* <Tooltip /> */}
-        <XAxis dataKey="fcstTime" fontSize={16} />
+        <XAxis dataKey="fcstTime" fontSize={16} tickFormatter={formXAxis} />
         <Line type="monotone" dataKey="fcstValue" stroke="#8884d8" strokeWidth={4}>
           <LabelList content={<CustomizedLabel />} />
         </Line>

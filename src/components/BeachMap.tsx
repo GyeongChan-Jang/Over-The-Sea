@@ -1,16 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { Map, MapMarker, MarkerClusterer, Roadview } from 'react-kakao-maps-sdk'
+import React, { useState, useRef } from 'react'
+import { Map, MapMarker, MarkerClusterer } from 'react-kakao-maps-sdk'
 import ToggleButton from '~/components/UI/ToggleButton'
-import { getBeach } from '~/utils/getBeach'
+
 import { Button, Card } from 'flowbite-react'
-import Weather from './Weather'
+
 import useGeolocation from '~/hooks/useGeolocation'
 import { LocationType } from '~/hooks/useGeolocation'
 import MapOverlay from './UI/MapOverlay'
 import { getSeaWater } from '~/utils/getSeaWater'
 import { getSand } from '~/utils/getSand'
-import { getWeather } from '~/utils/getWeather'
-import useConvertLatLng from '~/hooks/useConvertLatLng'
 
 const BeachMap = ({
   regionClickHandler,
@@ -39,15 +37,12 @@ const BeachMap = ({
     setRegionName('')
     setMarkers(false)
     setIsCurrentLocation(!isCurrentLocation)
-    console.log(isCurrentLocation)
-    console.log(e)
   }
 
   const markerOverHandler = (location: any) => {
     if (!isOpen) {
       setIsWindow(true)
       setInfo(location)
-      console.log(location)
     }
   }
 
@@ -61,7 +56,6 @@ const BeachMap = ({
     setLocationWeather(location)
     try {
       const res = await getSeaWater(location.sido_nm)
-      // console.log(res)
       res.item.filter((item: any) => {
         if (item.sta_nm === location.sta_nm) {
           setSeaWater(item)
@@ -72,7 +66,6 @@ const BeachMap = ({
     }
     try {
       const res = await getSand(location.sido_nm)
-      console.log(res)
       res.item.filter((item: any) => {
         if (item.sta_nm === location.sta_nm) {
           setSand(item)
