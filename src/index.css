@@ -136,3 +136,10 @@ input:checked + .slider:before {
     background-color: #a2d9ff;
   }
 }
+
+/* 로그인 화면 배경 이미지 */
+.login_img_section {
+  background: linear-gradient(rgba(2, 2, 2, 0.7), rgba(0, 0, 0, 0.7)),
+    url(https://api.cdn.visitjeju.net/photomng/imgpath/201804/30/e6bbbd40-44ae-428d-ae62-875a758ce63b.jpg)
+      center center;
+}
