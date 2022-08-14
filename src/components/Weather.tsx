@@ -7,18 +7,19 @@ import Loading from './Loading'
 import { Box, Tab, Tabs } from '@mui/material'
 import TabPanel from '~/components/UI/TabPanel'
 import WeatherGraph from './Graph/WeatherGraph'
+import HumidityGraph from './Graph/HumidityGraph'
+import 'swiper/css'
+import 'swiper/css/navigation'
 
-const Weather = ({ regionName, locations }: any) => {
+const Weather = ({ locationWeather }: any) => {
   const { rs } = useConvertLatLng({
-    geoX: locations && locations[0]?.lon,
-    geoY: locations && locations[0]?.lat
+    geoX: locationWeather && locationWeather?.lon,
+    geoY: locationWeather && locationWeather?.lat
   })
+
+  console.log(locationWeather)
   const { today, nowForcastTime } = useTime()
 
-  // const [pop, setPop] = useState<any>([])
-  // const [reh, setPcp] = useState<any>([])
-  // const [tmp, setTmp] = useState<any>([])
-  // const [sky, setSky] = useState<any>([])
   const [todayLow, setTodayLow] = useState<any>()
   const [todayHigh, setTodayHigh] = useState<any>()
   const [todayWeather, setTodayWeather] = useState<any>()
@@ -26,6 +27,7 @@ const Weather = ({ regionName, locations }: any) => {
   const [value, setValue] = useState<number>(0)
   const [forecastWeather, setForecastWeather] = useState<any>()
   const [forecastTmp, setForecastTmp] = useState<any>()
+  const [forecastHum, setForecastHum] = useState<any>()
 
   const tabHandler = (event: any, newValue: any) => {
     setValue(newValue)
@@ -35,10 +37,12 @@ const Weather = ({ regionName, locations }: any) => {
     const payload = { today, nowForcastTime, numOfRows: 1000, nx: rs.x, ny: rs.y }
     getWeather(payload)
       .then((res) => {
+        console.log(res)
         setIsLoading(false)
 
         setTodayWeather(res.slice(0, 12))
         setForecastTmp(res.slice(0, 301).filter((item: any) => item.category === 'TMP'))
+        setForecastHum(res.slice(0, 301).filter((item: any) => item.category === 'REH'))
         res.find((item: any) => {
           if (item.category === 'TMN') {
             setTodayLow(item.fcstValue)
@@ -51,8 +55,9 @@ const Weather = ({ regionName, locations }: any) => {
       .catch((err) => console.log(err))
   }, [])
 
-  console.log(forecastTmp)
-  console.log(forecastWeather)
+  // console.log(forecastTmp)
+  // console.log(forecastHum)
+  // console.log(forecastWeather)
 
   return (
     <>
@@ -61,7 +66,7 @@ const Weather = ({ regionName, locations }: any) => {
           {!isLoading ? (
             <>
               <div className="my-4 text-center text-3xl text-slate-800">
-                {regionName} /{' '}
+                {locationWeather?.sta_nm} /{' '}
                 {todayWeather[5].fcstValue == 1 ? (
                   <img
                     className="relative top-6 bottom-4 "
@@ -137,7 +142,7 @@ const Weather = ({ regionName, locations }: any) => {
                     <WeatherGraph forecastTmp={forecastTmp} />
                   </TabPanel>
                   <TabPanel value={value} index={1}>
-                    2
+                    <HumidityGraph forecastHum={forecastHum} />
                   </TabPanel>
                   <TabPanel value={value} index={2}>
                     3

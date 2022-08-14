@@ -9,33 +9,35 @@ import { LocationType } from '~/hooks/useGeolocation'
 import MapOverlay from './UI/MapOverlay'
 import { getSeaWater } from '~/utils/getSeaWater'
 import { getSand } from '~/utils/getSand'
+import { getWeather } from '~/utils/getWeather'
+import useConvertLatLng from '~/hooks/useConvertLatLng'
 
 const BeachMap = ({
-  regionName,
-  setRegionName,
   regionClickHandler,
   setMap,
   map,
-  locations
+  locations,
+  setLocationWeather,
+  setIsOpen,
+  isOpen
 }: any) => {
   const regions = ['부산', '인천', '울산', '강원', '충남', '전북', '전남', '경북', '경남', '제주']
   const mapRef = useRef<any>()
 
   // info -> 마커 클릭시 해당 마커 위치 정보
   const [info, setInfo] = useState<any>()
-
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [regionName, setRegionName] = useState<any>('')
   const [isWindow, setIsWindow] = useState<boolean>(false)
-  const [markers, setMarkers] = useState<any>([])
+  const [markers, setMarkers] = useState<any>(true)
   const currentLocation: LocationType = useGeolocation()
   const [isCurrentLocation, setIsCurrentLocation] = useState<boolean>(false)
   const [seaWater, setSeaWater] = useState<any>([])
   const [sand, setSand] = useState<any>([])
 
-  useEffect(() => {}, [])
-
   // 토글 -> 내 위치로 이동
   const toggleHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    setRegionName('')
+    setMarkers(false)
     setIsCurrentLocation(!isCurrentLocation)
     console.log(isCurrentLocation)
     console.log(e)
@@ -55,6 +57,8 @@ const BeachMap = ({
 
   const markerClickHandler = async (location: any) => {
     setIsOpen(true)
+    // weather 컴포넌트의 location을 전달하기 위해
+    setLocationWeather(location)
     try {
       const res = await getSeaWater(location.sido_nm)
       // console.log(res)
@@ -136,7 +140,7 @@ const BeachMap = ({
               onClusterclick={onClusterclick}
               disableClickZoom={true}
             >
-              {isCurrentLocation && currentLocation.loaded ? (
+              {markers && isCurrentLocation && currentLocation.loaded ? (
                 <MapMarker
                   position={{
                     lat: currentLocation.coordinates!.lat,

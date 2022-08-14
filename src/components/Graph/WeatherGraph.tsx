@@ -2,8 +2,6 @@ import React from 'react'
 import { LineChart, XAxis, Line, Tooltip, LabelList } from 'recharts'
 import { Navigation } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import 'swiper/css'
-import 'swiper/css/navigation'
 
 const CustomizedLabel = ({ x, y, value }: any) => (
   <text x={x} y={y} dy={-10} fontSize={14} textAnchor="middle">
@@ -39,8 +37,6 @@ const LignGraph = ({ forecastTmp, num }: any) => {
 }
 
 const WeatherGraph = ({ forecastTmp }: any) => {
-  console.log(forecastTmp)
-
   const slides = []
 
   for (let i = 0; i < 2; i++) {

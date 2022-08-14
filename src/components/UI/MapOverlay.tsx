@@ -47,8 +47,6 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
       .catch((err) => console.log(err))
   }, [])
 
-  console.log(sand)
-
   return (
     <div className="overlaybox">
       <div className="max-w-xs -m-2">

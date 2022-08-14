@@ -31,6 +31,7 @@ const queryParams: WeatherQuery = {
 }
 // { today, nowForcastTime, minutes }: WeatherPayload
 export const getWeather = async (payload: any) => {
+  console.log(payload)
   try {
     const response = await axios.get(
       'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst',

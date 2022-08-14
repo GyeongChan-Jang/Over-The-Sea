@@ -14,17 +14,17 @@ interface RequestQuery {
 }
 
 const KakaoMap = () => {
-  const [regionName, setRegionName] = useState<any>('')
-
   // 현재 위치 가져오기
-  const location = useGeolocation()
+  const currentLocation = useGeolocation()
   const [map, setMap] = useState<any>()
   const [locations, setLocations] = useState<any>()
+  const [locationWeather, setLocationWeather] = useState<any>()
+  // 마커 클릭시 overlay 오픈여부
+  const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const regionClickHandler = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
     const { name } = e.currentTarget
-    setRegionName(name)
     try {
       const res = await getBeach(name)
       setLocations(res)
@@ -38,35 +38,33 @@ const KakaoMap = () => {
       console.log(e)
     }
   }
+  console.log(locationWeather)
 
   return (
     <div>
       <div className="container max-w-7xl mx-auto sm:w-9/12 lg:w-9/12 xs:w-10/12">
-        {location.loaded ? (
+        {currentLocation.loaded ? (
           <>
             <div className="title lg:text-2xl py-4 sm:text-xl">
               <p className="text-slate-600 pt-2">지도에서 해수욕장 찾기</p>
             </div>
             <BeachMap
-              regionName={regionName}
-              setRegionName={setRegionName}
               regionClickHandler={regionClickHandler}
               setMap={setMap}
               map={map}
               locations={locations}
+              setLocationWeather={setLocationWeather}
+              setIsOpen={setIsOpen}
+              isOpen={isOpen}
             />
 
-            {locations ? (
+            {isOpen && (
               <>
                 <div className="title lg:text-2xl py-4 sm:text-xl">
                   <p className="text-slate-600 pt-2">날씨 정보</p>
                 </div>
-                <Weather regionName={regionName} locations={locations} />
+                <Weather locationWeather={locationWeather} />
               </>
-            ) : (
-              <div className="absolute inset-y-1/2 left-1/2">
-                <Loading />
-              </div>
             )}
           </>
         ) : (
@@ -75,7 +73,7 @@ const KakaoMap = () => {
           </div>
         )}
       </div>
-      {location.loaded && (
+      {currentLocation.loaded && (
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
             <path
