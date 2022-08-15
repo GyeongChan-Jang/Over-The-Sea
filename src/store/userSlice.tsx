@@ -68,7 +68,8 @@ export const signUpEmail = createAsyncThunk(
   'user/signUpEmail',
   async ({ email, password }: UserSginInput) => {
     try {
-      createUserWithEmailAndPassword(authService, email, password)
+      const data = await createUserWithEmailAndPassword(authService, email, password)
+      console.log(data)
       const user = authService.currentUser?.providerData[0]
       console.log('currentUser.providerData[0]: ', user)
       return user
@@ -86,8 +87,8 @@ export const signInEmail = createAsyncThunk(
       const user = authService.currentUser?.providerData[0]
       console.log('currentUser.providerData[0]: ', user)
       return user
-    } catch (error) {
-      console.log(error)
+    } catch (error: any) {
+      alert(error.message)
     }
   }
 )
@@ -110,23 +111,27 @@ const userSlice = createSlice({
     builder.addCase(signInFacebookHandler.fulfilled, (state, { payload }) => {
       state.loading = false
       state.error = null
-      state.userData.email = Payload.email
-      state.userData.name = Payload.displayName
-      state.userData.userImage = Payload.photoURL
-      state.userData.uid = Payload.uid
-      state.userData.timeStamp = Payload.metadata.creationTime
-      state.userData.username = Payload.displayName
+      state.userData.email = payload.email
+      state.userData.name = payload.displayName
+      state.userData.userImage = payload.photoURL
+      state.userData.uid = payload.uid
+      state.userData.timeStamp = payload.metadata.creationTime
+      state.userData.username = payload.displayName
     })
-    builder.addCase(signUpEmail.fulfilled, (state, { Payload }: any) => {})
-    builder.addCase(signInEmail.fulfilled, (state, { Payload }: any) => {
+    builder.addCase(signUpEmail.fulfilled, (state, { payload }: any) => {})
+    builder.addCase(signInEmail.fulfilled, (state, { payload }: any) => {
       state.loading = false
       state.error = null
-      state.userData.email = Payload.email
-      state.userData.name = Payload.displayName
-      state.userData.userImage = Payload.photoURL
-      state.userData.uid = Payload.uid
-      state.userData.timeStamp = Payload.metadata.creationTime
-      state.userData.username = Payload.displayName
+      state.userData.email = payload.email
+      state.userData.name = payload.displayName
+      state.userData.userImage = payload.photoURL
+      state.userData.uid = payload.uid
+      state.userData.timeStamp = null
+      state.userData.username = payload.displayName
+    })
+    builder.addCase(signInEmail.rejected, (state, { payload }: any) => {
+      state.loading = false
+      state.error = payload.message
     })
   }
 })

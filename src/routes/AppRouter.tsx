@@ -1,19 +1,36 @@
-import React from 'react'
-import { Routes, Route } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Routes, Route, useParams } from 'react-router-dom'
 import AuthForm from '~/components/AuthForm'
 import Main from '~/components/Main'
 import MyPage from '~/components/MyPage'
 import Map from '~/components/KakaoMap'
-import Weather from '~/components/Weather'
+import { useUserSelector } from '~/store/store'
+import { Flowbite } from 'flowbite-react'
+import Navigation from '~/components/Navigation'
+import flowbiteTheme from '~/styles/flowbiteTheme'
+import NotFound from '~/components/NotFound'
+import Banner from '~/components/Banner'
 
 const AppRouter = () => {
+  const { userData } = useUserSelector((state) => state.user)
+  const [atAuth, setAtAuth] = useState(false)
+
   return (
-    <Routes>
-      <Route path="/" element={<Main />} />
-      <Route path="/auth" element={<AuthForm />} />
-      <Route path="/mypage" element={<MyPage />} />
-      <Route path="/map" element={<Map />} />
-    </Routes>
+    <Flowbite
+      theme={{
+        dark: true,
+        theme: flowbiteTheme
+      }}
+    >
+      {!atAuth && <Navigation />}
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/auth" element={<AuthForm setAtAuth={setAtAuth} />} />
+        {userData.uid && <Route path="/mypage" element={<MyPage />} />}
+        {userData.uid && <Route path="/map" element={<Map />} />}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Flowbite>
   )
 }
 

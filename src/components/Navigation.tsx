@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
-import { Navbar, Dropdown, Avatar } from 'flowbite-react'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { Navbar, Dropdown, Avatar, Button } from 'flowbite-react'
+import { useUserSelector } from '~/store/store'
 
 const NavBar = () => {
+  const { userData } = useUserSelector((state) => state.user)
+  const navigation = useNavigate()
+
   const activeStyle = {
     color: '#1d4ed8'
   }
@@ -19,26 +23,38 @@ const NavBar = () => {
           바다어때.
         </span>
       </Navbar.Brand>
-      <div className="flex md:order-2">
-        <Dropdown
-          arrowIcon={false}
-          inline={true}
-          label={
-            <Avatar alt="User settings" img="../../public/assets/images/6912.png" rounded={true} />
-          }
-        >
-          <Dropdown.Header>
-            <span className="block text-sm">GyeongChan</span>
-            <span className="block truncate text-sm font-medium">cham9994@gmail.com</span>
-          </Dropdown.Header>
-          <Dropdown.Item>Dashboard</Dropdown.Item>
-          <Dropdown.Item>Settings</Dropdown.Item>
-          <Dropdown.Item>Earnings</Dropdown.Item>
-          <Dropdown.Divider />
-          <Dropdown.Item>Sign out</Dropdown.Item>
-        </Dropdown>
-        <Navbar.Toggle />
-      </div>
+      {!!userData.uid ? (
+        <div className="flex md:order-2">
+          <Dropdown
+            arrowIcon={false}
+            inline={true}
+            label={
+              <Avatar
+                alt="User settings"
+                img="../../public/assets/images/6912.png"
+                rounded={true}
+              />
+            }
+          >
+            <Dropdown.Header>
+              <span className="block text-sm">GyeongChan</span>
+              <span className="block truncate text-sm font-medium">cham9994@gmail.com</span>
+            </Dropdown.Header>
+            <Dropdown.Item>Dashboard</Dropdown.Item>
+            <Dropdown.Item>Settings</Dropdown.Item>
+            <Dropdown.Item>Earnings</Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item>Sign out</Dropdown.Item>
+          </Dropdown>
+          <Navbar.Toggle />
+        </div>
+      ) : (
+        <div className="flex md:order-2">
+          <button className="hover:text-blue-700 text-gray-700" onClick={() => navigation('/auth')}>
+            로그인
+          </button>
+        </div>
+      )}
       <Navbar.Collapse>
         <NavLink
           to="/"

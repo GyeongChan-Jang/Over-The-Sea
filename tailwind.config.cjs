@@ -12,6 +12,14 @@ module.exports = {
         jalnanche: ['Jalnanche'],
         nexonLight: ['NexonGothicLight'],
         nexonRegular: ['NexonGothicMedium']
+      },
+      animation: {
+        blink: 'blink 0.5s infinite'
+      },
+      keyframes: {
+        blink: {
+          '0%': { opacity: 0 }
+        }
       }
     },
     screens: {

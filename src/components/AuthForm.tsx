@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { authService } from '~/firebase/fbase'
 import { signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from 'firebase/auth'
 import { useAppDispatch } from '~/store/store'
@@ -8,16 +8,20 @@ import {
   signUpEmail,
   signInEmail
 } from '~/store/userSlice'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
-const AuthForm = () => {
+const AuthForm = ({ setAtAuth }: any) => {
   const [loginMode, setLoginMode] = useState(true)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
+
+  useEffect(() => {
+    setAtAuth(location.pathname === '/auth' ? true : false)
+  }, [])
 
   const emailInputRef = useRef<any>('')
   const passwordInputRef = useRef<any>('')
-  const nicknameInputRef = useRef<any>('')
 
   const googleLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
@@ -53,6 +57,7 @@ const AuthForm = () => {
           password: passwordInputRef.current?.value
         })
       )
+      setLoginMode(true)
     } catch (error) {
       console.log(error)
     }
@@ -60,6 +65,7 @@ const AuthForm = () => {
 
   const signInEmailHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
+    console.log(emailInputRef.current?.value)
     try {
       dispatch(
         signInEmail({
@@ -67,8 +73,10 @@ const AuthForm = () => {
           password: passwordInputRef.current?.value
         })
       )
-    } catch (error) {
-      console.log(error)
+      navigate('/')
+      setAtAuth(false)
+    } catch (error: any) {
+      alert(error.message)
     }
   }
 
