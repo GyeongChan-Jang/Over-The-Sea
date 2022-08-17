@@ -23,17 +23,19 @@ const formXAxis = (data: any): string => {
 const WindGraph = ({ forecastWind, num }: any) => {
   console.log(forecastWind)
   return (
-    <BarChart
-      width={800}
-      height={200}
-      data={forecastWind}
-      margin={{ top: 30, right: 30, left: 30, bottom: 10 }}
-    >
-      <XAxis dataKey="fcstTime" fontSize={16} tickFormatter={formXAxis} />
-      <Bar dataKey="fcstValue" fill="#2c6cff">
-        <LabelList content={<CustomizedLabel />} />
-      </Bar>
-    </BarChart>
+    <div className="flex justify-center overflow-x-auto">
+      <BarChart
+        width={800}
+        height={200}
+        data={forecastWind}
+        margin={{ top: 30, right: 30, left: 30, bottom: 10 }}
+      >
+        <XAxis dataKey="fcstTime" fontSize={16} tickFormatter={formXAxis} />
+        <Bar dataKey="fcstValue" fill="#2c6cff">
+          <LabelList content={<CustomizedLabel />} />
+        </Bar>
+      </BarChart>
+    </div>
   )
 }
 

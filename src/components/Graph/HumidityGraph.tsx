@@ -47,7 +47,7 @@ const HumidityGraph = ({ forecastHum }: any) => {
   //   )
   // }
   return (
-    <div>
+    <div className="flex justify-center overflow-x-auto">
       {/* <Swiper navigation={true} modules={[Navigation]}>
         {slides}
       </Swiper> */}

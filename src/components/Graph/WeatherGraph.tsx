@@ -22,11 +22,11 @@ const CustomizedLabel = ({ x, y, value }: any) => (
 
 const LignGraph = ({ forecastTmp, num }: any) => {
   return (
-    <div className="flex justify-center mt-8">
+    <div className="flex justify-center mt-8 overflow-x-auto">
       <LineChart
         width={800}
         height={200}
-        data={forecastTmp?.slice(num * 4, (num + 1) * 4).map(({ fcstValue, fcstTime }: any) => ({
+        data={forecastTmp?.slice(num * 6, (num + 1) * 6).map(({ fcstValue, fcstTime }: any) => ({
           fcstValue,
           fcstTime
         }))}
@@ -50,7 +50,7 @@ const LignGraph = ({ forecastTmp, num }: any) => {
 const WeatherGraph = ({ forecastTmp }: any) => {
   const slides = []
 
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 2; i++) {
     slides.push(
       <SwiperSlide key={i}>
         <LignGraph forecastTmp={forecastTmp} num={i} />
