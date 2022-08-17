@@ -17,6 +17,7 @@
     "@types/node": "^18.6.3",
     "@types/react-redux": "^7.1.24",
     "axios": "^0.27.2",
+    "boring-avatars": "^1.7.0",
     "dotenv": "^16.0.1",
     "firebase": "^9.9.2",
     "flowbite": "^1.5.1",

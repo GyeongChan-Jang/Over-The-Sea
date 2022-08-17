@@ -22,7 +22,7 @@ const formXAxis = (data: any): string => {
 const BarGraph = ({ forecastHum, num }: any) => {
   return (
     <BarChart
-      width={900}
+      width={800}
       height={200}
       data={forecastHum}
       margin={{ top: 30, right: 30, left: 30, bottom: 10 }}

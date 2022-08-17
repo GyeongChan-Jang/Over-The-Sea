@@ -24,7 +24,7 @@ const WindGraph = ({ forecastWind, num }: any) => {
   console.log(forecastWind)
   return (
     <BarChart
-      width={900}
+      width={800}
       height={200}
       data={forecastWind}
       margin={{ top: 30, right: 30, left: 30, bottom: 10 }}

@@ -10,15 +10,11 @@ import {
 } from '~/store/userSlice'
 import { useNavigate, useLocation } from 'react-router-dom'
 
-const AuthForm = ({ setAtAuth }: any) => {
+const AuthForm = () => {
   const [loginMode, setLoginMode] = useState(true)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const location = useLocation()
-
-  useEffect(() => {
-    setAtAuth(location.pathname === '/auth' ? true : false)
-  }, [])
 
   const emailInputRef = useRef<any>('')
   const passwordInputRef = useRef<any>('')
@@ -74,7 +70,6 @@ const AuthForm = ({ setAtAuth }: any) => {
         })
       )
       navigate('/')
-      setAtAuth(false)
     } catch (error: any) {
       alert(error.message)
     }

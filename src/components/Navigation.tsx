@@ -39,18 +39,24 @@ const NavBar = () => {
             label={
               <Avatar
                 alt="User settings"
-                img="../../public/assets/images/6912.png"
+                img={
+                  userData.userImage ? userData.userImage : 'https://source.boringavatars.com/beam'
+                }
                 rounded={true}
               />
             }
           >
             <Dropdown.Header>
-              <span className="block text-sm">GyeongChan</span>
-              <span className="block truncate text-sm font-medium">cham9994@gmail.com</span>
+              <span className="block text-sm mb-2">
+                {userData.name ? userData.name : '이름 없음'}
+              </span>
+              <span className="block truncate text-sm font-medium">
+                {userData.email ? userData.email : '이메일 없음'}
+              </span>
             </Dropdown.Header>
-            <Dropdown.Item>Dashboard</Dropdown.Item>
+            {/* <Dropdown.Item>Dashboard</Dropdown.Item>
             <Dropdown.Item>Settings</Dropdown.Item>
-            <Dropdown.Item>Earnings</Dropdown.Item>
+            <Dropdown.Item>Earnings</Dropdown.Item> */}
             <Dropdown.Divider />
             <Dropdown.Item onClick={signOutButton}>Sign out</Dropdown.Item>
           </Dropdown>

@@ -13,7 +13,6 @@ import Banner from '~/components/Banner'
 
 const AppRouter = () => {
   const { userData } = useUserSelector((state) => state.user)
-  const [atAuth, setAtAuth] = useState(false)
 
   return (
     <Flowbite
@@ -25,7 +24,7 @@ const AppRouter = () => {
       <Navigation />
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/auth" element={<AuthForm setAtAuth={setAtAuth} />} />
+        <Route path="/auth" element={<AuthForm />} />
         {userData.uid && <Route path="/mypage" element={<MyPage />} />}
         {userData.uid && <Route path="/map" element={<Map />} />}
         <Route path="*" element={<NotFound />} />
