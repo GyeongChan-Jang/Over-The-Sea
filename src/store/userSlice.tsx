@@ -6,17 +6,17 @@ import {
   signInWithEmailAndPassword,
   FacebookAuthProvider
 } from 'firebase/auth'
+import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { authService } from '~/firebase/fbase'
+import { dbService } from '~/firebase/fbase'
 
 interface UserStateTypes {
   loading: boolean
   userData: {
-    name?: string
+    name: string | null
     email: string
-    userImage?: string
+    userImage: string | null
     uid: string
-    timeStamp: number | null
-    username?: string
   }
   error: string | null | undefined
 }
@@ -27,9 +27,7 @@ const initialState: UserStateTypes = {
     name: '',
     email: '',
     userImage: '',
-    uid: '',
-    timeStamp: null,
-    username: ''
+    uid: ''
   },
   error: ''
 }
@@ -46,7 +44,26 @@ export const signInGoogleHandler = createAsyncThunk('user/signinGoogleHandler', 
     await signInWithPopup(authService, provider)
     const user = authService.currentUser?.providerData[0]
     console.log('currentUser.providerData[0]: ', user)
-    return user
+
+    const docRef = doc(dbService, 'users', user!.uid)
+    const docSnapshot = await getDoc(docRef)
+    if (!docSnapshot.exists() && user) {
+      await setDoc(docRef, {
+        name: user.displayName,
+        email: user.email,
+        userImage: user.photoURL,
+        uid: user.uid
+      })
+      const newUser: UserStateTypes['userData'] = {
+        name: user?.displayName,
+        email: user.email!,
+        userImage: user?.photoURL,
+        uid: user.uid
+      }
+      return newUser
+    } else {
+      return docSnapshot.data()
+    }
   } catch (error) {
     console.log(error)
   }
@@ -58,7 +75,27 @@ export const signInFacebookHandler = createAsyncThunk('user/signinFacebookHandle
     await signInWithPopup(authService, provider)
     const user = authService.currentUser?.providerData[0]
     console.log('currentUser.providerData[0]: ', user)
-    return user
+
+    const docRef = doc(dbService, 'users', user!.uid)
+    const docSnapshot = await getDoc(docRef)
+    if (!docSnapshot.exists() && user) {
+      await setDoc(docRef, {
+        name: user.displayName,
+        email: user.email,
+        userImage: user.photoURL,
+        uid: user.uid
+      })
+      const newUser: UserStateTypes['userData'] = {
+        name: user.displayName,
+        email: user.email!,
+        userImage: user.photoURL,
+        uid: user.uid
+      }
+
+      return newUser
+    } else {
+      return docSnapshot.data()
+    }
   } catch (error) {
     console.log(error)
   }
@@ -72,7 +109,27 @@ export const signUpEmail = createAsyncThunk(
       console.log(data)
       const user = authService.currentUser?.providerData[0]
       console.log('currentUser.providerData[0]: ', user)
-      return user
+
+      const docRef = doc(dbService, 'users', user!.uid)
+      const docSnapshot = await getDoc(docRef)
+      if (!docSnapshot.exists() && user) {
+        await setDoc(docRef, {
+          name: user.displayName,
+          email: user.email,
+          userImage: user.photoURL,
+          uid: user.uid
+        })
+        const newUser: UserStateTypes['userData'] = {
+          name: user.displayName,
+          email: user.email!,
+          userImage: user.photoURL,
+          uid: user.uid
+        }
+
+        return newUser
+      } else {
+        return docSnapshot.data()
+      }
     } catch (error) {
       console.log(error)
     }
@@ -96,38 +153,34 @@ export const signInEmail = createAsyncThunk(
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    signOutHandler: (state) => {
+      state.userData = {
+        name: '',
+        email: '',
+        userImage: '',
+        uid: ''
+      }
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(signInGoogleHandler.fulfilled, (state, { payload }) => {
       state.loading = false
       state.error = null
-      state.userData.email = payload.email
-      state.userData.name = payload.displayName
-      state.userData.userImage = payload.photoURL
-      state.userData.uid = payload.uid
-      state.userData.timeStamp = payload.metadata.creationTime
-      state.userData.username = payload.displayName
+      state.userData.name = payload?.displayName
+      state.userData.email = payload?.email
+      state.userData.userImage = payload?.photoURL
+      state.userData.uid = payload?.uid
+      console.log(state.userData)
     })
     builder.addCase(signInFacebookHandler.fulfilled, (state, { payload }) => {
       state.loading = false
       state.error = null
-      state.userData.email = payload.email
-      state.userData.name = payload.displayName
-      state.userData.userImage = payload.photoURL
-      state.userData.uid = payload.uid
-      state.userData.timeStamp = payload.metadata.creationTime
-      state.userData.username = payload.displayName
     })
     builder.addCase(signUpEmail.fulfilled, (state, { payload }: any) => {})
     builder.addCase(signInEmail.fulfilled, (state, { payload }: any) => {
       state.loading = false
       state.error = null
-      state.userData.email = payload.email
-      state.userData.name = payload.displayName
-      state.userData.userImage = payload.photoURL
-      state.userData.uid = payload.uid
-      state.userData.timeStamp = null
-      state.userData.username = payload.displayName
     })
     builder.addCase(signInEmail.rejected, (state, { payload }: any) => {
       state.loading = false
@@ -137,3 +190,4 @@ const userSlice = createSlice({
 })
 
 export const userReducer = userSlice.reducer
+export const { signOutHandler } = userSlice.actions

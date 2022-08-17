@@ -1,14 +1,22 @@
 import React, { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { Navbar, Dropdown, Avatar, Button } from 'flowbite-react'
-import { useUserSelector } from '~/store/store'
+import { useAppDispatch, useUserSelector } from '~/store/store'
+import { signOut } from 'firebase/auth'
+import { authService } from '~/firebase/fbase'
+import { signOutHandler } from '~/store/userSlice'
 
 const NavBar = () => {
   const { userData } = useUserSelector((state) => state.user)
+  const dispatch = useAppDispatch()
   const navigation = useNavigate()
 
-  const activeStyle = {
-    color: '#1d4ed8'
+  const signOutButton = () => {
+    signOut(authService).then(() => {
+      console.log('로그아웃 되었습니다.')
+      dispatch(signOutHandler())
+      navigation('/')
+    })
   }
 
   return (
@@ -44,7 +52,7 @@ const NavBar = () => {
             <Dropdown.Item>Settings</Dropdown.Item>
             <Dropdown.Item>Earnings</Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item>Sign out</Dropdown.Item>
+            <Dropdown.Item onClick={signOutButton}>Sign out</Dropdown.Item>
           </Dropdown>
           <Navbar.Toggle />
         </div>

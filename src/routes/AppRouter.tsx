@@ -22,7 +22,7 @@ const AppRouter = () => {
         theme: flowbiteTheme
       }}
     >
-      {!atAuth && <Navigation />}
+      <Navigation />
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/auth" element={<AuthForm setAtAuth={setAtAuth} />} />

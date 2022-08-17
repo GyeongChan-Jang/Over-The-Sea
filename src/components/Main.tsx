@@ -2,8 +2,12 @@ import React from 'react'
 import { Carousel } from 'flowbite-react'
 import Hero from '~/components/Banner'
 import Banner from '~/components/Banner'
+import { useSelector } from 'react-redux'
+import { useUserSelector } from '~/store/store'
 
 const Main = () => {
+  const { userData } = useUserSelector((state) => state.user)
+  console.log(userData)
   return (
     <div>
       {/* <Hero /> */}
