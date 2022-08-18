@@ -13,9 +13,9 @@ import { db } from '~/firebase/fbase'
 interface UserStateTypes {
   loading: boolean
   userData: {
-    name: string | null
+    name: string
     email: string
-    userImage: string | null
+    userImage: string
     uid: string
   }
   error: string | null | undefined
@@ -45,9 +45,14 @@ export const signInGoogleHandler = createAsyncThunk('user/signinGoogleHandler', 
     const user = authService.currentUser?.providerData[0]
     console.log('currentUser.providerData[0]: ', user)
 
+    // 타입가드를 통해 예외처리
+    if (!user?.displayName || !user.email || !user.photoURL) return
+
     const docRef = doc(db, 'users', user!.uid)
     const docSnapshot = await getDoc(docRef)
+    // 새로운 유저 정보일 경우
     if (!docSnapshot.exists() && user) {
+      // users 컬렉션에 새로운 user 정보를 추가한다.
       await setDoc(docRef, {
         name: user.displayName,
         email: user.email,
@@ -55,13 +60,15 @@ export const signInGoogleHandler = createAsyncThunk('user/signinGoogleHandler', 
         uid: user.uid
       })
       const newUser: UserStateTypes['userData'] = {
-        name: user?.displayName,
+        name: user.displayName,
         email: user.email!,
-        userImage: user?.photoURL,
+        userImage: user.photoURL,
         uid: user.uid
       }
+      console.log(newUser)
       return newUser
     } else {
+      console.log('기존 유저가 있을때!', docSnapshot.data())
       return docSnapshot.data()
     }
   } catch (error) {
@@ -75,10 +82,12 @@ export const signInFacebookHandler = createAsyncThunk('user/signinFacebookHandle
     await signInWithPopup(authService, provider)
     const user = authService.currentUser?.providerData[0]
     console.log('currentUser.providerData[0]: ', user)
+    if (!user?.displayName || !user.email || !user.photoURL) return
 
     const docRef = doc(db, 'users', user!.uid)
     const docSnapshot = await getDoc(docRef)
     if (!docSnapshot.exists() && user) {
+      console.log('users 컬렉션 없다면 생성')
       await setDoc(docRef, {
         name: user.displayName,
         email: user.email,
@@ -109,6 +118,7 @@ export const signUpEmail = createAsyncThunk(
       console.log(data)
       const user = authService.currentUser?.providerData[0]
       console.log('currentUser.providerData[0]: ', user)
+      if (!user?.displayName || !user.email || !user.photoURL) return
 
       const docRef = doc(db, 'users', user!.uid)
       const docSnapshot = await getDoc(docRef)
@@ -167,11 +177,19 @@ const userSlice = createSlice({
     builder.addCase(signInGoogleHandler.fulfilled, (state, { payload }) => {
       state.loading = false
       state.error = null
-      state.userData.name = payload?.displayName
+      state.userData.name = payload?.name
       state.userData.email = payload?.email
-      state.userData.userImage = payload?.photoURL
+      state.userData.userImage = payload?.userImage
       state.userData.uid = payload?.uid
       console.log(state.userData)
+    })
+    builder.addCase(signInGoogleHandler.pending, (state) => {
+      state.loading = true
+      state.error = null
+    })
+    builder.addCase(signInGoogleHandler.rejected, (state, { payload }) => {
+      state.loading = false
+      console.log(payload)
     })
     builder.addCase(signInFacebookHandler.fulfilled, (state, { payload }) => {
       state.loading = false

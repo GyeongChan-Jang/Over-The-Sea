@@ -44,7 +44,7 @@ const KakaoMap = () => {
 
   return (
     <div>
-      <div className="container max-w-7xl mx-auto sm:w-9/12 lg:w-9/12 xs:w-10/12">
+      <div className="container max-w-7xl xs:w-10/12 mx-auto sm:w-9/12 lg:w-9/12">
         {currentLocation.loaded ? (
           <>
             <div className="title lg:text-2xl py-4 sm:text-xl">

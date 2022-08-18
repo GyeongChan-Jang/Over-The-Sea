@@ -10,58 +10,6 @@ import { addDoc, collection, doc, getDoc, onSnapshot, setDoc, updateDoc } from '
 import useGetAllBeach from '~/hooks/useGetAllBeach'
 
 const Main = () => {
-  const regions = ['부산', '인천', '울산', '강원', '충남', '전북', '전남', '경북', '경남', '제주']
-
-  // const getAllBeach = async () => {
-  //   const allBeachArr = []
-  //   for (let i = 0; i < regions.length; i++) {
-  //     const allBeach = await getBeach(regions[i])
-  //     allBeachArr.push(...allBeach)
-  //   }
-  // console.log(allBeachArr)
-
-  // const busan = allBeachArr.filter((beach) => beach.sido_nm === '부산')
-  // const incheon = allBeachArr.filter((beach) => beach.sido_nm === '인천')
-  // const ulsan = allBeachArr.filter((beach) => beach.sido_nm === '울산')
-  // const gwangju = allBeachArr.filter((beach) => beach.sido_nm === '강원')
-  // const chungnam = allBeachArr.filter((beach) => beach.sido_nm === '충남')
-  // const jeonbuk = allBeachArr.filter((beach) => beach.sido_nm === '전북')
-  // const jeonnam = allBeachArr.filter((beach) => beach.sido_nm === '전남')
-  // const gyeongbuk = allBeachArr.filter((beach) => beach.sido_nm === '경북')
-  // const gyeongnam = allBeachArr.filter((beach) => beach.sido_nm === '경남')
-  // const jeju = allBeachArr.filter((beach) => beach.sido_nm === '제주')
-
-  // for (const region of regions) {
-  //   await setDoc(doc(db, 'beaches', region), { ...allBeachArr })
-  // }
-
-  // like 필드 추가
-  // for (const beach of allBeachArr) {
-  //   const docRef = doc(db, 'beaches', beach.sta_nm)
-  //   await updateDoc(docRef, { like: 0})
-  // }
-
-  // for (const region of regions) {
-  //   const regionRef = doc(db, 'beaches', region)
-  //   await setDoc(doc(db, 'oceans', region), {})
-  // }
-
-  // for (const regon of regions) {
-  //   let oceansRef = doc(db, 'oceans', region)
-  //   await updateDoc(oceansRef, {
-  //     [region]: {
-  //   })
-  // }
-
-  // for (const region of regions) {
-  //   const regionDoc = doc(db, 'beaches', region)
-
-  //   await updateDoc(regionDoc, {
-  //     region: {...allBeachArr}
-  //   })
-  // }
-  // }
-
   return (
     <div>
       {/* <Hero /> */}

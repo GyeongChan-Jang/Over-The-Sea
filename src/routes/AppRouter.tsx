@@ -10,6 +10,7 @@ import Navigation from '~/components/Navigation'
 import flowbiteTheme from '~/styles/flowbiteTheme'
 import NotFound from '~/components/NotFound'
 import Banner from '~/components/Banner'
+import Beach from '~/components/Beach'
 
 const AppRouter = () => {
   const { userData } = useUserSelector((state) => state.user)
@@ -27,6 +28,7 @@ const AppRouter = () => {
         <Route path="/auth" element={<AuthForm />} />
         {userData.uid && <Route path="/mypage" element={<MyPage />} />}
         {userData.uid && <Route path="/map" element={<Map />} />}
+        <Route path="/beach" element={<Beach />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Flowbite>

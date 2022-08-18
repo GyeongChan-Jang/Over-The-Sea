@@ -15,6 +15,7 @@ const NavBar = () => {
     signOut(authService).then(() => {
       console.log('로그아웃 되었습니다.')
       dispatch(signOutHandler())
+      alert('로그아웃 되었습니다.')
       navigation('/')
     })
   }
@@ -93,7 +94,7 @@ const NavBar = () => {
           지도
         </NavLink>
         <NavLink
-          to="/weather"
+          to="/beach"
           className={({ isActive }) =>
             isActive
               ? 'text-[#1d4ed8] block py-2 pr-4 pl-3 md:p-0 bg-white dark:text-white md:bg-transparent md:text-blue-700'
