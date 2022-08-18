@@ -19,6 +19,8 @@ const NavBar = () => {
     })
   }
 
+  console.log(userData)
+
   return (
     <Navbar fluid={true}>
       <Navbar.Brand href="#">

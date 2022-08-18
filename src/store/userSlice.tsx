@@ -8,7 +8,7 @@ import {
 } from 'firebase/auth'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { authService } from '~/firebase/fbase'
-import { dbService } from '~/firebase/fbase'
+import { db } from '~/firebase/fbase'
 
 interface UserStateTypes {
   loading: boolean
@@ -45,7 +45,7 @@ export const signInGoogleHandler = createAsyncThunk('user/signinGoogleHandler', 
     const user = authService.currentUser?.providerData[0]
     console.log('currentUser.providerData[0]: ', user)
 
-    const docRef = doc(dbService, 'users', user!.uid)
+    const docRef = doc(db, 'users', user!.uid)
     const docSnapshot = await getDoc(docRef)
     if (!docSnapshot.exists() && user) {
       await setDoc(docRef, {
@@ -76,7 +76,7 @@ export const signInFacebookHandler = createAsyncThunk('user/signinFacebookHandle
     const user = authService.currentUser?.providerData[0]
     console.log('currentUser.providerData[0]: ', user)
 
-    const docRef = doc(dbService, 'users', user!.uid)
+    const docRef = doc(db, 'users', user!.uid)
     const docSnapshot = await getDoc(docRef)
     if (!docSnapshot.exists() && user) {
       await setDoc(docRef, {
@@ -110,7 +110,7 @@ export const signUpEmail = createAsyncThunk(
       const user = authService.currentUser?.providerData[0]
       console.log('currentUser.providerData[0]: ', user)
 
-      const docRef = doc(dbService, 'users', user!.uid)
+      const docRef = doc(db, 'users', user!.uid)
       const docSnapshot = await getDoc(docRef)
       if (!docSnapshot.exists() && user) {
         await setDoc(docRef, {

@@ -8,12 +8,10 @@ interface BeachQuery {
   resultType: string
 }
 
-// const regions = ['부산', '인천', '울산', '강원', '충남', '전북', '전남', '경북', '경남', '제주']
-
 const queryParams: BeachQuery = {
   ServiceKey: import.meta.env.VITE_BEACH_API_KEY,
   pageNo: 1,
-  numOfRows: 100,
+  numOfRows: 500,
   SIDO_NM: '',
   resultType: 'json'
 }
