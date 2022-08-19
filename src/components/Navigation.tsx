@@ -20,16 +20,10 @@ const NavBar = () => {
     })
   }
 
-  console.log(userData)
-
   return (
     <Navbar fluid={true}>
       <Navbar.Brand href="#">
-        <img
-          src="../../public/assets/images/overthesea.png"
-          className="mr-3 h-6 sm:h-9"
-          alt="Flowbite Logo"
-        />
+        <img src="/assets/images/overthesea.png" className="mr-3 h-6 sm:h-9" alt="Flowbite Logo" />
         <span className="self-center whitespace-nowrap text-2xl bg-gradient-to-r text-transparent bg-clip-text from-[#0099ff] to-blue-900 dark:text-white">
           바다어때.
         </span>

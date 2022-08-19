@@ -4,9 +4,11 @@ import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  FacebookAuthProvider
+  FacebookAuthProvider,
+  updateProfile
 } from 'firebase/auth'
-import { doc, getDoc, setDoc } from 'firebase/firestore'
+import { addDoc, collection, doc, getDoc, setDoc } from 'firebase/firestore'
+import { Toast } from 'flowbite-react'
 import { authService } from '~/firebase/fbase'
 import { db } from '~/firebase/fbase'
 
@@ -15,7 +17,7 @@ interface UserStateTypes {
   userData: {
     name: string
     email: string
-    userImage: string
+    userImage?: string
     uid: string
   }
   error: string | null | undefined
@@ -33,6 +35,7 @@ const initialState: UserStateTypes = {
 }
 
 interface UserSginInput {
+  name?: string
   email: string
   password: string
 }
@@ -43,7 +46,6 @@ export const signInGoogleHandler = createAsyncThunk('user/signinGoogleHandler', 
     const provider = new GoogleAuthProvider()
     await signInWithPopup(authService, provider)
     const user = authService.currentUser?.providerData[0]
-    console.log('currentUser.providerData[0]: ', user)
 
     // 타입가드를 통해 예외처리
     if (!user?.displayName || !user.email || !user.photoURL) return
@@ -68,7 +70,6 @@ export const signInGoogleHandler = createAsyncThunk('user/signinGoogleHandler', 
       console.log(newUser)
       return newUser
     } else {
-      console.log('기존 유저가 있을때!', docSnapshot.data())
       return docSnapshot.data()
     }
   } catch (error) {
@@ -112,14 +113,16 @@ export const signInFacebookHandler = createAsyncThunk('user/signinFacebookHandle
 
 export const signUpEmail = createAsyncThunk(
   'user/signUpEmail',
-  async ({ email, password }: UserSginInput) => {
+  async ({ name, email, password }: UserSginInput) => {
     try {
-      const data = await createUserWithEmailAndPassword(authService, email, password)
-      console.log(data)
+      await createUserWithEmailAndPassword(authService, email, password)
+      if (authService.currentUser === null) return
+      // updateProfile은 비동기!!! await 붙여야함!
+      await updateProfile(authService.currentUser, { displayName: name })
       const user = authService.currentUser?.providerData[0]
       console.log('currentUser.providerData[0]: ', user)
-      if (!user?.displayName || !user.email || !user.photoURL) return
-
+      if (!user.displayName || !user.email) return
+      console.log('currentUser.providerData[0]: ', user)
       const docRef = doc(db, 'users', user!.uid)
       const docSnapshot = await getDoc(docRef)
       if (!docSnapshot.exists() && user) {
@@ -131,17 +134,16 @@ export const signUpEmail = createAsyncThunk(
         })
         const newUser: UserStateTypes['userData'] = {
           name: user.displayName,
-          email: user.email!,
-          userImage: user.photoURL,
+          email: user.email,
           uid: user.uid
         }
-
+        console.log(newUser)
         return newUser
       } else {
         return docSnapshot.data()
       }
     } catch (error) {
-      console.log(error)
+      alert(error)
     }
   }
 )
@@ -153,7 +155,29 @@ export const signInEmail = createAsyncThunk(
       await signInWithEmailAndPassword(authService, email, password)
       const user = authService.currentUser?.providerData[0]
       console.log('currentUser.providerData[0]: ', user)
-      return user
+
+      if (!user?.displayName || !user.email) return
+
+      const docRef = doc(db, 'users', user!.uid)
+      const docSnapshot = await getDoc(docRef)
+      console.log(docSnapshot)
+      if (!docSnapshot.exists() && user) {
+        await setDoc(docRef, {
+          name: user.displayName,
+          email: user.email,
+          userImage: user.photoURL,
+          uid: user.uid
+        })
+        const newUser: UserStateTypes['userData'] = {
+          name: user.displayName,
+          email: user.email!,
+          uid: user.uid
+        }
+        console.log(newUser)
+        return newUser
+      } else {
+        return docSnapshot.data()
+      }
     } catch (error: any) {
       alert(error.message)
     }
@@ -181,7 +205,6 @@ const userSlice = createSlice({
       state.userData.email = payload?.email
       state.userData.userImage = payload?.userImage
       state.userData.uid = payload?.uid
-      console.log(state.userData)
     })
     builder.addCase(signInGoogleHandler.pending, (state) => {
       state.loading = true
@@ -194,11 +217,36 @@ const userSlice = createSlice({
     builder.addCase(signInFacebookHandler.fulfilled, (state, { payload }) => {
       state.loading = false
       state.error = null
+      state.userData.name = payload?.name
+      state.userData.email = payload?.email
+      state.userData.userImage = payload?.userImage
+      state.userData.uid = payload?.uid
     })
-    builder.addCase(signUpEmail.fulfilled, (state, { payload }: any) => {})
+    builder.addCase(signUpEmail.fulfilled, (state, { payload }: any) => {
+      state.loading = false
+      state.error = null
+      state.userData.name = payload?.name
+      state.userData.email = payload?.email
+      state.userData.uid = payload?.uid
+      console.log(state.userData)
+      alert('회원가입 성공')
+    })
+    builder.addCase(signUpEmail.pending, (state) => {
+      state.loading = true
+      state.error = null
+    })
+    builder.addCase(signUpEmail.rejected, (state, { payload }) => {
+      state.loading = false
+      state.error = '회원가입 실패'
+    })
     builder.addCase(signInEmail.fulfilled, (state, { payload }: any) => {
       state.loading = false
       state.error = null
+      state.userData.name = payload?.name
+      state.userData.email = payload?.email
+      state.userData.uid = payload?.uid
+      console.log(state.userData)
+      alert('로그인 성공')
     })
     builder.addCase(signInEmail.rejected, (state, { payload }: any) => {
       state.loading = false

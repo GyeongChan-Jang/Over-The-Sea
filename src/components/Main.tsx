@@ -10,6 +10,9 @@ import { addDoc, collection, doc, getDoc, onSnapshot, setDoc, updateDoc } from '
 import useGetAllBeach from '~/hooks/useGetAllBeach'
 
 const Main = () => {
+  const { userData } = useSelector((state: any) => state.user)
+
+  console.log(userData)
   return (
     <div>
       {/* <Hero /> */}
