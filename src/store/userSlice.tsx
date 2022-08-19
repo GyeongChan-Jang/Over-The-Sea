@@ -8,7 +8,6 @@ import {
   updateProfile
 } from 'firebase/auth'
 import { addDoc, collection, doc, getDoc, setDoc } from 'firebase/firestore'
-import { Toast } from 'flowbite-react'
 import { authService } from '~/firebase/fbase'
 import { db } from '~/firebase/fbase'
 
@@ -82,7 +81,7 @@ export const signInFacebookHandler = createAsyncThunk('user/signinFacebookHandle
     const provider = new FacebookAuthProvider()
     await signInWithPopup(authService, provider)
     const user = authService.currentUser?.providerData[0]
-    console.log('currentUser.providerData[0]: ', user)
+
     if (!user?.displayName || !user.email || !user.photoURL) return
 
     const docRef = doc(db, 'users', user!.uid)
@@ -120,11 +119,12 @@ export const signUpEmail = createAsyncThunk(
       // updateProfile은 비동기!!! await 붙여야함!
       await updateProfile(authService.currentUser, { displayName: name })
       const user = authService.currentUser?.providerData[0]
-      console.log('currentUser.providerData[0]: ', user)
+
       if (!user.displayName || !user.email) return
-      console.log('currentUser.providerData[0]: ', user)
+
       const docRef = doc(db, 'users', user!.uid)
       const docSnapshot = await getDoc(docRef)
+
       if (!docSnapshot.exists() && user) {
         await setDoc(docRef, {
           name: user.displayName,
@@ -154,7 +154,6 @@ export const signInEmail = createAsyncThunk(
     try {
       await signInWithEmailAndPassword(authService, email, password)
       const user = authService.currentUser?.providerData[0]
-      console.log('currentUser.providerData[0]: ', user)
 
       if (!user?.displayName || !user.email) return
 
@@ -225,10 +224,6 @@ const userSlice = createSlice({
     builder.addCase(signUpEmail.fulfilled, (state, { payload }: any) => {
       state.loading = false
       state.error = null
-      state.userData.name = payload?.name
-      state.userData.email = payload?.email
-      state.userData.uid = payload?.uid
-      console.log(state.userData)
       alert('회원가입 성공')
     })
     builder.addCase(signUpEmail.pending, (state) => {
