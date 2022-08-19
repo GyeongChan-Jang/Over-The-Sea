@@ -19,7 +19,7 @@ const queryParams: BeachQuery = {
 export const getBeach = async (name: string): Promise<any> => {
   try {
     const { data } = await axios.get(
-      'http://apis.data.go.kr/1192000/service/OceansBeachInfoService1/getOceansBeachInfo1',
+      '/api/1192000/service/OceansBeachInfoService1/getOceansBeachInfo1',
       {
         params: { ...queryParams, SIDO_NM: name }
       }

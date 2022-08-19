@@ -9,16 +9,16 @@ export default defineConfig({
   resolve: {
     // 절대 경로 설정
     alias: [{ find: '~', replacement: resolve(__dirname) }]
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://apis.data.go.kr',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+        secure: false,
+        ws: true
+      }
+    }
   }
-  // server: {
-  //   proxy: {
-  //     '/api': {
-  //       target: 'http://apis.data.go.kr',
-  //       changeOrigin: true,
-  //       rewrite: (path) => path.replace(/^\/api/, ''),
-  //       secure: false,
-  //       ws: true
-  //     }
-  //   }
-  // }
 })

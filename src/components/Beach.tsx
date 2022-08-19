@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { collection, getDocs, DocumentData } from 'firebase/firestore'
+import React, { useCallback, useEffect, useState } from 'react'
+import { collection, getDocs, DocumentData, getDoc, onSnapshot, query } from 'firebase/firestore'
 import { db } from '~/firebase/fbase'
 import { Button } from 'flowbite-react'
 
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
+import { getBeach } from '~/utils/getBeach'
+import { SettingsBackupRestoreSharp } from '@mui/icons-material'
+import { Link } from 'react-router-dom'
 
 const Beach = () => {
   const regions = [
@@ -22,46 +25,93 @@ const Beach = () => {
     '전체'
   ]
   const [beaches, setBeaches] = useState<any>([])
+  const [regionBeach, setRegionBeach] = useState<any>([])
 
-  const getBeaches = async () => {
-    const beachArr: any = []
-    const beaches = await getDocs(collection(db, 'beaches'))
-    beaches.forEach((beach) => beachArr.push(beach.data()))
-    setBeaches(beachArr)
+  const getAllBeaches = async () => {
+    const snapShot = await getDocs(collection(db, 'beaches'))
+    snapShot.forEach((doc: DocumentData) => {
+      setBeaches((prev: any) => [...prev, doc.data()])
+    })
+  }
+
+  const filterBeaches = (region: string) => {
+    setRegionBeach('')
+    if (region === '전체') {
+      setRegionBeach(beaches)
+    }
+    beaches.map((beach: any) => {
+      beach.sido_nm === region ? setRegionBeach((prev: any) => [...prev, beach]) : null
+    })
+    console.log(regionBeach)
   }
 
   useEffect(() => {
-    getBeaches()
+    getAllBeaches()
+
+    console.log(regionBeach.length)
   }, [])
+  console.log(beaches)
 
   return (
     <div>
-      <div className="container max-w-7xl xs:w-10/12 mx-auto sm:w-9/12 lg:w-9/12 bg-blue-300 ">
+      <div className="container max-w-7xl xs:w-10/12 mx-auto sm:w-9/12 lg:w-9/12 ">
         <div>
           <div className="title flex justify-between "></div>
-          <div className="divide h-[2px] bg-[#333] my-4" />
+
           <div className="my-4 flex flex-wrap justify-center gap-4 rounded-md shadow-xl p-4 bg-white">
             {regions.map((region: any) => (
-              <Button key={region} color="dark" pill={true} name={region}>
+              <Button
+                key={region}
+                color="dark"
+                pill={true}
+                name={region}
+                onClick={() => filterBeaches(region)}
+              >
                 {region}
               </Button>
             ))}
           </div>
-          <div className="card ">
-            <ul className="grid grid-rows-4 grid-flow-col gap-4 overflow-auto ">
-              {beaches.map((beach: any) => (
-                <li className="w-[140px] h-[140px] bg-red-300 relative  ">
-                  <img
-                    width={140}
-                    height={140}
-                    src="../../public/assets/images/beach11.jpg"
-                    alt=""
-                  />
-                  <div className="absolute top-1/2 text-rose-700 w-full h-[47px] text-center -mt-2 ">
-                    {beach.sta_nm}
-                  </div>
-                </li>
-              ))}
+          <div className="card relative">
+            <ul className="justify-items-center grid xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {regionBeach.length === 0
+                ? beaches.map((beach: any, index: number) => (
+                    <li
+                      className="w-[140px] h-[140px] bg-red-300 relative overflow-hidden cursor-pointer rounded-lg shadow-xl"
+                      key={index}
+                    >
+                      <Link to={`/review/${beach.sta_nm}`}>
+                        <img
+                          className="absolute top-0 left-0 w-full h-full object-cover brightness-[.6] hover:scale-125 ease-in duration-300"
+                          width={140}
+                          height={140}
+                          src="/assets/images/beach11.jpg"
+                          alt=""
+                        />
+                        <div className="absolute top-1/2 text-white w-full text-center -mt-2 tracking-widest h-fit">
+                          {beach.sta_nm}
+                        </div>
+                      </Link>
+                    </li>
+                  ))
+                : regionBeach.map((beach: any, index: number) => (
+                    <li
+                      className="w-[140px] h-[140px] bg-red-300 relative overflow-hidden cursor-pointer rounded-lg shadow-xl"
+                      key={index}
+                    >
+                      <Link to={`/review/${beach.sta_nm}`}>
+                        <img
+                          className="absolute top-0 left-0 w-full h-full object-cover brightness-[.6] hover:scale-125 ease-in duration-300  "
+                          width={140}
+                          height={140}
+                          src="/assets/images/beach11.jpg"
+                          alt=""
+                        />
+                        <div className="absolute top-1/2 text-white w-full text-center -mt-2 tracking-widest h-fit">
+                          {beach.sta_nm}
+                        </div>
+                      </Link>
+                    </li>
+                  ))}
             </ul>
           </div>
         </div>
