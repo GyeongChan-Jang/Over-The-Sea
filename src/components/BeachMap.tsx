@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react'
-import { Map, MapMarker, MarkerClusterer } from 'react-kakao-maps-sdk'
+import React, { useState, useRef, useEffect } from 'react'
+import { Map, MapMarker, MarkerClusterer, ZoomControl, MapTypeControl } from 'react-kakao-maps-sdk'
 import ToggleButton from '~/components/UI/ToggleButton'
 
 import { Button, Card } from 'flowbite-react'
@@ -35,7 +35,7 @@ const BeachMap = ({
   // 토글 -> 내 위치로 이동
   const toggleHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setRegionName('')
-    setMarkers(false)
+    setMarkers(true)
     setIsCurrentLocation(!isCurrentLocation)
   }
 
@@ -84,6 +84,37 @@ const BeachMap = ({
     map.setLevel(level, { anchor: cluster.getCenter() })
   }
 
+  // useEffect(() => {
+  //   if (!map) return
+  //   const ps = new kakao.maps.services.Places()
+
+  //   ps.keywordSearch('이태원 맛집', (data, status, _pagination) => {
+  //     if (status === kakao.maps.services.Status.OK) {
+  //       // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+  //       // LatLngBounds 객체에 좌표를 추가합니다
+  //       const bounds = new kakao.maps.LatLngBounds()
+  //       let markers = []
+
+  //       for (var i = 0; i < data.length; i++) {
+  //         // @ts-ignore
+  //         markers.push({
+  //           position: {
+  //             lat: data[i].y,
+  //             lng: data[i].x
+  //           },
+  //           content: data[i].place_name
+  //         })
+  //         // @ts-ignore
+  //         bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x))
+  //       }
+  //       setMarkers(markers)
+
+  //       // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+  //       map.setBounds(bounds)
+  //     }
+  //   })
+  // }, [map])
+
   return (
     <>
       <div className="list">
@@ -127,6 +158,8 @@ const BeachMap = ({
             ref={mapRef}
             onClick={() => setIsOpen(false)}
           >
+            <MapTypeControl position={kakao.maps.ControlPosition.TOPLEFT} />
+            <ZoomControl position={kakao.maps.ControlPosition.RIGHT} />
             <MarkerClusterer
               averageCenter={true}
               minLevel={12}
@@ -140,7 +173,7 @@ const BeachMap = ({
                     lng: currentLocation.coordinates!.lng
                   }}
                   image={{
-                    src: '../../public/assets/images/navigation.png', // 마커이미지의 주소입니다
+                    src: '/assets/images/navigation.png', // 마커이미지의 주소입니다
                     size: {
                       width: 38,
                       height: 38
@@ -158,7 +191,7 @@ const BeachMap = ({
                   position={{ lat: location.lat, lng: location.lon }}
                   key={`${location.sta_nm}-${location.latlng}`}
                   image={{
-                    src: '../../public/assets/images/parasol.png', // 마커이미지의 주소입니다
+                    src: '/assets/images/parasol.png', // 마커이미지의 주소입니다
                     size: {
                       width: 38,
                       height: 38

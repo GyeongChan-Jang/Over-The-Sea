@@ -9,6 +9,7 @@ import Row from 'react-bootstrap/Row'
 import { getBeach } from '~/utils/getBeach'
 import { SettingsBackupRestoreSharp } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
+import Loading from './Loading'
 
 const Beach = () => {
   const regions = [
@@ -26,12 +27,15 @@ const Beach = () => {
   ]
   const [beaches, setBeaches] = useState<any>([])
   const [regionBeach, setRegionBeach] = useState<any>([])
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const getAllBeaches = async () => {
+    setIsLoading(true)
     const snapShot = await getDocs(collection(db, 'beaches'))
     snapShot.forEach((doc: DocumentData) => {
       setBeaches((prev: any) => [...prev, doc.data()])
     })
+    setIsLoading(false)
   }
 
   const filterBeaches = (region: string) => {
@@ -71,48 +75,54 @@ const Beach = () => {
               </Button>
             ))}
           </div>
-          <div className="card relative">
-            <ul className="justify-items-center grid xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-              {regionBeach.length === 0
-                ? beaches.map((beach: any, index: number) => (
-                    <li
-                      className="w-[140px] h-[140px] bg-red-300 relative overflow-hidden cursor-pointer rounded-lg shadow-xl"
-                      key={index}
-                    >
-                      <Link to={`/review/${beach.sta_nm}`}>
-                        <img
-                          className="absolute top-0 left-0 w-full h-full object-cover brightness-[.6] hover:scale-125 ease-in duration-300"
-                          width={140}
-                          height={140}
-                          src="/assets/images/beach11.jpg"
-                          alt=""
-                        />
-                        <div className="absolute top-1/2 text-white w-full text-center -mt-2 tracking-widest h-fit">
-                          {beach.sta_nm}
-                        </div>
-                      </Link>
-                    </li>
-                  ))
-                : regionBeach.map((beach: any, index: number) => (
-                    <li
-                      className="w-[140px] h-[140px] bg-red-300 relative overflow-hidden cursor-pointer rounded-lg shadow-xl"
-                      key={index}
-                    >
-                      <Link to={`/review/${beach.sta_nm}`}>
-                        <img
-                          className="absolute top-0 left-0 w-full h-full object-cover brightness-[.6] hover:scale-125 ease-in duration-300  "
-                          width={140}
-                          height={140}
-                          src="/assets/images/beach11.jpg"
-                          alt=""
-                        />
-                        <div className="absolute top-1/2 text-white w-full text-center -mt-2 tracking-widest h-fit">
-                          {beach.sta_nm}
-                        </div>
-                      </Link>
-                    </li>
-                  ))}
-            </ul>
+          <div className="card">
+            {!isLoading ? (
+              <ul className="justify-items-center grid xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                {regionBeach.length === 0
+                  ? beaches.map((beach: any, index: number) => (
+                      <li
+                        className="w-[140px] h-[140px] bg-red-300 relative overflow-hidden cursor-pointer rounded-lg shadow-xl"
+                        key={index}
+                      >
+                        <Link to={`/review/${beach.sta_nm}`}>
+                          <img
+                            className="absolute top-0 left-0 w-full h-full object-cover brightness-[.6] hover:scale-125 ease-in duration-300"
+                            width={140}
+                            height={140}
+                            src="/assets/images/beach11.jpg"
+                            alt=""
+                          />
+                          <div className="absolute top-1/2 text-white w-full text-center -mt-2 tracking-widest h-fit">
+                            {beach.sta_nm}
+                          </div>
+                        </Link>
+                      </li>
+                    ))
+                  : regionBeach.map((beach: any, index: number) => (
+                      <li
+                        className="w-[140px] h-[140px] bg-red-300 relative overflow-hidden cursor-pointer rounded-lg shadow-xl"
+                        key={index}
+                      >
+                        <Link to={`/review/${beach.sta_nm}`}>
+                          <img
+                            className="absolute top-0 left-0 w-full h-full object-cover brightness-[.6] hover:scale-125 ease-in duration-300  "
+                            width={140}
+                            height={140}
+                            src="/assets/images/beach11.jpg"
+                            alt=""
+                          />
+                          <div className="absolute top-1/2 text-white w-full text-center -mt-2 tracking-widest h-fit">
+                            {beach.sta_nm}
+                          </div>
+                        </Link>
+                      </li>
+                    ))}
+              </ul>
+            ) : (
+              <div className="absolute inset-y-1/2 left-1/2 -translate-x-10 -translate-y-10">
+                <Loading />
+              </div>
+            )}
           </div>
         </div>
       </div>
