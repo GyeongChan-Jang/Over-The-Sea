@@ -1,25 +1,24 @@
-import { collection, doc, onSnapshot } from 'firebase/firestore'
+import { collection, doc, onSnapshot, DocumentData } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { db } from '~/firebase/fbase'
 
 const BeachReview = ({ params }: any) => {
-  const [reviews, setReviews] = useState<any>([])
+  const [reviews, setReviews] = useState<DocumentData[]>([])
 
   useEffect(() => {
     const unsub = onSnapshot(collection(db, 'beaches', params.id, 'posts'), (snap) => {
-      snap.forEach((doc: any) => {
-        setReviews((prev: any) => [...prev, doc.data()])
-      })
+      const data = snap.docs.map((doc: DocumentData) => doc.data())
+      setReviews(data)
     })
   }, [])
 
   console.log(reviews)
 
   return (
-    <div className=" flex mx-auto items-center justify-center mb-10 w-[90%]">
-      <div className="flex justify-center w-full mx-6">
+    <div className=" flex md:mx-auto items-center justify-center mb-10 w-[90%] xs:ml-2">
+      <div className="flex flex-col justify-center w-full mx-6">
         {reviews.map((review: any) => (
-          <div className="grid grid-cols-1 gap-4 p-4 mb-8 border rounded-xl bg-white shadow-xl w-full">
+          <div className="grid grid-cols-1 gap-4 p-4 mb-8 border rounded-xl bg-white shadow-xl w-[96%]">
             <div className=" flex gap-4">
               <img
                 src={
@@ -40,7 +39,9 @@ const BeachReview = ({ params }: any) => {
                     <i className="fa-solid fa-trash"></i>
                   </a>
                 </div>
-                <p className="text-gray-400 text-sm">20 April 2022, at 14:88 PM</p>
+                <p className="text-gray-400 text-sm">
+                  {review.time?.toDate().toLocaleString().slice(0, -3)}
+                </p>
               </div>
             </div>
             <p className="-mt-4 text-gray-500">{review.content}</p>
