@@ -13,6 +13,8 @@ import { collection, doc, DocumentData, getDoc, getDocs, query, where } from 'fi
 import { db } from '~/firebase/fbase'
 import Loading from './Loading'
 import { KakaoMapMarkerClustererContext } from 'react-kakao-maps-sdk/lib/@types/components/MarkerClusterer'
+import BeachPost from './BeachPost'
+import BeachReview from './BeachReview'
 
 {
   /* <BsFillHeartFill /> */
@@ -20,9 +22,8 @@ import { KakaoMapMarkerClustererContext } from 'react-kakao-maps-sdk/lib/@types/
 
 const ReviewDetail = () => {
   const params: any = useParams()
-  console.log(params)
   const [isLoading, setIsLoading] = useState<boolean>(false)
-
+  const [postId, setPostId] = useState<any>()
   const [beach, setBeach] = useState<any>()
 
   const getOneBeach = async () => {
@@ -92,7 +93,9 @@ const ReviewDetail = () => {
 
               <div className="detail flex justify-center ">
                 <img
-                  className="w-full rounded-xl shadow-xl"
+                  width={300}
+                  height={300}
+                  className="w-full rounded-xl shadow-xl /"
                   src="/public/assets/images/sokchobeach.jpeg"
                 />
               </div>
@@ -104,19 +107,17 @@ const ReviewDetail = () => {
                 <div className="divide h-[3px] bg-[#333] my-4 w-[90%] mx-auto"></div>
               </div>
               <div className="map flex justify-center px-4 py-4">
-                <Map // 지도를 표시할 Container
+                {/* <Map
                   className="shadow-xl rounded-xl"
                   center={{
-                    // 지도의 중심좌표
                     lat: beach?.lat,
                     lng: beach?.lon
                   }}
                   style={{
-                    // 지도의 크기
                     width: '100%',
                     height: '400px'
                   }}
-                  level={3} // 지도의 확대 레벨
+                  level={3}
                 >
                   <MapMarker
                     position={{
@@ -124,14 +125,14 @@ const ReviewDetail = () => {
                       lng: beach?.lon
                     }}
                     image={{
-                      src: '/assets/images/beach-umbrella.png', // 마커이미지의 주소입니다
+                      src: '/assets/images/beach-umbrella.png',
                       size: {
                         width: 38,
                         height: 38
                       }
                     }}
                   />
-                </Map>
+                </Map> */}
               </div>
             </div>
 
@@ -141,63 +142,11 @@ const ReviewDetail = () => {
                 <div className="divide h-[3px] bg-[#333] my-4 w-[90%] mx-auto"></div>
               </div>
               {/* 댓글 폼 */}
-              <div>
-                <div className="flex mx-auto items-center justify-center mb-10">
-                  <form className="w-full max-w-xl bg-white rounded-xl px-4 pt-2 shadow-xl">
-                    <div className="flex flex-wrap -mx-3 mb-6">
-                      <h2 className="px-4 pt-3 pb-2 text-gray-800 text-sm">
-                        <span className="text-blue-900 ">해수욕장</span> 후기를 남겨주세요!
-                      </h2>
-                      <div className="w-full md:w-full px-3 mb-2 mt-2 text-center">
-                        <textarea
-                          className=" bg-gray-100 rounded xlrder border-gray-400 leading-normal resize-none w-[90%] h-20 py-2 px-3 font-medium placeholder-gray-400 focus:outline-none focus:bg-white font-jalnanche"
-                          name="body"
-                          placeholder="소중한 후기"
-                          required
-                        ></textarea>
-                      </div>
-                      <div className=" md:w-full flex justify-end px-7 w-[100%]">
-                        <div className="-mr-1">
-                          <input
-                            type="submit"
-                            className="bg-white text-gray-600 font-medium py-2 px-4 border border-gray-400 rounded-xl tracking-wide mr-1 hover:bg-gray-100 cursor-pointer font-jalnanche"
-                            value="완료"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
+              <BeachPost params={params} setPostId={setPostId} />
 
               {/* 댓글 */}
-              <div className="flex justify-center relative top-1/3">
-                <div className="relative grid grid-cols-1 gap-4 p-4 mb-8 border rounded-xl bg-sky-100 shadow-xl">
-                  <div className="relative flex gap-4">
-                    <img
-                      src="https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/charlie-chaplin-icon.png"
-                      className="relative rounded-xl -top-8 -mb-4 bg-white border h-20 w-20"
-                      alt=""
-                      loading="lazy"
-                    />
-                    <div className="flex flex-col w-full">
-                      <div className="flex flex-row justify-between">
-                        <p className="relative text-xl whitespace-nowrap truncate overflow-hidden">
-                          COMMENTOR
-                        </p>
-                        <a className="text-gray-500 text-xl" href="#">
-                          <i className="fa-solid fa-trash"></i>
-                        </a>
-                      </div>
-                      <p className="text-gray-400 text-sm">20 April 2022, at 14:88 PM</p>
-                    </div>
-                  </div>
-                  <p className="-mt-4 text-gray-500">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. <br />
-                    Maxime quisquam vero adipisci beatae voluptas dolor ame.
-                  </p>
-                </div>
-              </div>
+
+              <BeachReview params={params} />
             </div>
           </div>
         ) : (
