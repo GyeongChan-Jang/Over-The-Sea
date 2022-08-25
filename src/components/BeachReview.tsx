@@ -17,8 +17,11 @@ const BeachReview = ({ params }: any) => {
   return (
     <div className=" flex md:mx-auto items-center justify-center mb-10 w-[90%] xs:ml-2">
       <div className="flex flex-col justify-center w-full mx-6">
-        {reviews.map((review: any) => (
-          <div className="grid grid-cols-1 gap-4 p-4 mb-8 border rounded-xl bg-white shadow-xl w-[96%]">
+        {reviews.map((review: any, index) => (
+          <div
+            key={index}
+            className="grid grid-cols-1 gap-4 p-4 mb-8 border rounded-xl bg-white shadow-xl w-[96%]"
+          >
             <div className=" flex gap-4">
               <img
                 src={

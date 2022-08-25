@@ -9,22 +9,29 @@ import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { useParams } from 'react-router-dom'
-import { collection, doc, DocumentData, getDoc, getDocs, query, where } from 'firebase/firestore'
+import {
+  collection,
+  doc,
+  DocumentData,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  query,
+  updateDoc,
+  where
+} from 'firebase/firestore'
 import { db } from '~/firebase/fbase'
 import Loading from './Loading'
 import { KakaoMapMarkerClustererContext } from 'react-kakao-maps-sdk/lib/@types/components/MarkerClusterer'
 import BeachPost from './BeachPost'
 import BeachReview from './BeachReview'
 
-{
-  /* <BsFillHeartFill /> */
-}
-
 const ReviewDetail = () => {
   const params: any = useParams()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [postId, setPostId] = useState<any>()
   const [beach, setBeach] = useState<any>()
+  const [heartClicked, setHeartClicked] = useState<boolean>(false)
 
   const getOneBeach = async () => {
     setIsLoading(true)
@@ -42,6 +49,19 @@ const ReviewDetail = () => {
   useEffect(() => {
     getOneBeach()
   }, [])
+
+  console.log(beach)
+  const likeClickHandler = async () => {
+    const docRef = doc(db, 'beaches', params.id)
+    const docSnap = await getDoc(docRef)
+    if (docSnap.exists()) {
+      const data = docSnap.data()
+      const like = data.like
+      const newLike = like + 1
+      await updateDoc(docRef, { like: newLike })
+    }
+    const unsub = onSnapshot(doc(db, 'beaches', params.id), {})
+  }
 
   return (
     <div>
@@ -76,7 +96,14 @@ const ReviewDetail = () => {
                 </div>
                 <div className="flex justify-center">
                   <div className="mr-10 flex items-center gap-1">
-                    <BsHeart /> <span className=" text-sm">10</span>
+                    {beach?.newLike ? (
+                      <BsFillHeartFill className="cursor-pointer" />
+                    ) : (
+                      <>
+                        <BsHeart className="cursor-pointer" onClick={likeClickHandler} />{' '}
+                        <span className=" text-sm">{beach?.like}</span>
+                      </>
+                    )}
                   </div>
                   <div>
                     <FiShare2 />
