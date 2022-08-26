@@ -65,7 +65,7 @@ const ReviewDetail = () => {
 
   console.log(beach)
   const likeClickHandler = async () => {
-    if (!user) {
+    if (!user.name) {
       alert('로그인 후 이용 가능합니다!')
       return
     }
@@ -119,20 +119,24 @@ const ReviewDetail = () => {
                 </div>
                 <div className="flex justify-center">
                   <div className="mr-10 flex items-center gap-1">
-                    {like ? (
-                      <>
-                        <BsFillHeartFill className="cursor-pointer" onClick={likeClickHandler} />
-                        <span className=" text-sm">{likes.length}</span>
-                      </>
-                    ) : (
-                      <>
-                        <BsHeart className="cursor-pointer" onClick={likeClickHandler} />{' '}
-                        <span className=" text-sm">{likes.length}</span>
-                      </>
-                    )}
+                    <div className="flex">
+                      {like && (
+                        <BsFillHeartFill
+                          className="cursor-pointer text-rose-500 text-2xl spin"
+                          onClick={likeClickHandler}
+                        />
+                      )}
+                      {!like && (
+                        <BsHeart
+                          className="cursor-pointer text-rose-500 text-2xl spin"
+                          onClick={likeClickHandler}
+                        />
+                      )}
+                      <p className="p-1 ml-2 leading-4 text-xl w-4">{likes.length}</p>
+                    </div>
                   </div>
                   <div>
-                    <FiShare2 />
+                    <FiShare2 className="text-2xl" />
                   </div>
                 </div>
               </div>
