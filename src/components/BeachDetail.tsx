@@ -2,21 +2,21 @@ import React, { useEffect, useState } from 'react'
 import BeachMap from './BeachMap'
 import { BsHeart, BsFillHeartFill } from 'react-icons/bs'
 import { FiShare2 } from 'react-icons/fi'
-import { Map, MapMarker } from 'react-kakao-maps-sdk'
+import { Map, MapMarker, MapTypeControl, ZoomControl } from 'react-kakao-maps-sdk'
 
-import Tabs from '@mui/material/Tabs'
-import Tab from '@mui/material/Tab'
-import Typography from '@mui/material/Typography'
-import Box from '@mui/material/Box'
-import { useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import {
+  arrayRemove,
+  arrayUnion,
   collection,
+  deleteDoc,
   doc,
   DocumentData,
   getDoc,
   getDocs,
   onSnapshot,
   query,
+  setDoc,
   updateDoc,
   where
 } from 'firebase/firestore'
@@ -25,6 +25,8 @@ import Loading from './Loading'
 import { KakaoMapMarkerClustererContext } from 'react-kakao-maps-sdk/lib/@types/components/MarkerClusterer'
 import BeachPost from './BeachPost'
 import BeachReview from './BeachReview'
+import { useSelector } from 'react-redux'
+import { useUserSelector } from '~/store/store'
 
 const ReviewDetail = () => {
   const params: any = useParams()
@@ -32,6 +34,9 @@ const ReviewDetail = () => {
   const [postId, setPostId] = useState<any>()
   const [beach, setBeach] = useState<any>()
   const [heartClicked, setHeartClicked] = useState<boolean>(false)
+  const [like, setLike] = useState<boolean>(false)
+  const [likes, setLikes] = useState<DocumentData[]>([])
+  const user = useUserSelector((state) => state.user.userData)
 
   const getOneBeach = async () => {
     setIsLoading(true)
@@ -50,17 +55,35 @@ const ReviewDetail = () => {
     getOneBeach()
   }, [])
 
+  useEffect(() => {
+    if (!params.id) return
+    const unsub = onSnapshot(collection(db, 'beaches', params.id, 'likes'), (snap) => {
+      setLikes(snap.docs)
+    })
+    return () => unsub()
+  }, [params.id])
+
   console.log(beach)
   const likeClickHandler = async () => {
-    const docRef = doc(db, 'beaches', params.id)
-    const docSnap = await getDoc(docRef)
-    if (docSnap.exists()) {
-      const data = docSnap.data()
-      const like = data.like
-      const newLike = like + 1
-      await updateDoc(docRef, { like: newLike })
+    if (!user) {
+      alert('로그인 후 이용 가능합니다!')
+      return
     }
-    const unsub = onSnapshot(doc(db, 'beaches', params.id), {})
+
+    setLike((prev) => !prev)
+    if (like) {
+      await deleteDoc(doc(db, 'beaches', params.id, 'likes', user.name))
+      await updateDoc(doc(db, 'beaches', params.id), {
+        likes: arrayRemove(user.email)
+      })
+    } else {
+      await setDoc(doc(db, 'beaches', params.id, 'likes', user.name), {
+        username: user.name
+      })
+      await updateDoc(doc(db, 'beaches', params.id), {
+        likes: arrayUnion(user.email)
+      })
+    }
   }
 
   return (
@@ -96,12 +119,15 @@ const ReviewDetail = () => {
                 </div>
                 <div className="flex justify-center">
                   <div className="mr-10 flex items-center gap-1">
-                    {beach?.newLike ? (
-                      <BsFillHeartFill className="cursor-pointer" />
+                    {like ? (
+                      <>
+                        <BsFillHeartFill className="cursor-pointer" onClick={likeClickHandler} />
+                        <span className=" text-sm">{likes.length}</span>
+                      </>
                     ) : (
                       <>
                         <BsHeart className="cursor-pointer" onClick={likeClickHandler} />{' '}
-                        <span className=" text-sm">{beach?.like}</span>
+                        <span className=" text-sm">{likes.length}</span>
                       </>
                     )}
                   </div>
@@ -134,7 +160,7 @@ const ReviewDetail = () => {
                 <div className="divide h-[3px] bg-[#333] my-4 w-[90%] mx-auto"></div>
               </div>
               <div className="map flex justify-center px-4 py-4">
-                {/* <Map
+                <Map
                   className="shadow-xl rounded-xl"
                   center={{
                     lat: beach?.lat,
@@ -146,6 +172,8 @@ const ReviewDetail = () => {
                   }}
                   level={3}
                 >
+                  <MapTypeControl position={kakao.maps.ControlPosition.TOPLEFT} />
+                  <ZoomControl position={kakao.maps.ControlPosition.RIGHT} />
                   <MapMarker
                     position={{
                       lat: beach?.lat,
@@ -159,7 +187,7 @@ const ReviewDetail = () => {
                       }
                     }}
                   />
-                </Map> */}
+                </Map>
               </div>
             </div>
 
