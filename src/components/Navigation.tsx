@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { Navbar, Dropdown, Avatar, Button } from 'flowbite-react'
 import { useAppDispatch, useUserSelector } from '~/store/store'
 import { signOut } from 'firebase/auth'
@@ -51,9 +51,9 @@ const NavBar = () => {
                 {userData.email ? userData.email : '이메일 없음'}
               </span>
             </Dropdown.Header>
-            {/* <Dropdown.Item>Dashboard</Dropdown.Item>
-            <Dropdown.Item>Settings</Dropdown.Item>
-            <Dropdown.Item>Earnings</Dropdown.Item> */}
+            <Dropdown.Item>
+              <Link to="/profile">프로필</Link>
+            </Dropdown.Item>
             <Dropdown.Divider />
             <Dropdown.Item onClick={signOutButton}>Sign out</Dropdown.Item>
           </Dropdown>

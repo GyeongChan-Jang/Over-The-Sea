@@ -13,6 +13,7 @@ import Banner from '~/components/Banner'
 import Beach from '~/components/Beach'
 import BeachPost from '~/components/BeachPost'
 import ReviewDetail from '~/components/BeachDetail'
+import Profile from '~/components/Profile'
 
 const AppRouter = () => {
   const { userData } = useUserSelector((state) => state.user)
@@ -28,7 +29,7 @@ const AppRouter = () => {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/auth" element={<AuthForm />} />
-        {userData.uid && <Route path="/mypage" element={<MyPage />} />}
+        {userData.uid && <Route path="/profile" element={<Profile />} />}
         {userData.uid && <Route path="/map" element={<Map />} />}
         <Route path="/beach" element={<Beach />} />
         <Route path="/review" element={<BeachPost />} />

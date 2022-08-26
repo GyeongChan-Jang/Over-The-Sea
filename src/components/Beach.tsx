@@ -77,7 +77,7 @@ const Beach = () => {
           </div>
           <div className="card">
             {!isLoading ? (
-              <ul className="justify-items-center grid xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              <ul className="justify-items-center grid xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 h-[600px] overflow-auto">
                 {regionBeach.length === 0
                   ? beaches.map((beach: any, index: number) => (
                       <li
@@ -125,6 +125,15 @@ const Beach = () => {
             )}
           </div>
         </div>
+      </div>
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+          <path
+            fill="#0099ff"
+            fillOpacity="1"
+            d="M0,96L48,85.3C96,75,192,53,288,69.3C384,85,480,139,576,133.3C672,128,768,64,864,80C960,96,1056,192,1152,192C1248,192,1344,96,1392,48L1440,0L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+          ></path>
+        </svg>
       </div>
     </div>
   )

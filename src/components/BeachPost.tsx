@@ -1,14 +1,17 @@
 import { updateCurrentUser } from 'firebase/auth'
 import { addDoc, collection, doc, updateDoc, serverTimestamp } from 'firebase/firestore'
-import React, { useState } from 'react'
+import { getDownloadURL, ref, uploadString } from 'firebase/storage'
+import React, { useRef, useState } from 'react'
+import { MdOutlineAddAPhoto } from 'react-icons/md'
 import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { db } from '~/firebase/fbase'
+import { db, storage } from '~/firebase/fbase'
 
 const BeachPost = ({ params, setPostId }: any) => {
-  const [post, setPost] = useState<{}>()
-  const [postImage, setPostImage] = useState<string[]>([])
+  const [post, setPost] = useState<string>()
+  const [postImage, setPostImage] = useState<string>('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const imagePickRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
 
   const { userData } = useSelector((state: any) => state.user)
@@ -16,6 +19,29 @@ const BeachPost = ({ params, setPostId }: any) => {
   const postInputHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = e.target
     setPost(value)
+  }
+
+  const imagePickHandler = () => {
+    imagePickRef.current?.click()
+  }
+
+  const deletePostImageHandler = () => {
+    setPostImage('')
+  }
+
+  const imageUploadHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target
+    if (files) {
+      const file = files[0]
+      let fileUrl: string = ''
+      const fileReader = new FileReader()
+      fileReader.onload = () => {
+        fileUrl = fileReader.result as string
+        console.log(fileUrl)
+        setPostImage(() => fileUrl)
+      }
+      fileReader.readAsDataURL(file)
+    }
   }
 
   const postSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -44,12 +70,21 @@ const BeachPost = ({ params, setPostId }: any) => {
       })
       console.log(docRef)
       // 이미지 등록 일단 생략
-      // postImage.map((image: string) => {      })
+      if (postImage) {
+        const imageRef = ref(storage, `beaches/${docRef.id}/image`)
+        uploadString(imageRef, postImage, 'data_url').then(async (snapshot) => {
+          const downloadURL = await getDownloadURL(snapshot.ref)
+          await updateDoc(doc(db, 'beaches', params.id, 'posts', docRef.id), {
+            postImage: downloadURL
+          })
+        })
+      }
     } catch (error) {
       console.log(error)
     } finally {
       setIsLoading(false)
       setPost('')
+      setPostImage('')
     }
   }
 
@@ -66,20 +101,38 @@ const BeachPost = ({ params, setPostId }: any) => {
             </h2>
             <div className="w-full md:w-full px-3 mb-2 mt-2 text-center">
               <textarea
-                className=" bg-gray-100 rounded xlrder border-gray-400 leading-normal resize-none w-[90%] h-20 py-2 px-3 font-medium placeholder-gray-400 focus:outline-none focus:bg-white font-jalnanche"
+                className=" bg-gray-100 rounded xlrder border-gray-400 leading-normal resize-none w-[90%] h-20 py-2 px-3 font-medium placeholder-gray-400 focus:outline-none focus:bg-white font-nexonRegular"
                 name="body"
                 placeholder="소중한 후기"
                 required
                 onChange={postInputHandler}
+                value={post}
               ></textarea>
             </div>
-            <div className=" md:w-full flex justify-end px-7 w-[100%]">
-              <div className="-mr-1">
-                <input className="displa rounded-lg w-24" type="file" />
+            <div className=" md:w-full flex justify-end px-7 w-[100%] h-[50px]">
+              <div className="-mr-1 flex gap-6 mt-2">
+                {postImage && (
+                  <img
+                    width={46}
+                    height={46}
+                    src={postImage}
+                    onClick={deletePostImageHandler}
+                    className="cursor-pointer hover:grayscale "
+                  />
+                )}
+                <button type="button" className="ring ring-gray-400 rounded hover:bg-gray-100">
+                  <MdOutlineAddAPhoto onClick={imagePickHandler} className="w-8 h-8" />
+                </button>
+                <input
+                  ref={imagePickRef}
+                  className="hidden rounded-lg w-24"
+                  type="file"
+                  onChange={imageUploadHandler}
+                />
 
                 <input
                   type="submit"
-                  className="bg-white text-gray-600 font-medium py-2 px-4 border border-gray-400 rounded-xl tracking-wide mr-1 hover:bg-gray-100 cursor-pointer font-jalnanche"
+                  className="border-none bg-white text-gray-600 py-2 px-4 ring ring-gray-400 rounded-xl tracking-wide mr-1 hover:bg-gray-100 cursor-pointer font-nexonRegular font-bold"
                   value="완료"
                 />
               </div>
