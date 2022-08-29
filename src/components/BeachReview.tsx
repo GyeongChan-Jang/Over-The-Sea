@@ -1,4 +1,5 @@
-import { collection, doc, onSnapshot, DocumentData, deleteDoc } from 'firebase/firestore'
+import { RemoveFromQueueTwoTone } from '@mui/icons-material'
+import { collection, doc, onSnapshot, DocumentData, deleteDoc, updateDoc } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { db } from '~/firebase/fbase'
 import { useUserSelector } from '~/store/store'
@@ -6,6 +7,8 @@ import { useUserSelector } from '~/store/store'
 const BeachReview = ({ params }: any) => {
   const [reviews, setReviews] = useState<DocumentData[]>([])
   const user = useUserSelector((state) => state.user.userData)
+  const [isEdit, setIsEdit] = useState(false)
+  const [editContent, setEditContent] = useState('')
 
   useEffect(() => {
     const unsub = onSnapshot(collection(db, 'beaches', params.id, 'posts'), (snap) => {
@@ -22,7 +25,15 @@ const BeachReview = ({ params }: any) => {
     }
   }
 
-  console.log(reviews)
+  const editReviewHandler = async (review: DocumentData) => {
+    console.log('완료')
+    setIsEdit(false)
+    console.log(isEdit)
+    const docRef = doc(db, 'beaches', params.id, 'posts', review.pid)
+    await updateDoc(docRef, {
+      content: editContent
+    })
+  }
 
   return (
     <div className=" flex md:mx-auto items-center justify-center mb-10 w-[90%] xs:ml-2">
@@ -52,32 +63,59 @@ const BeachReview = ({ params }: any) => {
                   <a className="text-gray-500 text-xl" href="#">
                     <i className="fa-solid fa-trash"></i>
                   </a>
-                  {review.uid === user.uid && (
-                    <button
-                      onClick={() => deleteReviewHandler(review)}
-                      className="rounded text-white bg-red-700 p-2 font-nexonRegular font-bold hover:ring-2 ring-red-400 focus:ring-2"
-                    >
-                      삭제
-                    </button>
-                  )}
+                  <div>
+                    {review.uid === user.uid && isEdit ? (
+                      <button
+                        onClick={() => editReviewHandler(review)}
+                        className="mr-2 text-white rounded bg-gray-600 p-2 font-nexonRegular font-bold hover:ring-2 ring-gray-400 focus:ring-2"
+                      >
+                        완료
+                      </button>
+                    ) : review.uid === user.uid && !isEdit ? (
+                      <button
+                        onClick={() => setIsEdit((prev) => !prev)}
+                        className="mr-2 text-white rounded bg-gray-600 p-2 font-nexonRegular font-bold hover:ring-2 ring-gray-400 focus:ring-2"
+                      >
+                        수정
+                      </button>
+                    ) : null}
+
+                    {review.uid === user.uid && (
+                      <button
+                        onClick={() => deleteReviewHandler(review)}
+                        className="rounded text-white bg-red-700 p-2 font-nexonRegular font-bold hover:ring-2 ring-red-400 focus:ring-2"
+                      >
+                        삭제
+                      </button>
+                    )}
+                  </div>
                 </div>
 
-                <p className="text-gray-400 text-sm">
+                <p className="text-gray-400 text-sm mt-2">
                   {review.time?.toDate().toLocaleString().slice(0, -3)}
                 </p>
               </div>
             </div>
             <div className="flex">
-              {review.postImage ? (
-                <div className="flex">
+              <div className="flex w-full">
+                {review?.image && (
                   <p>
                     <img width={120} height={120} src={review.postImage} />
                   </p>
+                )}
+                {isEdit && review.uid === user.uid ? (
+                  <textarea
+                    className="bg-gray-100 rounded border-gray-400 leading-normal resize-none py-2 px-3 font-xl placeholder-gray-700 focus:outline-none focus:bg-white font-nexonRegular w-full"
+                    name="body"
+                    placeholder={review.content}
+                    required
+                    onChange={(e) => setEditContent(e.target.value)}
+                    value={editContent}
+                  ></textarea>
+                ) : (
                   <p className="text-gray-700 font-nexonRegular ml-4">{review.content}</p>
-                </div>
-              ) : (
-                <p className="-mt-4 text-gray-700 font-nexonRegular">{review.content}</p>
-              )}
+                )}
+              </div>
             </div>
           </div>
         ))}

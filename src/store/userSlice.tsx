@@ -235,11 +235,15 @@ const userSlice = createSlice({
       state.error = '회원가입 실패'
     })
     builder.addCase(signInEmail.fulfilled, (state, { payload }: any) => {
+      if (payload === undefined) {
+        alert('로그인에 실패하였습니다!')
+        return
+      }
       state.loading = false
       state.error = null
-      state.userData.name = payload?.name
-      state.userData.email = payload?.email
-      state.userData.uid = payload?.uid
+      state.userData.name = payload.name
+      state.userData.email = payload.email
+      state.userData.uid = payload.uid
       console.log(state.userData)
       alert('로그인 성공')
     })

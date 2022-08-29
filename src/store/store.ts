@@ -1,4 +1,4 @@
-import { createSlice, configureStore, combineReducers } from '@reduxjs/toolkit'
+import { configureStore, combineReducers, getDefaultMiddleware } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { userReducer } from './userSlice'
 import { persistReducer } from 'redux-persist'
@@ -17,7 +17,10 @@ export const rootReducer = combineReducers({
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 export const store = configureStore({
-  reducer: persistedReducer
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware({
+    serializableCheck: false
+  })
 })
 
 type RootState = ReturnType<typeof store.getState>

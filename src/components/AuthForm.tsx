@@ -13,15 +13,20 @@ import { RiUser3Line, RiUser4Fill } from 'react-icons/ri'
 import { MdOutlineAlternateEmail } from 'react-icons/md'
 import { RiLockPasswordFill } from 'react-icons/ri'
 import { useSelector } from 'react-redux'
+import { FieldValues, useForm } from 'react-hook-form'
+import { FirebaseError } from 'firebase/app'
 
 const AuthForm = () => {
   const [loginMode, setLoginMode] = useState(true)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  const emailInputRef = useRef<any>('')
-  const passwordInputRef = useRef<any>('')
-  const nameInputRef = useRef<any>('')
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+    reset
+  } = useForm()
 
   const googleLogin = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
@@ -46,31 +51,32 @@ const AuthForm = () => {
   const loginToggleHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
     setLoginMode((prev) => !prev)
+    reset()
   }
 
-  const signUpEmailHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault()
+  const signUpEmailHandler = (data: FieldValues) => {
     try {
+      console.log(data)
       dispatch(
         signUpEmail({
-          name: nameInputRef.current.value,
-          email: emailInputRef.current?.value,
-          password: passwordInputRef.current?.value
+          name: data.name,
+          email: data.email,
+          password: data.password
         })
       )
       setLoginMode(true)
-    } catch (error) {
-      console.log(error)
+      reset()
+    } catch (error: any) {
+      alert(error.message)
     }
   }
 
-  const signInEmailHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault()
+  const signInEmailHandler = (data: FieldValues) => {
     try {
       dispatch(
         signInEmail({
-          email: emailInputRef.current?.value,
-          password: passwordInputRef.current?.value
+          email: data.email,
+          password: data.password
         })
       )
       navigate('/')
@@ -104,48 +110,78 @@ const AuthForm = () => {
             <form className="bg-white rounded-lg shadow-2xl p-5">
               <h1 className="text-blue-800 font-bold text-2xl mb-1">바다어때.</h1>
               <p className="text-sm font-normal text-gray-700 mb-8">해변의 모든 것!</p>
+              {/* 회원가입 모드 */}
               {!loginMode && (
-                <div className="flex items-center border-2 mb-8 py-2 px-3 rounded-2xl ">
-                  <RiUser3Line className="mr-2 text-gray-500 h-5 w-5" />
-                  <input
-                    className="pl-2 w-full outline-none border-none rounded-xl"
-                    type="text"
-                    name="name"
-                    id="name"
-                    placeholder="이름"
-                    ref={nameInputRef}
-                    required
-                  />
+                <div className="items-center border-2 mb-8 py-2 px-3 rounded-2xl ">
+                  <div className="flex items-center">
+                    <RiUser3Line className="mr-2 text-gray-500 h-5 w-5" />
+                    <input
+                      className="pl-2 w-full outline-none border-none rounded-xl"
+                      type="text"
+                      id="name"
+                      placeholder="이름"
+                      {...register('name', {
+                        required: '이름을 입력해주세요!',
+                        minLength: { value: 2, message: '이름은 2글자 이상 입력해주세요!' }
+                      })}
+                    />
+                  </div>
+                  {errors.name && (
+                    <p className="text-red-500 font-nexonRegular text-sm ml-8">
+                      {errors.name?.message}
+                    </p>
+                  )}
                 </div>
               )}
-              <div className="flex items-center border-2 mb-8 py-2 px-3 rounded-2xl">
-                <MdOutlineAlternateEmail className="mr-2 text-gray-500 h-5 w-5" />
-                <input
-                  id="email"
-                  className=" pl-2 w-full outline-none border-none rounded-xl"
-                  type="email"
-                  name="email"
-                  placeholder="이메일"
-                  ref={emailInputRef}
-                  required
-                />
+              <div className=" items-center border-2 mb-8 py-2 px-3 rounded-2xl">
+                <div className="flex items-center">
+                  <MdOutlineAlternateEmail className="mr-2 text-gray-500 h-5 w-5" />
+                  <input
+                    id="email"
+                    className=" pl-2 w-full outline-none border-none rounded-xl"
+                    type="email"
+                    placeholder="이메일"
+                    {...register('email', {
+                      required: '이메일은 필수로 입력해야합니다!',
+                      pattern: { value: /^\S+@\S+$/i, message: '이메일 형식이 아닙니다!' }
+                    })}
+                  />
+                </div>
+                {errors.email && (
+                  <p className="text-red-500 font-nexonRegular text-sm ml-8 ">
+                    {errors.email?.message}
+                  </p>
+                )}
               </div>
-              <div className="flex items-center border-2 mb-12 py-2 px-3 rounded-2xl ">
-                <RiLockPasswordFill className="mr-2 text-gray-500 h-5 w-5" />
-                <input
-                  className="pl-2 w-full outline-none border-none rounded-xl"
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="비밀번호"
-                  ref={passwordInputRef}
-                  required
-                />
+              <div className=" items-center border-2 mb-12 py-2 px-3 rounded-2xl ">
+                <div className="flex items-center">
+                  <RiLockPasswordFill className="mr-2 text-gray-500 h-5 w-5" />
+                  <input
+                    className="pl-2 w-full outline-none border-none rounded-xl"
+                    type="password"
+                    id="password"
+                    placeholder="비밀번호"
+                    {...register('password', {
+                      required: '비밀번호는 필수로 입력해야합니다!',
+                      minLength: { value: 8, message: '비밀번호는 8글자 이상 입력해주세요!' }
+                    })}
+                  />
+                </div>
+                {errors.password && (
+                  <p className="text-red-500 font-nexonRegular text-sm ml-8">
+                    {errors.password?.message}
+                  </p>
+                )}
               </div>
               <button
                 type="submit"
                 className=" block w-full bg-black mt-5 py-3 rounded-2xl hover:bg-gray-800 hover:-translate-y-1 transition-all duration-500 text-white mb-2"
-                onClick={loginMode ? signInEmailHandler : signUpEmailHandler}
+                onClick={
+                  loginMode
+                    ? handleSubmit((data) => signInEmailHandler(data))
+                    : handleSubmit((data) => signUpEmailHandler(data))
+                }
+                disabled={isSubmitting}
               >
                 {loginMode ? 'Login' : 'Sign Up'}
               </button>

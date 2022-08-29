@@ -120,7 +120,7 @@ const BeachPost = ({ params, setPostId }: any) => {
                     className="cursor-pointer hover:grayscale "
                   />
                 )}
-                <button type="button" className="ring ring-gray-400 rounded hover:bg-gray-100">
+                <button type="button" className="ring ring-gray-300 rounded hover:bg-gray-100">
                   <MdOutlineAddAPhoto onClick={imagePickHandler} className="w-8 h-8" />
                 </button>
                 <input
@@ -132,7 +132,7 @@ const BeachPost = ({ params, setPostId }: any) => {
 
                 <input
                   type="submit"
-                  className="border-none bg-white text-gray-600 py-2 px-4 ring ring-gray-400 rounded-xl tracking-wide mr-1 hover:bg-gray-100 cursor-pointer font-nexonRegular font-bold"
+                  className="border-none bg-white text-gray-600 py-2 px-4 ring ring-gray-300 rounded-xl tracking-wide mr-1 hover:bg-gray-100 cursor-pointer font-nexonRegular font-bold"
                   value="완료"
                 />
               </div>

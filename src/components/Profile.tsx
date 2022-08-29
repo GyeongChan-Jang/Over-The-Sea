@@ -36,7 +36,7 @@ const Profile = () => {
 
   return (
     <div>
-      <div className="font-jalnanche h-screen w-full flex flex-row justify-center items-center">
+      <div className="font-jalnanche h-screen w-full flex flex-row justify-center items-center ">
         <div className="card w-96 mx-auto bg-white  shadow-xl rounded-lg">
           <div className="flex justify-center mb-4">
             <img
