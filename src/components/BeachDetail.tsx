@@ -17,6 +17,7 @@ import {
   onSnapshot,
   query,
   setDoc,
+  snapshotEqual,
   updateDoc,
   where
 } from 'firebase/firestore'
@@ -49,7 +50,6 @@ const ReviewDetail = () => {
 
     setIsLoading(false)
   }
-  console.log(beach)
 
   useEffect(() => {
     getOneBeach()
@@ -58,17 +58,19 @@ const ReviewDetail = () => {
   useEffect(() => {
     if (!params.id) return
     const unsub = onSnapshot(collection(db, 'beaches', params.id, 'likes'), (snap) => {
+      console.log(snap.docs)
       setLikes(snap.docs)
     })
     return () => unsub()
   }, [params.id])
 
-  console.log(beach)
   const likeClickHandler = async () => {
     if (!user.name) {
       alert('로그인 후 이용 가능합니다!')
       return
     }
+
+    console.log(likes)
 
     setLike((prev) => !prev)
     if (like) {

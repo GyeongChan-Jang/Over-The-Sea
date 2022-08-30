@@ -37,7 +37,6 @@ const BeachPost = ({ params, setPostId }: any) => {
       const fileReader = new FileReader()
       fileReader.onload = () => {
         fileUrl = fileReader.result as string
-        console.log(fileUrl)
         setPostImage(() => fileUrl)
       }
       fileReader.readAsDataURL(file)

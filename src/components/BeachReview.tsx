@@ -1,21 +1,36 @@
 import { RemoveFromQueueTwoTone } from '@mui/icons-material'
-import { collection, doc, onSnapshot, DocumentData, deleteDoc, updateDoc } from 'firebase/firestore'
+import {
+  collection,
+  doc,
+  onSnapshot,
+  DocumentData,
+  deleteDoc,
+  updateDoc,
+  arrayRemove,
+  setDoc,
+  arrayUnion
+} from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { db } from '~/firebase/fbase'
 import { useUserSelector } from '~/store/store'
+import { BsHeart, BsFillHeartFill } from 'react-icons/bs'
 
 const BeachReview = ({ params }: any) => {
   const [reviews, setReviews] = useState<DocumentData[]>([])
   const user = useUserSelector((state) => state.user.userData)
   const [isEdit, setIsEdit] = useState(false)
   const [editContent, setEditContent] = useState('')
+  const [like, setLike] = useState(false)
+  const [likes, setLikes] = useState<DocumentData[]>([])
 
   useEffect(() => {
     const unsub = onSnapshot(collection(db, 'beaches', params.id, 'posts'), (snap) => {
       const data = snap.docs.map((doc: DocumentData) => doc.data())
       setReviews(data)
+      console.log(data)
     })
-  }, [])
+    return () => unsub()
+  }, [params.id])
 
   const deleteReviewHandler = async (review: DocumentData) => {
     const ok = window.confirm('정말 삭제하시겠습니까?')
@@ -35,6 +50,28 @@ const BeachReview = ({ params }: any) => {
     await updateDoc(docRef, {
       content: editContent
     })
+  }
+
+  const likeClickHandler = async (review: any) => {
+    console.log(review)
+    if (!user.name) {
+      alert('로그인 후 이용 가능합니다!')
+      return
+    }
+    setLike((prev) => !prev)
+    if (like) {
+      await deleteDoc(doc(db, 'beaches', params.id, 'posts', review.pid, 'likes', user.name))
+      await updateDoc(doc(db, 'beaches', params.id, 'posts', review.pid), {
+        likes: arrayRemove(user.email)
+      })
+    } else {
+      await setDoc(doc(db, 'beaches', params.id, 'posts', review.pid, 'likes', user.name), {
+        username: user.name
+      })
+      await updateDoc(doc(db, 'beaches', params.id, 'posts', review.pid), {
+        likes: arrayUnion(user.email)
+      })
+    }
   }
 
   return (
@@ -88,17 +125,38 @@ const BeachReview = ({ params }: any) => {
                     )}
                   </div>
                 </div>
-
-                <p className="text-gray-400 text-sm mt-2">
-                  {review.time?.toDate().toLocaleString().slice(0, -3)}
-                </p>
+                <div className="flex items-end justify-between">
+                  <p className="text-gray-400 text-sm mt-2">
+                    {review.time?.toDate().toLocaleString().slice(0, -3)}
+                  </p>
+                  <p className="flex items-end">
+                    {review.likes.length >= 1 && (
+                      <BsFillHeartFill
+                        onClick={() => likeClickHandler(review)}
+                        className="mr-2 cursor-pointer text-rose-500 text-lg"
+                      />
+                    )}
+                    {review.likes.length === 0 && (
+                      <BsHeart
+                        onClick={() => likeClickHandler(review)}
+                        className="mr-2 cursor-pointer text-rose-500 text-lg"
+                      />
+                    )}
+                    <span className="mb-[1px]">{review.likes.length}</span>
+                  </p>
+                </div>
               </div>
             </div>
             <div className="flex">
-              <div className="flex w-full">
+              <div className="xs:block xs:text-center sm:block md:flex lg:flex xl:flex flex w-full">
                 {review?.postImage && (
-                  <p>
-                    <img className="object-cover" width={250} height={150} src={review.postImage} />
+                  <p className="">
+                    <img
+                      className="object-cover rounded "
+                      width={250}
+                      height={150}
+                      src={review.postImage}
+                    />
                   </p>
                 )}
                 {isEdit && review.uid === user.uid ? (
@@ -111,7 +169,9 @@ const BeachReview = ({ params }: any) => {
                     value={editContent}
                   ></textarea>
                 ) : (
-                  <p className="text-gray-700 font-nexonRegular ml-4">{review.content}</p>
+                  <p className="xs:mt-2 md:ml-2 md:text-start text-gray-700 font-nexonRegular">
+                    {review.content}
+                  </p>
                 )}
               </div>
             </div>
