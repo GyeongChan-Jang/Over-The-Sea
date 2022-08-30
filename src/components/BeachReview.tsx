@@ -26,9 +26,11 @@ const BeachReview = ({ params }: any) => {
   }
 
   const editReviewHandler = async (review: DocumentData) => {
-    console.log('완료')
+    if (editContent === '') {
+      alert('내용을 입력해주세요')
+      return
+    }
     setIsEdit(false)
-    console.log(isEdit)
     const docRef = doc(db, 'beaches', params.id, 'posts', review.pid)
     await updateDoc(docRef, {
       content: editContent
@@ -45,11 +47,7 @@ const BeachReview = ({ params }: any) => {
           >
             <div className=" flex gap-4">
               <img
-                src={
-                  review.userImage
-                    ? review.userImage
-                    : 'https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/charlie-chaplin-icon.png'
-                }
+                src={review.userImage ? review.userImage : '/assets/images/noProfileImage.png'}
                 className="relative rounded-xl -top-8 -mb-4 bg-white border h-20 w-20"
                 alt=""
                 loading="lazy"
@@ -98,9 +96,9 @@ const BeachReview = ({ params }: any) => {
             </div>
             <div className="flex">
               <div className="flex w-full">
-                {review?.image && (
+                {review?.postImage && (
                   <p>
-                    <img width={120} height={120} src={review.postImage} />
+                    <img className="object-cover" width={250} height={150} src={review.postImage} />
                   </p>
                 )}
                 {isEdit && review.uid === user.uid ? (

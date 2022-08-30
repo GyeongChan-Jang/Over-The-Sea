@@ -4,6 +4,7 @@ import useTime from '~/hooks/useTime'
 import useConvertLatLng from '~/hooks/useConvertLatLng'
 import { getWeather } from '~/utils/getWeather'
 import Loading from '~/components/Loading'
+import { Link } from 'react-router-dom'
 
 interface WeatherResponse {
   baseData: string
@@ -59,7 +60,11 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
               <span className="mr-2">
                 <img src="../../../public/assets/images/beach-ball.png" width={24} height={24} />
               </span>
-              <span className="align-top">{location.sta_nm} 해수욕장</span>
+              <Link className="focus: text-blue-800" to={`/review/${location.sta_nm}`}>
+                <span className="align-top hover:scale-105 hover:text-red-500 cursor-pointer">
+                  {location.sta_nm} 해수욕장
+                </span>
+              </Link>
               <span className="ml-2">
                 <img src="../../../public/assets/images/beach-ball.png" width={24} height={24} />
               </span>
@@ -67,7 +72,7 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
             <p className="text-neutral-600">
               {location.sido_nm} {location.gugun_nm}{' '}
             </p>
-            <div className="w-full pt-1 relative">
+            <div className="w-full pt-1 relative ">
               <Tabs.Group aria-label="Full width tabs" style="fullWidth">
                 <Tabs.Item title="날 씨 ☀️">
                   {!isLoading ? (

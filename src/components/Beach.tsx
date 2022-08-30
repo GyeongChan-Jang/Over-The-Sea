@@ -58,7 +58,7 @@ const Beach = () => {
 
   return (
     <div>
-      <div className="container max-w-7xl xs:w-10/12 mx-auto sm:w-9/12 lg:w-9/12 ">
+      <div className="container max-w-7xl xs:w-10/12 mx-auto sm:w-9/12 lg:w-9/12 relative">
         <div>
           <div className="title flex justify-between "></div>
 
@@ -119,14 +119,14 @@ const Beach = () => {
                     ))}
               </ul>
             ) : (
-              <div className="absolute inset-y-1/2 left-1/2 -translate-x-10 -translate-y-10">
+              <div className="relative left-1/2 -translate-x-10 translate-y-80">
                 <Loading />
               </div>
             )}
           </div>
         </div>
       </div>
-      <div>
+      <div className="absolute bottom-0 left-0 w-full">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
           <path
             fill="#0099ff"
