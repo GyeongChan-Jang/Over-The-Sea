@@ -10,7 +10,7 @@ import {
   setDoc,
   arrayUnion
 } from 'firebase/firestore'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { db } from '~/firebase/fbase'
 import { useUserSelector } from '~/store/store'
 import { BsHeart, BsFillHeartFill } from 'react-icons/bs'
@@ -22,6 +22,8 @@ const BeachReview = ({ params }: any) => {
   const [editContent, setEditContent] = useState('')
   const [like, setLike] = useState(false)
   const [likes, setLikes] = useState<DocumentData[]>([])
+
+  const textRef = useRef<any>('')
 
   useEffect(() => {
     const unsub = onSnapshot(collection(db, 'beaches', params.id, 'posts'), (snap) => {
@@ -36,14 +38,19 @@ const BeachReview = ({ params }: any) => {
     const ok = window.confirm('정말 삭제하시겠습니까?')
     if (ok) {
       const docRef = doc(db, 'beaches', params.id, 'posts', review.pid)
-      const data = await deleteDoc(docRef)
+      await deleteDoc(docRef)
     }
   }
 
   const editReviewHandler = async (review: DocumentData) => {
     if (editContent === '') {
-      alert('내용을 입력해주세요')
-      return
+      if (textRef.current.value === review.content) {
+        setIsEdit(false)
+        return
+      } else {
+        alert('내용을 입력해주세요!')
+        return
+      }
     }
     setIsEdit(false)
     const docRef = doc(db, 'beaches', params.id, 'posts', review.pid)
@@ -148,7 +155,7 @@ const BeachReview = ({ params }: any) => {
               </div>
             </div>
             <div className="flex">
-              <div className="xs:block xs:text-center sm:block md:flex lg:flex xl:flex flex w-full">
+              <div className="xs:block xs:text-center sm:block md:flex md:justify-around lg:flex lg:justify-around flex w-full">
                 {review?.postImage && (
                   <p className="">
                     <img
@@ -161,12 +168,12 @@ const BeachReview = ({ params }: any) => {
                 )}
                 {isEdit && review.uid === user.uid ? (
                   <textarea
-                    className="bg-gray-100 rounded border-gray-400 leading-normal resize-none py-2 px-3 font-xl placeholder-gray-700 focus:outline-none focus:bg-white font-nexonRegular w-full"
+                    className="ml-2 bg-slate-50 rounded border-0 border-gray-400 leading-normal resize-none py-2 px-3 font-xl placeholder-gray-700 focus:outline-none focus:bg-white font-nexonRegular w-full"
                     name="body"
-                    placeholder={review.content}
                     required
+                    ref={textRef}
                     onChange={(e) => setEditContent(e.target.value)}
-                    value={editContent}
+                    value={review.content}
                   ></textarea>
                 ) : (
                   <p className="xs:mt-2 md:ml-2 md:text-start text-gray-700 font-nexonRegular">

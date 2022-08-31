@@ -59,7 +59,7 @@ const BeachPost = ({ params, setPostId }: any) => {
         postImage: null,
         beachId: params.id,
         time: serverTimestamp(),
-        likse: 0,
+        likes: [],
         userImage: userData.userImage,
         userName: userData.name
       })

@@ -145,7 +145,6 @@ const Beach = () => {
                             width={140}
                             height={140}
                             src={beach.beachImage}
-                            alt=""
                           />
                           <div className="absolute top-1/2 text-white w-full text-center -mt-2 tracking-widest h-fit">
                             {beach.sta_nm}

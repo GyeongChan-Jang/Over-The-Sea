@@ -153,8 +153,8 @@ const ReviewDetail = () => {
               <div className="detail flex justify-center ">
                 <img
                   width={300}
-                  height={300}
-                  className="w-full rounded-xl shadow-xl /"
+                  height={400}
+                  className="w-full rounded-xl shadow-xl object-cover"
                   src={beach?.beachImage}
                 />
               </div>
