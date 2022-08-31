@@ -130,19 +130,19 @@ const BeachReview = ({ params }: any) => {
                     {review.time?.toDate().toLocaleString().slice(0, -3)}
                   </p>
                   <p className="flex items-end">
-                    {review.likes.length >= 1 && (
+                    {review?.likes?.length >= 1 && (
                       <BsFillHeartFill
                         onClick={() => likeClickHandler(review)}
                         className="mr-2 cursor-pointer text-rose-500 text-lg"
                       />
                     )}
-                    {review.likes.length === 0 && (
+                    {review?.likes?.length === 0 && (
                       <BsHeart
                         onClick={() => likeClickHandler(review)}
                         className="mr-2 cursor-pointer text-rose-500 text-lg"
                       />
                     )}
-                    <span className="mb-[1px]">{review.likes.length}</span>
+                    <span className="mb-[1px]">{review?.likes?.length}</span>
                   </p>
                 </div>
               </div>

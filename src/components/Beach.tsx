@@ -1,7 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { collection, getDocs, DocumentData, getDoc, onSnapshot, query } from 'firebase/firestore'
+import {
+  collection,
+  getDocs,
+  DocumentData,
+  getDoc,
+  onSnapshot,
+  query,
+  doc,
+  updateDoc
+} from 'firebase/firestore'
 import { db } from '~/firebase/fbase'
 import { Button } from 'flowbite-react'
+import { getStorage, ref, listAll, getDownloadURL } from 'firebase/storage'
 
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
@@ -28,6 +38,7 @@ const Beach = () => {
   const [beaches, setBeaches] = useState<any>([])
   const [regionBeach, setRegionBeach] = useState<any>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [downloadURL, setDownloadURL] = useState<any>([])
 
   const getAllBeaches = async () => {
     setIsLoading(true)
@@ -37,6 +48,49 @@ const Beach = () => {
     })
     setIsLoading(false)
   }
+
+  // const getStoragedBeaches = async () => {
+  //   const storage = getStorage()
+  //   const storageRef = ref(storage, 'beachImages')
+  //   listAll(storageRef).then((res) => {
+  //     res.items.forEach((itemRef) => {
+  //       getDownloadURL(itemRef).then((url) => {
+  //         setDownloadURL((prev: any) => [...prev, url])
+  //       })
+  //     })
+  //   })
+  // }
+
+  // function imageUpdate(index: any, arr: any) {
+  //   // updateDoc(doc(db, 'beaches', doc.id), {
+  //   //   beachImage: downloadURL[index]
+  //   // })
+  //   arr[index].forEach((doc: any) =>
+  //     updateDoc(doc.data(), {
+  //       beachImage: downloadURL[index]
+  //     })
+  //   )
+  // }
+  // console.log(downloadURL)
+
+  // const updateBeachImages = async () => {
+  //   const docRef = await collection(db, 'beaches')
+  //   const snapShot = await getDocs(docRef)
+  //   snapShot.docs.forEach( async (doc, index) => {
+  //     await updateDoc(doc(docRef, doc.id), {
+  //       beachImage: downloadURL[index]
+  //     })
+  // })
+
+  // const updateimage = async () => {
+  //   const docRef = await collection(db, 'beaches')
+  //   const snapShot = await getDocs(docRef)
+  //   snapShot.docs.forEach(async (doc, index) => {
+  //     await updateDoc(doc.ref, {
+  //       beachImage: downloadURL[index]
+  //     })
+  //   })
+  // }
 
   const filterBeaches = (region: string) => {
     setRegionBeach('')
@@ -51,10 +105,10 @@ const Beach = () => {
 
   useEffect(() => {
     getAllBeaches()
-
-    console.log(regionBeach.length)
+    // getStoragedBeaches()
+    // updateBeachImages()
+    // updateimage()
   }, [])
-  console.log(beaches)
 
   return (
     <div>
@@ -75,6 +129,7 @@ const Beach = () => {
               </Button>
             ))}
           </div>
+
           <div className="card">
             {!isLoading ? (
               <ul className="justify-items-center grid xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 h-[600px] overflow-auto">
@@ -89,7 +144,7 @@ const Beach = () => {
                             className="absolute top-0 left-0 w-full h-full object-cover brightness-[.6] hover:scale-125 ease-in duration-300"
                             width={140}
                             height={140}
-                            src="/assets/images/beach11.jpg"
+                            src={beach.beachImage}
                             alt=""
                           />
                           <div className="absolute top-1/2 text-white w-full text-center -mt-2 tracking-widest h-fit">

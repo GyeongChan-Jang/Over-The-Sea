@@ -68,10 +68,11 @@ const BeachPost = ({ params, setPostId }: any) => {
         pid: docRef.id
       })
       console.log(docRef)
-      // 이미지 등록 일단 생략
+
       if (postImage) {
         const imageRef = ref(storage, `beaches/${docRef.id}/image`)
         uploadString(imageRef, postImage, 'data_url').then(async (snapshot) => {
+          console.log(snapshot.ref)
           const downloadURL = await getDownloadURL(snapshot.ref)
           await updateDoc(doc(db, 'beaches', params.id, 'posts', docRef.id), {
             postImage: downloadURL

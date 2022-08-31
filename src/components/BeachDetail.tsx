@@ -155,7 +155,7 @@ const ReviewDetail = () => {
                   width={300}
                   height={300}
                   className="w-full rounded-xl shadow-xl /"
-                  src="/public/assets/images/sokchobeach.jpeg"
+                  src={beach?.beachImage}
                 />
               </div>
             </div>
