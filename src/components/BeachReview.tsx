@@ -30,6 +30,10 @@ const BeachReview = ({ params }: any) => {
       const data = snap.docs.map((doc: DocumentData) => doc.data())
       setReviews(data)
       console.log(data)
+      // 새로고침시 하트 채워짐 유지
+      data.map((item) =>
+        item.likes && item.likes.includes(user.email) ? setLike(true) : setLike(false)
+      )
     })
     return () => unsub()
   }, [params.id])
@@ -60,7 +64,6 @@ const BeachReview = ({ params }: any) => {
   }
 
   const likeClickHandler = async (review: any) => {
-    console.log(review)
     if (!user.name) {
       alert('로그인 후 이용 가능합니다!')
       return
@@ -137,13 +140,13 @@ const BeachReview = ({ params }: any) => {
                     {review.time?.toDate().toLocaleString().slice(0, -3)}
                   </p>
                   <p className="flex items-end">
-                    {review?.likes?.length >= 1 && (
+                    {like && (
                       <BsFillHeartFill
                         onClick={() => likeClickHandler(review)}
                         className="mr-2 cursor-pointer text-rose-500 text-lg"
                       />
                     )}
-                    {review?.likes?.length === 0 && (
+                    {!like && (
                       <BsHeart
                         onClick={() => likeClickHandler(review)}
                         className="mr-2 cursor-pointer text-rose-500 text-lg"

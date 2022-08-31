@@ -34,7 +34,6 @@ const ReviewDetail = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [postId, setPostId] = useState<any>()
   const [beach, setBeach] = useState<any>()
-  const [heartClicked, setHeartClicked] = useState<boolean>(false)
   const [like, setLike] = useState<boolean>(false)
   const [likes, setLikes] = useState<DocumentData[]>([])
   const user = useUserSelector((state) => state.user.userData)
@@ -55,11 +54,15 @@ const ReviewDetail = () => {
     getOneBeach()
   }, [])
 
+  console.log(like)
   useEffect(() => {
     if (!params.id) return
     const unsub = onSnapshot(collection(db, 'beaches', params.id, 'likes'), (snap) => {
-      console.log(snap.docs)
-      setLikes(snap.docs)
+      console.log(snap.docs.map((doc: DocumentData) => doc.data()))
+      // 새로고침시 하트 채워짐 유지
+      snap.docs.map((doc: DocumentData) => doc.data().username === user.name && setLike(true))
+      setLikes(snap.docs.map((doc: DocumentData) => doc.data()))
+      console.log(like)
     })
     return () => unsub()
   }, [params.id])
@@ -69,8 +72,6 @@ const ReviewDetail = () => {
       alert('로그인 후 이용 가능합니다!')
       return
     }
-
-    console.log(likes)
 
     setLike((prev) => !prev)
     if (like) {
