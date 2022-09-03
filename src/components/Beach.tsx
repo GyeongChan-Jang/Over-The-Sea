@@ -49,49 +49,6 @@ const Beach = () => {
     setIsLoading(false)
   }
 
-  // const getStoragedBeaches = async () => {
-  //   const storage = getStorage()
-  //   const storageRef = ref(storage, 'beachImages')
-  //   listAll(storageRef).then((res) => {
-  //     res.items.forEach((itemRef) => {
-  //       getDownloadURL(itemRef).then((url) => {
-  //         setDownloadURL((prev: any) => [...prev, url])
-  //       })
-  //     })
-  //   })
-  // }
-
-  // function imageUpdate(index: any, arr: any) {
-  //   // updateDoc(doc(db, 'beaches', doc.id), {
-  //   //   beachImage: downloadURL[index]
-  //   // })
-  //   arr[index].forEach((doc: any) =>
-  //     updateDoc(doc.data(), {
-  //       beachImage: downloadURL[index]
-  //     })
-  //   )
-  // }
-  // console.log(downloadURL)
-
-  // const updateBeachImages = async () => {
-  //   const docRef = await collection(db, 'beaches')
-  //   const snapShot = await getDocs(docRef)
-  //   snapShot.docs.forEach( async (doc, index) => {
-  //     await updateDoc(doc(docRef, doc.id), {
-  //       beachImage: downloadURL[index]
-  //     })
-  // })
-
-  // const updateimage = async () => {
-  //   const docRef = await collection(db, 'beaches')
-  //   const snapShot = await getDocs(docRef)
-  //   snapShot.docs.forEach(async (doc, index) => {
-  //     await updateDoc(doc.ref, {
-  //       beachImage: downloadURL[index]
-  //     })
-  //   })
-  // }
-
   const filterBeaches = (region: string) => {
     setRegionBeach('')
     if (region === '전체') {
@@ -100,14 +57,10 @@ const Beach = () => {
     beaches.map((beach: any) => {
       beach.sido_nm === region ? setRegionBeach((prev: any) => [...prev, beach]) : null
     })
-    console.log(regionBeach)
   }
 
   useEffect(() => {
     getAllBeaches()
-    // getStoragedBeaches()
-    // updateBeachImages()
-    // updateimage()
   }, [])
 
   return (
@@ -162,7 +115,7 @@ const Beach = () => {
                             className="absolute top-0 left-0 w-full h-full object-cover brightness-[.6] hover:scale-125 ease-in duration-300  "
                             width={140}
                             height={140}
-                            src="/assets/images/beach11.jpg"
+                            src={beach.beachImage}
                             alt=""
                           />
                           <div className="absolute top-1/2 text-white w-full text-center -mt-2 tracking-widest h-fit">

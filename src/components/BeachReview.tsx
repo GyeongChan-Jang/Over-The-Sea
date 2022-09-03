@@ -21,7 +21,6 @@ const BeachReview = ({ params }: any) => {
   const [isEdit, setIsEdit] = useState(false)
   const [editContent, setEditContent] = useState('')
   const [like, setLike] = useState(false)
-  const [likes, setLikes] = useState<DocumentData[]>([])
 
   const textRef = useRef<any>('')
 
@@ -69,6 +68,7 @@ const BeachReview = ({ params }: any) => {
       return
     }
     setLike((prev) => !prev)
+
     if (like) {
       await deleteDoc(doc(db, 'beaches', params.id, 'posts', review.pid, 'likes', user.name))
       await updateDoc(doc(db, 'beaches', params.id, 'posts', review.pid), {
@@ -140,7 +140,7 @@ const BeachReview = ({ params }: any) => {
                     {review.time?.toDate().toLocaleString().slice(0, -3)}
                   </p>
                   <p className="flex items-end">
-                    {like && (
+                    {review.likes.includes(user.email) && like && (
                       <BsFillHeartFill
                         onClick={() => likeClickHandler(review)}
                         className="mr-2 cursor-pointer text-rose-500 text-lg"
