@@ -9,6 +9,7 @@ import { LocationType } from '~/hooks/useGeolocation'
 import MapOverlay from './UI/MapOverlay'
 import { getSeaWater } from '~/utils/getSeaWater'
 import { getSand } from '~/utils/getSand'
+import { regions } from '~/constants/regions.json'
 
 const BeachMap = ({
   regionClickHandler,
@@ -19,7 +20,6 @@ const BeachMap = ({
   setIsOpen,
   isOpen
 }: any) => {
-  const regions = ['부산', '인천', '울산', '강원', '충남', '전북', '전남', '경북', '경남', '제주']
   const mapRef = useRef<any>()
 
   // info -> 마커 클릭시 해당 마커 위치 정보

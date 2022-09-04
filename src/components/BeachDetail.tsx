@@ -148,7 +148,7 @@ const ReviewDetail = () => {
             <div>
               <div className="divider flex flex-col gap-4 mb-4">
                 <div className="text-center text-gray-700 text-xl">사진보기</div>
-                <div className="divide h-[3px] bg-[#333] my-4 w-[90%] mx-auto"></div>
+                <div className="divide h-[3px] bg-[#333] my-4 w-[90%] mx-auto rounded-lg"></div>
               </div>
 
               <div className="detail flex justify-center ">
@@ -164,7 +164,7 @@ const ReviewDetail = () => {
             <div>
               <div className="divider flex flex-col gap-4 mt-4 ">
                 <div className="text-center text-gray-700 text-xl">지도 보기</div>
-                <div className="divide h-[3px] bg-[#333] my-4 w-[90%] mx-auto"></div>
+                <div className="divide h-[3px] bg-[#333] my-4 w-[90%] mx-auto rounded-lg"></div>
               </div>
               <div className="map flex justify-center px-4 py-4">
                 <Map

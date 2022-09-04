@@ -20,21 +20,9 @@ import { getBeach } from '~/utils/getBeach'
 import { SettingsBackupRestoreSharp } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 import Loading from './Loading'
+import { regions } from '~/constants/regions.json'
 
 const Beach = () => {
-  const regions = [
-    '부산',
-    '인천',
-    '울산',
-    '강원',
-    '충남',
-    '전북',
-    '전남',
-    '경북',
-    '경남',
-    '제주',
-    '전체'
-  ]
   const [beaches, setBeaches] = useState<any>([])
   const [regionBeach, setRegionBeach] = useState<any>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -92,7 +80,7 @@ const Beach = () => {
                         className="w-[140px] h-[140px] bg-red-300 relative overflow-hidden cursor-pointer rounded-lg shadow-xl"
                         key={index}
                       >
-                        <Link to={`/review/${beach.sta_nm}`}>
+                        <Link to={`/detail/${beach.sta_nm}`}>
                           <img
                             className="absolute top-0 left-0 w-full h-full object-cover brightness-[.6] hover:scale-125 ease-in duration-300"
                             width={140}
@@ -110,7 +98,7 @@ const Beach = () => {
                         className="w-[140px] h-[140px] bg-red-300 relative overflow-hidden cursor-pointer rounded-lg shadow-xl"
                         key={index}
                       >
-                        <Link to={`/review/${beach.sta_nm}`}>
+                        <Link to={`/detail/${beach.sta_nm}`}>
                           <img
                             className="absolute top-0 left-0 w-full h-full object-cover brightness-[.6] hover:scale-125 ease-in duration-300  "
                             width={140}

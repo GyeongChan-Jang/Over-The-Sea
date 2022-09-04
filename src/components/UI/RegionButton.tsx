@@ -1,9 +1,9 @@
 import React from 'react'
 import { Button } from 'flowbite-react'
 import ToggleButton from './ToggleButton'
+import { regions } from '~/constants/regions.json'
 
 const RegionButton = ({ region, regionClickHandler }: any) => {
-  const regions = ['부산', '인천', '울산', '강원', '충남', '전북', '전남', '경북', '경남', '제주']
   return (
     <div>
       <div className="title flex justify-between ">

@@ -1,7 +1,5 @@
 import axios from 'axios'
 
-const regions = ['부산', '인천', '울산', '강원', '충남', '전북', '전남', '경북', '경남', '제주']
-
 interface SeaWaterQuery {
   ServiceKey: string
   pageNo: number

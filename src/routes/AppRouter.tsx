@@ -9,11 +9,10 @@ import { Flowbite } from 'flowbite-react'
 import Navigation from '~/components/Navigation'
 import flowbiteTheme from '~/styles/flowbiteTheme'
 import NotFound from '~/components/NotFound'
-import Banner from '~/components/Banner'
 import Beach from '~/components/Beach'
-import BeachPost from '~/components/BeachPost'
 import ReviewDetail from '~/components/BeachDetail'
 import Profile from '~/components/Profile'
+import BeachFeed from '~/components/BeachFeed'
 
 const AppRouter = () => {
   const { userData } = useUserSelector((state) => state.user)
@@ -32,8 +31,8 @@ const AppRouter = () => {
         {userData.uid && <Route path="/profile" element={<Profile />} />}
         {userData.uid && <Route path="/map" element={<Map />} />}
         <Route path="/beach" element={<Beach />} />
-        <Route path="/review" element={<BeachPost />} />
-        <Route path="/review/:id" element={<ReviewDetail />} />
+        <Route path="/review" element={<BeachFeed />} />
+        <Route path="/detail/:id" element={<ReviewDetail />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Flowbite>
