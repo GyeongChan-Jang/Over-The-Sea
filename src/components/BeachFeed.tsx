@@ -27,7 +27,7 @@ const BeachFeed = () => {
 
   return (
     <div>
-      <div className="container max-w-7xl xs:w-10/12 mx-auto sm:w-9/12 lg:w-9/12 relative">
+      <div className="mt-10 container max-w-7xl xs:w-10/12 mx-auto sm:w-9/12 lg:w-9/12 relative">
         {/* 지역 버튼 */}
         <div className="my-4 flex flex-wrap justify-center gap-4 rounded-md shadow-xl p-4 bg-white">
           {regions.map((region: any) => (
@@ -42,7 +42,7 @@ const BeachFeed = () => {
           <div className="divider flex flex-col gap-4 mb-4">
             <div className="divide h-[3px] bg-[#333] my-4 w-[360px] mx-auto rounded-lg"></div>
           </div>
-          <h2 className="text-2xl text-teal-800">{regionName}</h2>
+          <h2 className="text-2xl text-teal-800">{regionName ? regionName : '전체'}</h2>
         </div>
         {/* 포스팅 */}
         <div className="flex min-h-screen flex-wrap content-start justify-center mt-10">

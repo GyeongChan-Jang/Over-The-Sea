@@ -24,7 +24,7 @@ const queryParams: WeatherQuery = {
   pageNo: 1,
   numOfRows: 100,
   dataType: 'JSON',
-  base_date: '20220809',
+  base_date: '20220906',
   base_time: '1400',
   nx: 55,
   ny: 127
@@ -34,7 +34,7 @@ export const getWeather = async (payload: any) => {
   console.log(payload)
   try {
     const response = await axios.get(
-      'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst',
+      'https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst',
       {
         params: {
           ...queryParams,

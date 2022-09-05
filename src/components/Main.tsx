@@ -8,10 +8,15 @@ import { db } from '~/firebase/fbase'
 import { getBeach } from '~/utils/getBeach'
 import { addDoc, collection, doc, getDoc, onSnapshot, setDoc, updateDoc } from 'firebase/firestore'
 import useGetAllBeach from '~/hooks/useGetAllBeach'
+import { getWeather } from '~/utils/getWeather'
 
 const Main = () => {
   const { userData } = useSelector((state: any) => state.user)
   console.log(userData)
+
+  useEffect(() => {
+    getWeather('').then((response) => console.log(response))
+  }, [])
 
   return (
     <div>

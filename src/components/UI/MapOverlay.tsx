@@ -47,6 +47,7 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
       })
       .catch((err) => console.log(err))
   }, [])
+  console.log(location)
 
   return (
     <div className="overlaybox">
@@ -60,7 +61,7 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
               <span className="mr-2">
                 <img src="../../../public/assets/images/beach-ball.png" width={24} height={24} />
               </span>
-              <Link className="focus: text-blue-800" to={`/review/${location.sta_nm}`}>
+              <Link className="focus: text-blue-800" to={`/detail/${location.sta_nm}`}>
                 <span className="align-top hover:scale-105 hover:text-red-500 cursor-pointer">
                   {location.sta_nm} 해수욕장
                 </span>

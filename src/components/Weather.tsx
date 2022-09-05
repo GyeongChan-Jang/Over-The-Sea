@@ -54,6 +54,7 @@ const Weather = ({ locationWeather }: any) => {
         })
       })
       .catch((err) => console.log(err))
+    console.log(today)
   }, [])
 
   console.log(forecastTmp)

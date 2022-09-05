@@ -30,9 +30,9 @@ const AppRouter = () => {
         <Route path="/auth" element={<AuthForm />} />
         {userData.uid && <Route path="/profile" element={<Profile />} />}
         {userData.uid && <Route path="/map" element={<Map />} />}
+        {userData.uid && <Route path="/detail/:id" element={<ReviewDetail />} />}
         <Route path="/beach" element={<Beach />} />
         <Route path="/review" element={<BeachFeed />} />
-        <Route path="/detail/:id" element={<ReviewDetail />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Flowbite>
