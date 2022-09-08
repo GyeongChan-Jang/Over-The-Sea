@@ -24,7 +24,7 @@ const LignGraph = ({ forecastTmp, num }: any) => {
   return (
     <div className="flex justify-center mt-8 overflow-x-auto">
       <LineChart
-        width={800}
+        width={700}
         height={200}
         data={forecastTmp?.slice(num * 6, (num + 1) * 6).map(({ fcstValue, fcstTime }: any) => ({
           fcstValue,

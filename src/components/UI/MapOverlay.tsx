@@ -51,18 +51,24 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
 
   return (
     <div className="overlaybox">
-      <div className="max-w-xs -m-2">
+      <div className="max-w-xs -m-2 relative">
         <Card
           imgAlt="Meaningful alt text for an image that is not purely decorative"
-          imgSrc="https://www.gtdc.or.kr/dzSmart/upfiles/Tours/2018August/34/0cbd16f8edf5e3e1ec23f1da43b791de_1534734408.jpg"
+          imgSrc="https://user-images.githubusercontent.com/90392240/189193054-cced26a2-a577-4b29-84b8-c5999bd8a003.jpg"
         >
+          <button
+            className="absolute z-10 right-2 top-2 text-white"
+            onClick={() => setIsOpen(false)}
+          >
+            X
+          </button>
           <div className="flex flex-col items-center gap-2">
             <p className="text-center text-blue-700 text-lg align-middle">
               <span className="mr-2">
                 <img src="../../../public/assets/images/beach-ball.png" width={24} height={24} />
               </span>
               <Link className="focus: text-blue-800" to={`/detail/${location.sta_nm}`}>
-                <span className="align-top hover:scale-105 hover:text-red-500 cursor-pointer">
+                <span className="align-top hover:scale-105 hover:text-red-500 cursor-pointer text-xl">
                   {location.sta_nm} 해수욕장
                 </span>
               </Link>
@@ -275,7 +281,6 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
               </Tabs.Group>
             </div>
           </div>
-          <button onClick={() => setIsOpen(false)}>X</button>
         </Card>
       </div>
     </div>

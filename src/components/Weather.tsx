@@ -134,9 +134,9 @@ const Weather = ({ locationWeather }: any) => {
                 <Box className="w-full mt-10">
                   <Box className="border-b-1 divide-blue-500">
                     <Tabs value={value} onChange={tabHandler} variant="fullWidth">
-                      <Tab label="날씨" className="font-jalnanche" />
-                      <Tab label="습도" className="font-jalnanche" />
-                      <Tab label="바람" className="font-jalnanche" />
+                      <Tab label="날씨" className="font-jalnanche " />
+                      <Tab label="습도" className="font-jalnanche overflow-auto" />
+                      <Tab label="바람" className="font-jalnanche overflow-auto" />
                     </Tabs>
                   </Box>
                   <TabPanel value={value} index={0}>

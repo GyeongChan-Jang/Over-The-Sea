@@ -110,7 +110,7 @@ const BeachMap = ({
         </div>
         <div className="rounded-2xl shadow-2xl mb-10">
           <Map // 지도를 표시할 Container
-            className="w-full h-[450px] bg-white rounded-2xl shadow-2xl"
+            className="w-full h-[500px] bg-white rounded-2xl shadow-2xl"
             center={{
               // 지도의 중심좌표
               lat:
