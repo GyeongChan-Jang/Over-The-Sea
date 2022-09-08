@@ -1,14 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import {
-  collection,
-  getDocs,
-  DocumentData,
-  getDoc,
-  onSnapshot,
-  query,
-  doc,
-  updateDoc
-} from 'firebase/firestore'
+import { collection, getDocs, DocumentData, getDoc, onSnapshot, query, doc, updateDoc } from 'firebase/firestore'
 import { db } from '~/firebase/fbase'
 import { Button } from 'flowbite-react'
 import { getStorage, ref, listAll, getDownloadURL } from 'firebase/storage'
@@ -59,13 +50,7 @@ const Beach = () => {
 
           <div className="my-4 flex flex-wrap justify-center gap-4 rounded-md shadow-xl p-4 bg-white">
             {regions.map((region: any) => (
-              <Button
-                key={region}
-                color="dark"
-                pill={true}
-                name={region}
-                onClick={() => filterBeaches(region)}
-              >
+              <Button key={region} color="dark" pill={true} name={region} onClick={() => filterBeaches(region)}>
                 {region}
               </Button>
             ))}
@@ -114,7 +99,7 @@ const Beach = () => {
                     ))}
               </ul>
             ) : (
-              <div className="">
+              <div>
                 <Loading />
               </div>
             )}
