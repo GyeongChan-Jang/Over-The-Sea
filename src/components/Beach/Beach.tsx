@@ -10,7 +10,7 @@ import Row from 'react-bootstrap/Row'
 import { getBeach } from '~/utils/getBeach'
 import { SettingsBackupRestoreSharp } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
-import Loading from './Loading'
+import Loading from '~/components/Loading'
 import { regions } from '~/constants/regions.json'
 
 const Beach = () => {

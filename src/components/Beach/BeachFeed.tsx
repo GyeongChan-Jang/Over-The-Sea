@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { regions } from '~/constants/regions.json'
 import { collection, doc, getDocs, query, where } from 'firebase/firestore'
 import { db } from '~/firebase/fbase'
-import Loading from './Loading'
+import Loading from '~/components/Loading'
 import { useUserSelector } from '~/store/store'
 
 const BeachFeed = () => {

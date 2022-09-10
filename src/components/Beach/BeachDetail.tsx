@@ -27,7 +27,7 @@ import BeachPost from './BeachPost'
 import BeachReview from './BeachReview'
 import { useSelector } from 'react-redux'
 import { useUserSelector } from '~/store/store'
-import Loading from '../Loading'
+import Loading from '~/components/Loading'
 
 const ReviewDetail = () => {
   const params: any = useParams()
