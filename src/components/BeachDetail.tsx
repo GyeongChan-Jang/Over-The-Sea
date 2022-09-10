@@ -37,6 +37,7 @@ const ReviewDetail = () => {
   const [like, setLike] = useState<boolean>(false)
   const [likes, setLikes] = useState<DocumentData[]>([])
   const user = useUserSelector((state) => state.user.userData)
+  console.log(beach)
 
   const getOneBeach = async () => {
     setIsLoading(true)
@@ -44,7 +45,6 @@ const ReviewDetail = () => {
     const docSnap = await getDoc(docRef)
     if (docSnap.exists()) {
       setBeach(docSnap.data())
-      console.log(docSnap.data())
     }
 
     setIsLoading(false)
@@ -89,6 +89,19 @@ const ReviewDetail = () => {
     }
   }
 
+  const onShareHandler = async () => {
+    try {
+      await navigator.share({
+        title: '떠나자 바다로, 바다어때!',
+        text: `${beach.sta_nm} 해수욕장`,
+        url: ''
+      })
+      console.log('공유 성공!')
+    } catch (e) {
+      alert('공유 기능이 지원되지 않는 브라우저입니다.')
+    }
+  }
+
   return (
     <div>
       <div className="container max-w-7xl mx-auto sm:w-9/12 lg:w-9/12">
@@ -114,9 +127,7 @@ const ReviewDetail = () => {
                     </em>
                     <br />
                     <em>
-                      <span className="text-rose-500">
-                        {beach?.link_tel ? beach?.link_tel : '정보 없음'}
-                      </span>
+                      <span className="text-rose-500">{beach?.link_tel ? beach?.link_tel : '정보 없음'}</span>
                     </em>
                   </div>
                 </div>
@@ -130,16 +141,13 @@ const ReviewDetail = () => {
                         />
                       )}
                       {!like && (
-                        <BsHeart
-                          className="cursor-pointer text-rose-500 text-2xl spin"
-                          onClick={likeClickHandler}
-                        />
+                        <BsHeart className="cursor-pointer text-rose-500 text-2xl spin" onClick={likeClickHandler} />
                       )}
                       <p className="p-1 ml-2 leading-4 text-xl w-4">{likes.length}</p>
                     </div>
                   </div>
                   <div>
-                    <FiShare2 className="text-2xl" />
+                    <FiShare2 className="text-2xl cursor-pointer" onClick={onShareHandler} />
                   </div>
                 </div>
               </div>

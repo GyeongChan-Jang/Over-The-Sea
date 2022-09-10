@@ -46,7 +46,6 @@ const Profile = () => {
     dispatch(updateUserProfileName({ uid: userData.uid, userName: changeName }))
     setNameUpdateMode(false)
   }
-  console.log(changeRef.current?.value)
 
   return (
     <div>
