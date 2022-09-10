@@ -6,20 +6,12 @@ import { Button, Card } from 'flowbite-react'
 
 import useGeolocation from '~/hooks/useGeolocation'
 import { LocationType } from '~/hooks/useGeolocation'
-import MapOverlay from './UI/MapOverlay'
+import MapOverlay from '../UI/MapOverlay'
 import { getSeaWater } from '~/utils/getSeaWater'
 import { getSand } from '~/utils/getSand'
 import { regions } from '~/constants/regions.json'
 
-const BeachMap = ({
-  regionClickHandler,
-  setMap,
-  map,
-  locations,
-  setLocationWeather,
-  setIsOpen,
-  isOpen
-}: any) => {
+const BeachMap = ({ regionClickHandler, setMap, map, locations, setLocationWeather, setIsOpen, isOpen }: any) => {
   const mapRef = useRef<any>()
 
   // info -> 마커 클릭시 해당 마커 위치 정보
@@ -97,13 +89,7 @@ const BeachMap = ({
         <div className="divide h-[2px] bg-[#333] my-4"></div>
         <div className="my-4 flex flex-wrap justify-center gap-4 rounded-md shadow-xl p-4 bg-white">
           {regions.map((region: any) => (
-            <Button
-              color="dark"
-              pill={true}
-              key={region}
-              name={region}
-              onClick={regionClickHandler}
-            >
+            <Button color="dark" pill={true} key={region} name={region} onClick={regionClickHandler}>
               {region}
             </Button>
           ))}
@@ -113,14 +99,8 @@ const BeachMap = ({
             className="w-full h-[500px] bg-white rounded-2xl shadow-2xl"
             center={{
               // 지도의 중심좌표
-              lat:
-                isCurrentLocation && currentLocation.loaded
-                  ? currentLocation.coordinates!.lat
-                  : 37.5665,
-              lng:
-                isCurrentLocation && currentLocation.loaded
-                  ? currentLocation.coordinates!.lng
-                  : 126.978
+              lat: isCurrentLocation && currentLocation.loaded ? currentLocation.coordinates!.lat : 37.5665,
+              lng: isCurrentLocation && currentLocation.loaded ? currentLocation.coordinates!.lng : 126.978
             }}
             level={7} // 지도의 확대 레벨
             onCreate={setMap}
@@ -129,12 +109,7 @@ const BeachMap = ({
           >
             <MapTypeControl position={kakao.maps.ControlPosition.TOPLEFT} />
             <ZoomControl position={kakao.maps.ControlPosition.RIGHT} />
-            <MarkerClusterer
-              averageCenter={true}
-              minLevel={12}
-              onClusterclick={onClusterclick}
-              disableClickZoom={true}
-            >
+            <MarkerClusterer averageCenter={true} minLevel={12} onClusterclick={onClusterclick} disableClickZoom={true}>
               {markers && isCurrentLocation && currentLocation.loaded ? (
                 <MapMarker
                   position={{
@@ -198,8 +173,7 @@ const BeachMap = ({
                         <span className="text-gray-500">
                           {location.beach_len ? (
                             <span className="text-black">
-                              해변 총 길이:{' '}
-                              <span className="text-gray-500">{location.beach_len}m</span>
+                              해변 총 길이: <span className="text-gray-500">{location.beach_len}m</span>
                             </span>
                           ) : (
                             ''
@@ -210,8 +184,7 @@ const BeachMap = ({
                         <span className="text-gray-500">
                           {location.beach_knd ? (
                             <span className="text-black">
-                              해변 종류:{' '}
-                              <span className="text-amber-600">{location.beach_knd}</span>
+                              해변 종류: <span className="text-amber-600">{location.beach_knd}</span>
                             </span>
                           ) : (
                             ''
@@ -220,12 +193,7 @@ const BeachMap = ({
                       </p>
                     </div>
                   ) : isOpen && info && info.sta_nm === location.sta_nm ? (
-                    <MapOverlay
-                      setIsOpen={setIsOpen}
-                      location={location}
-                      seaWater={seaWater}
-                      sand={sand}
-                    />
+                    <MapOverlay setIsOpen={setIsOpen} location={location} seaWater={seaWater} sand={sand} />
                   ) : (
                     ''
                   )}

@@ -22,12 +22,12 @@ import {
   where
 } from 'firebase/firestore'
 import { db } from '~/firebase/fbase'
-import Loading from './Loading'
 import { KakaoMapMarkerClustererContext } from 'react-kakao-maps-sdk/lib/@types/components/MarkerClusterer'
 import BeachPost from './BeachPost'
 import BeachReview from './BeachReview'
 import { useSelector } from 'react-redux'
 import { useUserSelector } from '~/store/store'
+import Loading from '../Loading'
 
 const ReviewDetail = () => {
   const params: any = useParams()

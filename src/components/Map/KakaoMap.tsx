@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import Loading from './Loading'
+import Loading from '../Loading'
 import useGeolocation from '~/hooks/useGeolocation'
 import BeachMap from './BeachMap'
 import { getBeach } from '~/utils/getBeach'
-import Weather from './Weather'
+import Weather from '../Weather'
 import { useUserSelector } from '~/store/store'
 
 interface RequestQuery {
