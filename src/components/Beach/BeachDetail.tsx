@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import BeachMap from './BeachMap'
+import BeachMap from '../Map/BeachMap'
 import { BsHeart, BsFillHeartFill } from 'react-icons/bs'
 import { FiShare2 } from 'react-icons/fi'
 import { Map, MapMarker, MapTypeControl, ZoomControl } from 'react-kakao-maps-sdk'
