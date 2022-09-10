@@ -3,7 +3,7 @@ import { Navigation } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 const CustomizedLabel = ({ x, y, value }: any) => (
-  <text x={x} y={y} dy={-10} dx={10} fontSize={12} textAnchor="right">
+  <text x={x} y={y} dx={30} dy={-10} fontSize={12} textAnchor="right">
     {value}%
   </text>
 )

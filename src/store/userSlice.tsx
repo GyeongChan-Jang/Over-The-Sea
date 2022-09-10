@@ -7,8 +7,9 @@ import {
   FacebookAuthProvider,
   updateProfile
 } from 'firebase/auth'
-import { addDoc, collection, doc, getDoc, setDoc } from 'firebase/firestore'
-import { authService } from '~/firebase/fbase'
+import { addDoc, collection, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
+import { getDownloadURL, ref, uploadString } from 'firebase/storage'
+import { authService, storage } from '~/firebase/fbase'
 import { db } from '~/firebase/fbase'
 
 interface UserStateTypes {
@@ -110,75 +111,112 @@ export const signInFacebookHandler = createAsyncThunk('user/signinFacebookHandle
   }
 })
 
-export const signUpEmail = createAsyncThunk(
-  'user/signUpEmail',
-  async ({ name, email, password }: UserSginInput) => {
-    try {
-      await createUserWithEmailAndPassword(authService, email, password)
-      if (authService.currentUser === null) return
-      // updateProfile은 비동기!!! await 붙여야함!
-      await updateProfile(authService.currentUser, { displayName: name })
-      const user = authService.currentUser?.providerData[0]
+export const signUpEmail = createAsyncThunk('user/signUpEmail', async ({ name, email, password }: UserSginInput) => {
+  try {
+    await createUserWithEmailAndPassword(authService, email, password)
+    if (authService.currentUser === null) return
+    // updateProfile은 비동기!!! await 붙여야함!
+    await updateProfile(authService.currentUser, { displayName: name })
+    const user = authService.currentUser?.providerData[0]
 
-      if (!user.displayName || !user.email) return
+    if (!user.displayName || !user.email) return
 
-      const docRef = doc(db, 'users', user!.uid)
-      const docSnapshot = await getDoc(docRef)
+    const docRef = doc(db, 'users', user!.uid)
+    const docSnapshot = await getDoc(docRef)
 
-      if (!docSnapshot.exists() && user) {
-        await setDoc(docRef, {
-          name: user.displayName,
-          email: user.email,
-          userImage: user.photoURL,
-          uid: user.uid
-        })
-        const newUser: UserStateTypes['userData'] = {
-          name: user.displayName,
-          email: user.email,
-          uid: user.uid
-        }
-        console.log(newUser)
-        return newUser
-      } else {
-        return docSnapshot.data()
+    if (!docSnapshot.exists() && user) {
+      await setDoc(docRef, {
+        name: user.displayName,
+        email: user.email,
+        userImage: user.photoURL,
+        uid: user.uid
+      })
+      const newUser: UserStateTypes['userData'] = {
+        name: user.displayName,
+        email: user.email,
+        uid: user.uid
       }
+      console.log(newUser)
+      return newUser
+    } else {
+      return docSnapshot.data()
+    }
+  } catch (error) {
+    alert(error)
+  }
+})
+
+export const signInEmail = createAsyncThunk('user/signInEmail', async ({ email, password }: UserSginInput) => {
+  try {
+    await signInWithEmailAndPassword(authService, email, password)
+    const user = authService.currentUser?.providerData[0]
+
+    if (!user?.displayName || !user.email) return
+
+    const docRef = doc(db, 'users', user!.uid)
+    const docSnapshot = await getDoc(docRef)
+    console.log(docSnapshot)
+    if (!docSnapshot.exists() && user) {
+      await setDoc(docRef, {
+        name: user.displayName,
+        email: user.email,
+        userImage: user.photoURL,
+        uid: user.uid
+      })
+      const newUser: UserStateTypes['userData'] = {
+        name: user.displayName,
+        email: user.email!,
+        uid: user.uid
+      }
+      console.log(newUser)
+      return newUser
+    } else {
+      return docSnapshot.data()
+    }
+  } catch (error: any) {
+    alert(error.message)
+  }
+})
+
+type updateProfileInput = {
+  uid: string
+  userImage?: string
+  userName?: string
+}
+
+export const updateUserProfileName = createAsyncThunk(
+  'user/updateUserProfileName',
+  async ({ uid, userName }: updateProfileInput) => {
+    try {
+      const docRef = doc(db, 'users', uid)
+      await updateDoc(docRef, {
+        name: userName
+      })
+      return { userName: userName }
     } catch (error) {
-      alert(error)
+      console.log(error)
     }
   }
 )
 
-export const signInEmail = createAsyncThunk(
-  'user/signInEmail',
-  async ({ email, password }: UserSginInput) => {
+export const updateUserProfileImage = createAsyncThunk(
+  'user/updateProfileImage',
+  async (currentUser: updateProfileInput) => {
     try {
-      await signInWithEmailAndPassword(authService, email, password)
-      const user = authService.currentUser?.providerData[0]
+      const image = currentUser.userImage
+      const docRef = await doc(db, 'users', currentUser.uid)
+      const imageRef = ref(storage, `user/${docRef.id}/profileImage`)
+      console.log(image)
 
-      if (!user?.displayName || !user.email) return
-
-      const docRef = doc(db, 'users', user!.uid)
-      const docSnapshot = await getDoc(docRef)
-      console.log(docSnapshot)
-      if (!docSnapshot.exists() && user) {
-        await setDoc(docRef, {
-          name: user.displayName,
-          email: user.email,
-          userImage: user.photoURL,
-          uid: user.uid
+      uploadString(imageRef, image as string, 'data_url').then(async (snapshot) => {
+        const downloadURL = await getDownloadURL(snapshot.ref)
+        await updateDoc(doc(db, 'users', docRef.id), {
+          userImage: downloadURL
         })
-        const newUser: UserStateTypes['userData'] = {
-          name: user.displayName,
-          email: user.email!,
-          uid: user.uid
-        }
-        console.log(newUser)
-        return newUser
-      } else {
-        return docSnapshot.data()
-      }
-    } catch (error: any) {
-      alert(error.message)
+      })
+      return { userImage: currentUser.userImage }
+    } catch (error) {
+      console.log(error)
     }
   }
 )
@@ -222,9 +260,12 @@ const userSlice = createSlice({
       state.userData.uid = payload?.uid
     })
     builder.addCase(signUpEmail.fulfilled, (state, { payload }: any) => {
+      if (payload === undefined) {
+        alert('이미 존재하는 이메일입니다.')
+      }
       state.loading = false
       state.error = null
-      alert('회원가입 성공')
+      alert('회원가입이 완료되었습니다.')
     })
     builder.addCase(signUpEmail.pending, (state) => {
       state.loading = true
@@ -250,6 +291,18 @@ const userSlice = createSlice({
     builder.addCase(signInEmail.rejected, (state, { payload }: any) => {
       state.loading = false
       state.error = payload.message
+    })
+    builder.addCase(updateUserProfileImage.fulfilled, (state, { payload }: any) => {
+      state.loading = false
+      state.error = null
+      state.userData.userImage = payload?.userImage
+      alert('이미지가 변경되었습니다.')
+    })
+    builder.addCase(updateUserProfileName.fulfilled, (state, { payload }: any) => {
+      state.loading = false
+      state.error = null
+      state.userData.name = payload?.userName
+      alert('이름이 변경되었습니다.')
     })
   }
 })

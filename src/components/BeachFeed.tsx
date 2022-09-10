@@ -4,17 +4,20 @@ import { regions } from '~/constants/regions.json'
 import { collection, doc, getDocs, query, where } from 'firebase/firestore'
 import { db } from '~/firebase/fbase'
 import Loading from './Loading'
+import { useUserSelector } from '~/store/store'
 
 const BeachFeed = () => {
   const [regionName, setRegionName] = useState<string>('')
   const [reviews, setReviews] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const user = useUserSelector((state) => state.user.userData)
 
   const buttonHanlder = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
     const { name } = e.currentTarget
     setRegionName(name)
   }
+  console.log(reviews)
 
   const getReview = async (region: string) => {
     setIsLoading(true)
@@ -94,19 +97,14 @@ const BeachFeed = () => {
                         : 'https://1.bp.blogspot.com/-ezrLFVDoMhg/Xlyf7yQWzaI/AAAAAAABXrA/utIBXYJDiPYJ4hMzRXrZSHrcZ11sW2PiACNcBGAsYHQ/s1600/no_image_yoko.jpg'
                     }
                   />
-                  <ul className="mt-3 flex flex-wrap">
+                  <ul className="mt-3 flex flex-wrap gap-2">
                     <li className="mr-auto">
-                      <a href="#" className="flex text-gray-400 hover:text-gray-600">
-                        <svg className="mr-0.5" style={{ width: '24px', height: '24px' }} viewBox="0 0 24 24">
-                          <path
-                            fill="currentColor"
-                            d="M21,12L14,5V9C7,10 4,15 3,20C5.5,16.5 9,14.9 14,14.9V19L21,12Z"
-                          />
-                        </svg>
-                        1
-                      </a>
+                      <span>{review.content}</span>
                     </li>
-                    <li className="mr-2">
+                    <li className="text-slate-700">
+                      <span>{review.userName}</span>
+                    </li>
+                    {/* <li className="mr-2">
                       <a href="#" className="flex text-gray-400 hover:text-gray-600">
                         <svg className="mr-0.5" style={{ width: '24px', height: '24px' }} viewBox="0 0 24 24">
                           <path
@@ -138,7 +136,7 @@ const BeachFeed = () => {
                         </svg>
                         3
                       </a>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
               ))}

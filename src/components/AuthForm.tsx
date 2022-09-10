@@ -1,13 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { authService } from '~/firebase/fbase'
 import { signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from 'firebase/auth'
-import { useAppDispatch } from '~/store/store'
-import {
-  signInFacebookHandler,
-  signInGoogleHandler,
-  signUpEmail,
-  signInEmail
-} from '~/store/userSlice'
+import { useAppDispatch, useUserSelector } from '~/store/store'
+import { signInFacebookHandler, signInGoogleHandler, signUpEmail, signInEmail } from '~/store/userSlice'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { RiUser3Line, RiUser4Fill } from 'react-icons/ri'
 import { MdOutlineAlternateEmail } from 'react-icons/md'
@@ -20,6 +15,7 @@ const AuthForm = () => {
   const [loginMode, setLoginMode] = useState(true)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const user = useUserSelector((state) => state.user)
 
   const {
     register,
@@ -127,9 +123,7 @@ const AuthForm = () => {
                     />
                   </div>
                   {errors.name && (
-                    <p className="text-red-500 font-nexonRegular text-sm ml-8">
-                      {errors.name?.message}
-                    </p>
+                    <p className="text-red-500 font-nexonRegular text-sm ml-8">'이름은 2글자 이상 입력해주세요!'</p>
                   )}
                 </div>
               )}
@@ -148,9 +142,7 @@ const AuthForm = () => {
                   />
                 </div>
                 {errors.email && (
-                  <p className="text-red-500 font-nexonRegular text-sm ml-8 ">
-                    {errors.email?.message}
-                  </p>
+                  <p className="text-red-500 font-nexonRegular text-sm ml-8 ">이메일 형식이 아닙니다!'</p>
                 )}
               </div>
               <div className=" items-center border-2 mb-12 py-2 px-3 rounded-2xl ">
@@ -168,9 +160,7 @@ const AuthForm = () => {
                   />
                 </div>
                 {errors.password && (
-                  <p className="text-red-500 font-nexonRegular text-sm ml-8">
-                    {errors.password?.message}
-                  </p>
+                  <p className="text-red-500 font-nexonRegular text-sm ml-8">'비밀번호는 8글자 이상 입력해주세요!'</p>
                 )}
               </div>
               <button
