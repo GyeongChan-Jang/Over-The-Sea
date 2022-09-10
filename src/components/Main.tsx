@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react'
 import { Carousel } from 'flowbite-react'
 import Hero from '~/components/Banner'
 import Banner from '~/components/Banner'
@@ -12,8 +11,6 @@ import { getWeather } from '~/utils/getWeather'
 import RecommendBeach from './RecommendBeach'
 
 const Main = () => {
-  const { userData } = useSelector((state: any) => state.user)
-
   return (
     <div>
       {/* <Hero /> */}
