@@ -10,7 +10,8 @@ interface SeaWaterQuery {
 }
 
 const queryParams: SeaWaterQuery = {
-  ServiceKey: import.meta.env.VITE_BEACH_API_KEY,
+  // ServiceKey: import.meta.env.VITE_BEACH_API_KEY,
+  ServiceKey: 'YKhkbWsCsaTywu2QHRS70v5QGa6XB6aK/BVsqughtWFRU2Q00gi6uJ4WiXK6oirbBZmFThW4heHbnOa9XJpWZA==',
   pageNo: 1,
   numOfRows: 1000,
   SIDO_NM: '부산',

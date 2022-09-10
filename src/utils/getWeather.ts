@@ -20,7 +20,8 @@ interface WeatherQuery {
 }
 
 const queryParams: WeatherQuery = {
-  serviceKey: import.meta.env.VITE_WEATHER_API_KEY,
+  // serviceKey: import.meta.env.VITE_WEATHER_API_KEY,
+  serviceKey: 'YKhkbWsCsaTywu2QHRS70v5QGa6XB6aK/BVsqughtWFRU2Q00gi6uJ4WiXK6oirbBZmFThW4heHbnOa9XJpWZA==',
   pageNo: 1,
   numOfRows: 100,
   dataType: 'JSON',
@@ -33,19 +34,16 @@ const queryParams: WeatherQuery = {
 export const getWeather = async (payload: any) => {
   console.log(payload)
   try {
-    const response = await axios.get(
-      'https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst',
-      {
-        params: {
-          ...queryParams,
-          nx: parseFloat(payload.nx) || 55,
-          ny: parseFloat(payload.ny) || 127,
-          base_date: payload.today,
-          base_time: payload.nowForcastTime,
-          numOfRows: payload.numOfRows || 100
-        }
+    const response = await axios.get('https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst', {
+      params: {
+        ...queryParams,
+        nx: parseFloat(payload.nx) || 55,
+        ny: parseFloat(payload.ny) || 127,
+        base_date: payload.today,
+        base_time: payload.nowForcastTime,
+        numOfRows: payload.numOfRows || 100
       }
-    )
+    })
     return response.data.response.body.items.item
   } catch (e) {
     console.log(e)
