@@ -21,12 +21,9 @@ const queryParams: SeaWaterQuery = {
 
 export const getSeaWater = async (name: string): Promise<any> => {
   try {
-    const response = await axios.get(
-      'https://apis.data.go.kr/1192000/service/OceansBeachSeawaterService1/getOceansBeachSeawaterInfo1',
-      {
-        params: { ...queryParams, SIDO_NM: name }
-      }
-    )
+    const response = await axios.get('/api/1192000/service/OceansBeachSeawaterService1/getOceansBeachSeawaterInfo1', {
+      params: { ...queryParams, SIDO_NM: name }
+    })
     return response.data.getOceansBeachSeawaterInfo
   } catch (error) {
     alert(error)

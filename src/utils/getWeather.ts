@@ -34,7 +34,7 @@ const queryParams: WeatherQuery = {
 export const getWeather = async (payload: any) => {
   console.log(payload)
   try {
-    const response = await axios.get('https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst', {
+    const response = await axios.get('/api/1360000/VilageFcstInfoService_2.0/getVilageFcst', {
       params: {
         ...queryParams,
         nx: parseFloat(payload.nx) || 55,

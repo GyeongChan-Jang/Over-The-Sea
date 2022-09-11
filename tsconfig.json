@@ -16,7 +16,7 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
-    "types": ["kakao.maps.d.ts", "vite/client"],
+    "types": ["kakao.maps.d.ts", "vite/client", "node"],
     "paths": {
       "~/*": ["src/*"]
     }
