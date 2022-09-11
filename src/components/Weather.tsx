@@ -67,15 +67,15 @@ const Weather = ({ locationWeather }: any) => {
               <div className="my-4 text-center text-3xl text-slate-800">
                 {locationWeather?.sta_nm} /{' '}
                 {todayWeather[5].fcstValue == 1 ? (
-                  <img className="relative top-6 bottom-4 " src="../../public/assets/weather/day.svg" />
+                  <img className="relative top-6 bottom-4 " src="/assets/weather/day.svg" />
                 ) : todayWeather[5].fcstValue == 3 ? (
-                  <img className="relative top-6 bottom-4 " src="../../public/assets/weather/cloudy-day-3.svg" />
+                  <img className="relative top-6 bottom-4 " src="/assets/weather/cloudy-day-3.svg" />
                 ) : todayWeather[5].fcstValue == 4 ? (
-                  <img className="relative top-6 bottom-4 " src="../../public/assets/weather/cloudy.svg" />
+                  <img className="relative top-6 bottom-4 " src="/assets/weather/cloudy.svg" />
                 ) : todayWeather[5].fcstValue == 3 && todayWeather[6] == 1 ? (
-                  <img className="relative top-6 bottom-4 " src="../../public/assets/weather/rainy-4.svg" />
+                  <img className="relative top-6 bottom-4 " src="/assets/weather/rainy-4.svg" />
                 ) : todayWeather[5].fcstValue == 4 && todayWeather[6] == 1 ? (
-                  <img className="relative top-6 bottom-4 " src="../../public/assets/weather/rainy-5.svg" />
+                  <img className="relative top-6 bottom-4 " src="/assets/weather/rainy-5.svg" />
                 ) : (
                   ''
                 )}
@@ -94,14 +94,14 @@ const Weather = ({ locationWeather }: any) => {
                 </div>
                 <div className="flex mt-6">
                   <div className="flex flex-1 text-center text-xl justify-center">
-                    <img src="../../public/assets/weather/humidity.png" width={40} height={40} />
+                    <img src="/assets/weather/humidity.png" width={40} height={40} />
                     <p className="text-sm ml-2">
                       <span className="text-sky-700 text-[1rem]">{todayWeather[10].fcstValue}%</span> <br />
                       습도
                     </p>
                   </div>
                   <div className="flex flex-1 text-center text-xl justify-center">
-                    <img src="../../public/assets/weather/wind.png" width={40} height={40} />
+                    <img src="/assets/weather/wind.png" width={40} height={40} />
                     <p className="text-sm ml-2">
                       <span className="text-blue-600 text-[1rem]">{todayWeather[4].fcstValue}m/s</span> <br />
                       바람

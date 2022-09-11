@@ -64,7 +64,7 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
           <div className="flex flex-col items-center gap-2">
             <p className="text-center text-blue-700 text-lg align-middle">
               <span className="mr-2">
-                <img src="/public/assets/images/beach-ball.png" width={24} height={24} />
+                <img src="/assets/images/beach-ball.png" width={24} height={24} />
               </span>
               <Link className="focus: text-blue-800" to={`/detail/${location.sta_nm}`}>
                 <span className="align-top hover:scale-105 hover:text-red-500 cursor-pointer text-xl">
@@ -72,7 +72,7 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
                 </span>
               </Link>
               <span className="ml-2">
-                <img src="/public/assets/images/beach-ball.png" width={24} height={24} />
+                <img src="/assets/images/beach-ball.png" width={24} height={24} />
               </span>
             </p>
             <p className="text-neutral-600">
@@ -86,17 +86,17 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
                       <div>
                         {sky[0]?.fcstValue && sky[0].fcstValue == 1 ? (
                           <div className="">
-                            <img src="/public/assets/weather/day.svg" />
+                            <img src="/assets/weather/day.svg" />
                             <p className="leading-6 text-center text-neutral-700">맑음!</p>
                           </div>
                         ) : sky[0]?.fcstValue == 3 ? (
                           <div>
-                            <img src="/public/assets/weather/cloudy-day-3.svg" />
+                            <img src="/assets/weather/cloudy-day-3.svg" />
                             <p className="leading-6 text-center text-neutral-700">구름 많음!</p>
                           </div>
                         ) : sky[0]?.fcstValue == 4 ? (
                           <div>
-                            <img src="/public/assets/weather/cloudy.svg" />
+                            <img src="/assets/weather/cloudy.svg" />
                             <p className="leading-6 text-center text-neutral-700">흐림!</p>
                           </div>
                         ) : (
@@ -106,17 +106,17 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
                       <div>
                         {pop[0]?.fcstValue && pop[0].fcstValue >= 0 && pop[0].fcstValue < 30 ? (
                           <div>
-                            <img src="/public/assets/weather/cloudy-day-3.svg" />
+                            <img src="/assets/weather/cloudy-day-3.svg" />
                             <p className="leading-6 text-center text-neutral-700">{pop[0].fcstValue}%</p>
                           </div>
                         ) : pop[0]?.fcstValue >= 30 && pop[0].fcstValue < 60 ? (
                           <div>
-                            <img src="/public/assets/weather/rainy-5.svg" />
+                            <img src="/assets/weather/rainy-5.svg" />
                             <p className="leading-6 text-center text-neutral-700">{pop[0].fcstValue}%</p>
                           </div>
                         ) : pop[0]?.fcstValue >= 60 && pop[0].fcstValue < 100 ? (
                           <div>
-                            <img src="/public/assets/weather/rainy-6.svg" />
+                            <img src="/assets/weather/rainy-6.svg" />
                             <p className="leading-6 text-center text-neutral-700">{pop[0]?.fcstValue}%</p>
                           </div>
                         ) : (
@@ -126,7 +126,7 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
                       <div className="mt-3 mr-2">
                         {tmp[0] && (
                           <div>
-                            <img src="/public/assets/weather/high-temperature.png" width={44} height={44} />
+                            <img src="/assets/weather/high-temperature.png" width={44} height={44} />
                             <p className="mt-3 text-neutral-700">{tmp[0]?.fcstValue}°C</p>
                           </div>
                         )}
@@ -143,12 +143,12 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
                     <div>
                       {seaWater.res_yn === '적합' ? (
                         <div>
-                          <img src="/public/assets/images/appropriate.png" width={40} height={40} className="mt-1" />{' '}
+                          <img src="/assets/images/appropriate.png" width={40} height={40} className="mt-1" />{' '}
                           <p className="mt-6 text-green-500 ">{seaWater.res_yn}</p>
                         </div>
                       ) : seaWater.res_yn === '부적합' ? (
                         <div>
-                          <img src="/public/assets/images/inappropriate.png" width={40} height={40} />{' '}
+                          <img src="/assets/images/inappropriate.png" width={40} height={40} />{' '}
                           <p className="mt-6 text-red-600">{seaWater.res_yn}</p>
                         </div>
                       ) : (
@@ -158,7 +158,7 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
                     <div>
                       {seaWater.res1 ? (
                         <div>
-                          <img src="/public/assets/images/bacteria.png" width={40} height={40} className="ml-3" />
+                          <img src="/assets/images/bacteria.png" width={40} height={40} className="ml-3" />
                           <p className="mt-2 text-center mb-1 text-slate-500">
                             {seaWater.res1.includes('&lt;') ? seaWater.res1.replace('&lt;', '미만') : seaWater.res1}
                           </p>
@@ -171,7 +171,7 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
                     <div>
                       {seaWater.res1 ? (
                         <div>
-                          <img src="/public/assets/images/biology.png" width={40} height={40} className="ml-3" />
+                          <img src="/assets/images/biology.png" width={40} height={40} className="ml-3" />
                           <p className="mt-2 text-center mb-1 text-slate-500">
                             {seaWater.res2.includes('&lt;')
                               ? seaWater.res2.replace('&lt;', '미만').split('미만').reverse().join('미만')
@@ -190,12 +190,12 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
                     <div>
                       {sand.res_yn === '적합' ? (
                         <div>
-                          <img width={40} height={40} src="/public/assets/images/appropriate.png" />
+                          <img width={40} height={40} src="/assets/images/appropriate.png" />
                           <p className="mt-7 ml-1 text-green-500">{sand.res_yn}</p>
                         </div>
                       ) : (
                         <div>
-                          <img width={40} height={40} src="/public/assets/images/inappropriate.png" />
+                          <img width={40} height={40} src="/assets/images/inappropriate.png" />
                           <p className="mt-7 ml-1 text-red-600">{sand.res_yn}</p>
                         </div>
                       )}
@@ -203,7 +203,7 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
                     <div>
                       {sand.res3 ? (
                         <div>
-                          <img width={40} height={40} src="/public/assets/images/cadmium.png" className="ml-2.5" />
+                          <img width={40} height={40} src="/assets/images/cadmium.png" className="ml-2.5" />
                           <p className="mt-2 text-center mb-1 text-slate-500">{sand.res1}</p>
                           <p>(카드뮴)</p>
                         </div>
@@ -214,7 +214,7 @@ const MapOverlay = ({ setIsOpen, location, seaWater, sand }: any) => {
                     <div>
                       {sand.res3 ? (
                         <div>
-                          <img width={40} height={40} src="/public/assets/images/mercury.png" className="ml-1" />
+                          <img width={40} height={40} src="/assets/images/mercury.png" className="ml-1" />
                           <p className=" mt-2 text-center mb-1 text-slate-500">{sand.res3}</p>
                           <p>(수은)</p>
                         </div>

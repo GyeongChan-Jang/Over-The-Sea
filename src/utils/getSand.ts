@@ -20,12 +20,9 @@ const queryParams: SandQuery = {
 
 export const getSand = async (name: string): Promise<any> => {
   try {
-    const { data } = await axios.get(
-      'http://apis.data.go.kr/1192000/service/OceansBeachSandService1/getOceansBeachSandInfo1',
-      {
-        params: { ...queryParams, SIDO_NM: name }
-      }
-    )
+    const { data } = await axios.get('/api/1192000/service/OceansBeachSandService1/getOceansBeachSandInfo1', {
+      params: { ...queryParams, SIDO_NM: name }
+    })
     return data.getOceansBeachSandInfo
   } catch (error) {
     alert(error)
