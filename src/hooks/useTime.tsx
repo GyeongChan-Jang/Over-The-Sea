@@ -18,13 +18,12 @@ const useTime: any = (): UseTimeReturn => {
 
   // 현재 시간에 따른 기상예보시간
   let nowForcastTime: string | number = 0
-  let afterFiveHours: string | number =
-    date.getHours() + 5 > 24 ? date.getHours() + 5 - 24 : date.getHours() + 5
+  let afterFiveHours: string | number = date.getHours() + 5 > 24 ? date.getHours() - 19 : date.getHours() + 5
 
   let minutes: string | number = date.getMinutes() < 10 ? '0' + afterFiveHours : afterFiveHours
   const forecastTime = ['02', '05', '08', '11', '14', '17', '20', '23']
 
-  let today: number | string = year + '' + '0' + month + '' + '0' + day
+  let today: number | string = year + '' + 0 + month + '' + day
 
   useEffect(() => {
     if (month < 10) {
@@ -36,8 +35,8 @@ const useTime: any = (): UseTimeReturn => {
     if (day < 10) {
       setDay('0' + day)
     }
+
     today = year + '' + month + '' + day
-    console.log(day)
   }, [])
 
   for (let i = 0; i < forecastTime.length; i++) {
@@ -47,7 +46,7 @@ const useTime: any = (): UseTimeReturn => {
       nowForcastTime = forecastTime[i]
     }
     if (hours == 0 || hours == 1) {
-      today = Number(year + '0' + month + day) - 1
+      today = Number(year + '' + month + '' + day) - 1
       nowForcastTime = forecastTime[7]
     }
   }
@@ -64,9 +63,6 @@ const useTime: any = (): UseTimeReturn => {
     minutes,
     afterFiveHours
   }
-
-  // 알아야할 것
-  // return year: yyyy, month: dd, day: dd, hour: hhhh, minute: mm, afterFiveHopur: hhhh
 }
 
 export default useTime
