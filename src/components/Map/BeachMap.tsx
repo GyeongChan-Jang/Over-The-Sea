@@ -88,7 +88,7 @@ const BeachMap = ({ regionClickHandler, setMap, map, locations, setLocationWeath
         </div>
         <div className="divide h-[2px] bg-[#333] my-4"></div>
         <div className="my-4 flex flex-wrap justify-center gap-4 rounded-md shadow-xl p-4 bg-white">
-          {regions.map((region: any) => (
+          {regions.slice(0, -1).map((region: any) => (
             <Button color="dark" pill={true} key={region} name={region} onClick={regionClickHandler}>
               {region}
             </Button>

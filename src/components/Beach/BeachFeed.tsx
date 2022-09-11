@@ -89,8 +89,13 @@ const BeachFeed = () => {
                   key={index}
                   className="w-[90%] bg-white p-3 rounded-lg shadow-md hover:scale-105 ease-in duration-200 "
                 >
+                  <div className="mb-2">
+                    <span className="text-blue-800 text-lg">{review.beachId}</span>{' '}
+                    <span className="text-slate-700"> 해수욕장</span>
+                  </div>
+
                   <img
-                    className="h-52 w-full object-cover"
+                    className="h-24 w-full object-cover"
                     src={
                       review.postImage
                         ? review.postImage
@@ -98,11 +103,13 @@ const BeachFeed = () => {
                     }
                   />
                   <ul className="mt-3 flex flex-wrap gap-2">
-                    <li className="mr-auto">
-                      <span>{review.content}</span>
+                    <li className="text-sm flex justify-between gap-4 w-full">
+                      <p>{review?.time?.toDate().toLocaleString().slice(0, -3)}</p>
+                      <p>{review.userName}</p>
                     </li>
-                    <li className="text-slate-700">
-                      <span>{review.userName}</span>
+                    <li className="text-slate-700"></li>
+                    <li className="mr-auto font-nexonRegular">
+                      <span>{review.content}</span>
                     </li>
                     {/* <li className="mr-2">
                       <a href="#" className="flex text-gray-400 hover:text-gray-600">

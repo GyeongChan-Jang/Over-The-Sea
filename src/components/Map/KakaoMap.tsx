@@ -15,8 +15,6 @@ interface RequestQuery {
 }
 
 const KakaoMap = () => {
-  const { userData } = useUserSelector((state) => state.user)
-
   // 현재 위치 가져오기
   const currentLocation = useGeolocation()
   const [map, setMap] = useState<any>()

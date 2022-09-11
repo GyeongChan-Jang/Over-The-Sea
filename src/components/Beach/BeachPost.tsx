@@ -91,10 +91,7 @@ const BeachPost = ({ params, setPostId }: any) => {
   return (
     <div>
       <div className="flex mx-auto items-center justify-center mb-10 w-[90%]">
-        <form
-          onSubmit={postSubmitHandler}
-          className="w-[90%] bg-white rounded-xl px-4 pt-2 shadow-xl"
-        >
+        <form onSubmit={postSubmitHandler} className="w-[90%] bg-white rounded-xl px-4 pt-2 shadow-xl">
           <div className="flex flex-wrap -mx-3 mb-6">
             <h2 className="px-4 pt-3 pb-2 text-gray-800 text-sm">
               <span className="text-blue-900 ">해수욕장</span> 후기를 남겨주세요!
