@@ -262,6 +262,7 @@ const userSlice = createSlice({
     builder.addCase(signUpEmail.fulfilled, (state, { payload }: any) => {
       if (payload === undefined) {
         alert('이미 존재하는 이메일입니다.')
+        return
       }
       state.loading = false
       state.error = null

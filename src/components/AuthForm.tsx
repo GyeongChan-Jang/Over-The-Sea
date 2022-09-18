@@ -123,7 +123,7 @@ const AuthForm = () => {
                     />
                   </div>
                   {errors.name && (
-                    <p className="text-red-500 font-nexonRegular text-sm ml-8">'이름은 2글자 이상 입력해주세요!'</p>
+                    <p className="text-red-500 font-nexonRegular text-sm ml-8">이름은 2글자 이상 입력해주세요!</p>
                   )}
                 </div>
               )}
@@ -142,7 +142,7 @@ const AuthForm = () => {
                   />
                 </div>
                 {errors.email && (
-                  <p className="text-red-500 font-nexonRegular text-sm ml-8 ">이메일 형식이 아닙니다!'</p>
+                  <p className="text-red-500 font-nexonRegular text-sm ml-8 mt-1 ">이메일 형식이 아닙니다!</p>
                 )}
               </div>
               <div className=" items-center border-2 mb-12 py-2 px-3 rounded-2xl ">
@@ -160,7 +160,7 @@ const AuthForm = () => {
                   />
                 </div>
                 {errors.password && (
-                  <p className="text-red-500 font-nexonRegular text-sm ml-8">'비밀번호는 8글자 이상 입력해주세요!'</p>
+                  <p className="text-red-500 font-nexonRegular text-sm ml-8">비밀번호는 8글자 이상 입력해주세요!</p>
                 )}
               </div>
               <button

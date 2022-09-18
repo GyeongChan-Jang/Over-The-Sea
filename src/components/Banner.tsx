@@ -34,13 +34,9 @@ const Banner = () => {
   }, [])
   return (
     <>
-      <div className="xs:text:lg xs:leading-[30px] sm:text-2xl sm:leading-[50px] md:text-4xl md:leading-[60px] lg:text-5xl lg:leading-[80px] w-[90%] mx-auto h-64 max-h-64  bg-gradient-to-r from-sky-500 to-blue-800 text-white p-4 mt-12 font-bold leading-[80px] rounded-lg">
+      <div className="xs:tracking-normal xs:leading-[50px] xs:text-2xl sm:text-4xl sm:leading-[50px] md:text-4xl md:leading-[60px] lg:text-5xl lg:leading-[80px] w-[90%] mx-auto h-64 max-h-64  bg-gradient-to-r from-sky-500 to-blue-800 text-white p-4 mt-12 font-bold leading-[80px] rounded-lg">
         <span ref={textRef}></span>
-        {!blinkOut && (
-          <span className="xs:text:lg sm:text-xl md:text-4xl lg:text-5xl inline-block align-baseline animate-blink ">
-            |
-          </span>
-        )}
+        {!blinkOut && <span className="md:text-4xl lg:text-5xl inline-block align-baseline animate-blink ">|</span>}
       </div>
     </>
   )
