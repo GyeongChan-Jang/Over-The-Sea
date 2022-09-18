@@ -48,7 +48,7 @@ const BeachMap = ({ regionClickHandler, setMap, map, locations, setLocationWeath
     setLocationWeather(location)
     try {
       const res = await getSeaWater(location.sido_nm)
-      res.item.filter((item: any) => {
+      res?.item.filter((item: any) => {
         if (item.sta_nm === location.sta_nm) {
           setSeaWater(item)
         }
