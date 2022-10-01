@@ -1,3 +1,4 @@
+import { stringify } from 'querystring'
 import { useState, useEffect } from 'react'
 
 interface UseTimeReturn {
@@ -11,9 +12,10 @@ interface UseTimeReturn {
 const useTime: any = (): UseTimeReturn => {
   let date = new Date()
 
-  const [year, setYear] = useState<string | number>(date.getFullYear())
-  const [month, setMonth] = useState<string | number>(date.getMonth() + 1)
-  const [day, setDay] = useState<string | number>(date.getDate())
+  let year = date.getFullYear()
+  let month = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
+  // const [day, setDay] = useState<string | number>(date.getDate())
+  let day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
   const [hours, setHours] = useState<string | number>(date.getHours())
 
   // 현재 시간에 따른 기상예보시간
@@ -23,31 +25,22 @@ const useTime: any = (): UseTimeReturn => {
   let minutes: string | number = date.getMinutes() < 10 ? '0' + afterFiveHours : afterFiveHours
   const forecastTime = ['02', '05', '08', '11', '14', '17', '20', '23']
 
-  let today: number | string = year + '' + 0 + month + '' + day
+  let today: number | string = year + '' + month + '' + day
 
-  useEffect(() => {
-    if (month < 10) {
-      setMonth('0' + month)
-    }
-    if (hours < 10) {
-      setHours('0' + hours)
-    }
-    if (day < 10) {
-      setDay('0' + day)
-    }
+  // useEffect(() => {
 
-    today = year + '' + month + '' + day
-  }, [])
+  //   today = year + '' + month + '' + day
+  // }, [])
 
   for (let i = 0; i < forecastTime.length; i++) {
     let h = Number(forecastTime[i]) - Number(hours)
 
     if (h === 0 || h === -1 || h === -2) {
-      nowForcastTime = forecastTime[i]
+      nowForcastTime = Number(forecastTime[i])
     }
     if (hours == 0 || hours == 1) {
       today = Number(year + '' + month + '' + day) - 1
-      nowForcastTime = forecastTime[7]
+      nowForcastTime = Number(forecastTime[7])
     }
   }
   if (nowForcastTime < 10) {
@@ -56,6 +49,8 @@ const useTime: any = (): UseTimeReturn => {
     nowForcastTime = nowForcastTime + '00'
   }
 
+  console.log(day)
+  console.log('today', today)
   return {
     today,
     nowForcastTime,

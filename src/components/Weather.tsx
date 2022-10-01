@@ -29,6 +29,7 @@ const Weather = ({ locationWeather }: any) => {
   const [forecastWind, setForecastWind] = useState<any>()
 
   const { today, nowForcastTime } = useTime()
+  console.log(today)
 
   const tabHandler = (event: any, newValue: any) => {
     setValue(newValue)
@@ -55,7 +56,6 @@ const Weather = ({ locationWeather }: any) => {
         })
       })
       .catch((err) => console.log(err))
-    console.log(today)
   }, [])
 
   return (
