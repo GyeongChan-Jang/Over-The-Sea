@@ -29,9 +29,30 @@
 
 # 🎮 기능 설명
 
-## 내 위치 검색
+## 내 위치 찾기
 
 <img width="700" src="https://user-images.githubusercontent.com/90392240/193602698-6e569c09-6052-41b2-9c9b-18ca23650066.png" />
 
 - 우측 상단 '내 위치' 토글을 통해 언제나 나의 위치로 이동 가능합니다.
+
+## 해수욕장 검색
+
+- 시도별 버튼 클릭 후 해수욕장의 마커를 가져가면 해수욕장의 간단한 정보를 확인 가능합니다.
+
+<img width="700" src="https://user-images.githubusercontent.com/90392240/193604058-f6d713c4-51ca-40d3-b16e-b1616ad082df.png" />
+
+## 해수욕장 날씨, 수질, 백사장 정보
+
+- 해수욕장 마커 클릭시 탭으로 날씨, 수질, 백사장 정보를 확인할 수 있습니다.
+
+<img width="700" src="https://user-images.githubusercontent.com/90392240/193615682-7c81eb3f-1e08-4c9b-a059-0971276d2a25.gif" />
+
+## 해수욕장의 상세날씨 정보
+
+- 해수욕장 마커 클릭시 지도 하단에 세부 날씨 정보를 제공합니다.
+- 날씨 예보 시간을 계산하여 향후 12시간의 기상예보를 보여줍니다.
+- 기온, 습도, 풍속 정보를 그래프를 통해 확인할 수 있습니다.
+
+<img width="700" src="https://user-images.githubusercontent.com/90392240/193617468-3cb2d614-369d-46cc-b1e5-c27a79ee8a93.gif" />
+
 
