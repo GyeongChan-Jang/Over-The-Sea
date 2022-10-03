@@ -37,25 +37,25 @@
 <img width="700" src='https://user-images.githubusercontent.com/90392240/193623291-00c25b06-3709-4399-acca-69951e9f1189.gif' />
 
 
-## 내 위치 찾기
+## 🎯 내 위치 찾기
 
 <img width="700" src="https://user-images.githubusercontent.com/90392240/193602698-6e569c09-6052-41b2-9c9b-18ca23650066.png" />
 
 - 우측 상단 '내 위치' 토글을 통해 언제나 나의 위치로 이동 가능합니다.
 
-## 해수욕장 검색
+## 🔍 해수욕장 검색
 
 - 시도별 버튼 클릭 후 해수욕장의 마커를 가져가면 해수욕장의 간단한 정보를 확인 가능합니다.
 
 <img width="700" src="https://user-images.githubusercontent.com/90392240/193604058-f6d713c4-51ca-40d3-b16e-b1616ad082df.png" />
 
-## 해수욕장 날씨, 수질, 백사장 정보
+## 🏝 해수욕장 날씨, 수질, 백사장 정보
 
 - 해수욕장 마커 클릭시 탭으로 날씨, 수질, 백사장 정보를 확인할 수 있습니다.
 
 <img width="700" src="https://user-images.githubusercontent.com/90392240/193615682-7c81eb3f-1e08-4c9b-a059-0971276d2a25.gif" />
 
-## 해수욕장의 상세날씨 정보
+## ☀️ 해수욕장의 상세날씨 정보
 
 - 해수욕장 마커 클릭시 지도 하단에 세부 날씨 정보를 제공합니다.
 - 날씨 예보 시간을 계산하여 향후 12시간의 기상예보를 보여줍니다.
@@ -63,11 +63,33 @@
 
 <img width="700" src="https://user-images.githubusercontent.com/90392240/193617468-3cb2d614-369d-46cc-b1e5-c27a79ee8a93.gif" />
 
-## 해수욕장 정보 상세페이지
+## 🌊 해수욕장 정보 상세페이지
 
 - 오버레이 해수욕장명 클릭시 해수욕장 상세페이지로 이동합니다.
 - 상세정보에서는 해수욕장에 대한 좋아요 및 후기를 남길 수 있습니다.
+- 후기 수정 및 삭제가 가능합니다.
 
 <img width="700" src="https://user-images.githubusercontent.com/90392240/193626129-5b22e1fe-ff4a-4a44-9647-6cb9a08a2d13.gif" />
 
+- 좋아요 기능의 로직은 Firebase DB 해변 도큐먼트 안에 likes 컬렉션을 만들어 유저의 ID를 넣어 구현했습니다.
+
 <img width="700" src="https://user-images.githubusercontent.com/90392240/193626233-2944ad45-d831-46f5-913b-24250a4a323d.gif" />
+
+- 리뷰 기능 로직은 해변 도큐먼트 안에 posts 컬렉션을 만들어 해면 ID를 포함한 후기관련 필드를 넣어서 구현했습니다.
+
+## ⛱ 해변 한번에 모아보기&필터 기능
+
+- 검색 가능한 해변 한번에 모아볼 수 있습니다.
+- 시도 버튼을 통해 원하는 지역의 해변을 필터링할 수 있습니다.
+
+<img width="700" src="https://user-images.githubusercontent.com/90392240/193631318-af691bfb-c81f-4ddf-942f-e87d6ac943d3.gif" />
+
+## ✍️ 후기 한번에 모아보기&필터
+
+- 해수욕장 리뷰들을 한번에 모아볼 수 있습니다.
+- 리뷰들을 시도별로 필터링할 수 있습니다.
+
+<img width="700" src="https://user-images.githubusercontent.com/90392240/193632379-df2c1dae-0ff5-45f3-81e7-7e19a5fa2027.gif" />
+
+
+
