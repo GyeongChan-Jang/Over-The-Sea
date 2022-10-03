@@ -7,7 +7,7 @@
 
 # 🧑🏻‍💻 프로젝트 개요
 
-### 🏖 해수욕장 여행을 위한 바다의 안전정보, 날씨정보, 위치정보를 제공합니다.
+### 🏖 해수욕장 여행을 위한 바다의 안전정보, 날씨정보, 위치정보 후기를 제공합니다.
 
 > **수질 정보**
 - 적합여부, 대장균, 장구균 수치
@@ -25,9 +25,17 @@
 - **언어**: TypeScript
 - **상태관리**: Redux Toolkit 
 - **비동기 통신**: Create Async Thunk
+- **서버/DB**: Firebase
 - **스타일링**: TailWind CSS, Flowbite
 
 # 🎮 기능 설명
+
+## 소셜 로그인
+
+- 구글과 페이스북을 통해 SNS 로그인이 가능합니다.
+ 
+<img width="700" src='https://user-images.githubusercontent.com/90392240/193623291-00c25b06-3709-4399-acca-69951e9f1189.gif' />
+
 
 ## 내 위치 찾기
 
@@ -55,4 +63,11 @@
 
 <img width="700" src="https://user-images.githubusercontent.com/90392240/193617468-3cb2d614-369d-46cc-b1e5-c27a79ee8a93.gif" />
 
+## 해수욕장 정보 상세페이지
 
+- 오버레이 해수욕장명 클릭시 해수욕장 상세페이지로 이동합니다.
+- 상세정보에서는 해수욕장에 대한 좋아요 및 후기를 남길 수 있습니다.
+
+<img width="700" src="https://user-images.githubusercontent.com/90392240/193626129-5b22e1fe-ff4a-4a44-9647-6cb9a08a2d13.gif" />
+
+<img width="700" src="https://user-images.githubusercontent.com/90392240/193626233-2944ad45-d831-46f5-913b-24250a4a323d.gif" />
