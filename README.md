@@ -1,7 +1,7 @@
 # <img width="30" alt="logo" src="https://user-images.githubusercontent.com/90392240/193596882-0039f118-039e-4b53-ade8-588897987f30.png" /> 바다어때
 
 <div aling="center">
-  <img width="650" src="https://user-images.githubusercontent.com/90392240/193597867-7e0ca834-11b2-4960-bb9e-485f36e5d092.gif" />
+  <img width="700" src="https://user-images.githubusercontent.com/90392240/193597867-7e0ca834-11b2-4960-bb9e-485f36e5d092.gif" />
   <img width="185" src="https://user-images.githubusercontent.com/90392240/193597561-4d1cb1a5-4c8b-4cdd-ad6e-4ecd23de8613.gif" />
 
 </div>
