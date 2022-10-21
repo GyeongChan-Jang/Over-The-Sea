@@ -135,6 +135,7 @@
     - 향후 24시간의 초단기 예보를 가져오도록 코드를 작성하였습니다.
 
   - 컨테이너의 크기가 크지 않아 시간에 맞게 그래프로 정보를 나타내기 어려웠습니다.
+  
     - 스와이퍼를 통해 컨테이너 크기에 맞게 시각적으로 표현했습니다.
     - 복잡할 수 있는 정보들을 한눈에 보기 쉽게 UI를 구성하였습니다.
     - 그래프 라이브러리 Docs를 적극 참고하여 값들을 표시했습니다.
@@ -143,14 +144,17 @@
 
 > 해수욕장의 상세한 정보와 좋아요, 리뷰 기능
 
-<img width="350" src="https://user-images.githubusercontent.com/90392240/193626129-5b22e1fe-ff4a-4a44-9647-6cb9a08a2d13.gif" />
-<img width="350" src="https://user-images.githubusercontent.com/90392240/193626233-2944ad45-d831-46f5-913b-24250a4a323d.gif" />
+<img width="340" src="https://user-images.githubusercontent.com/90392240/193626129-5b22e1fe-ff4a-4a44-9647-6cb9a08a2d13.gif" /> <img width="340" src="https://user-images.githubusercontent.com/90392240/193626233-2944ad45-d831-46f5-913b-24250a4a323d.gif" />
 
 - 해수욕장의 상세한 정보를 제공하는 페이지를 따로 만들었습니다.
+
   - 리뷰 기능과 좋아요 기능을 구현하기 위해서, 정제된 해수욕장 정보를 제공하기 위해서입니다.
+  
 - 리뷰는 Firebase DB 상의 각각의 해변정보에 posts 컬렉션을 만들어 저장했습니다.
+
   - 사진 업로드 기능을 구현하기 위해 Firebase Storage를 사용했습니다.
   - Firebase Storeage에 저장한 사진은 링크만 DB에 저장됩니다.
+  
 - 좋아요 기능은Firebase DB 해변 도큐먼트 안에 likes 컬렉션을 만들어 유저의 ID를 넣어 구현했습니다.
 
 ## ⛱ 해변 한번에 모아보기&필터 기능
@@ -160,7 +164,9 @@
 <img width="700" src="https://user-images.githubusercontent.com/90392240/193631318-af691bfb-c81f-4ddf-942f-e87d6ac943d3.gif" />
 
 - 검색 가능한 해변 한번에 모아볼 수 있습니다.
+
 - 해변 데이터는 한번에 모든 데이터를 가져와 클라이언트단에서 필터링을 적용했습니다.
+
   - 데이터를 가져와 필터링시 초기 로딩 이후 필터되는 속도가 상당히 빨랐습니다.
   - 특정 지역의 해변이 몰릴 경우 로딩이 오래 걸릴 수 있어 프론트에서 필터링을 적용했습니다.
 
@@ -171,7 +177,9 @@
 <img width="700" src="https://user-images.githubusercontent.com/90392240/193632379-df2c1dae-0ff5-45f3-81e7-7e19a5fa2027.gif" />
 
 - 해수욕장 리뷰들을 한번에 모아볼 수 있습니다.
+
 - 후기를 필터링 하는 방식은 해변 필터링과는 다르게 시도 버튼 클릭시 서버에서 가져오는 방식으로 구현했습니다.
+
   - 후기 데이터는 해변 데이터보다 많지 않기 때문에 버튼 누를때마다 가져와도 된다고 판단했습니다.
   - 따라서 - DB의 접근해 where 문으로 쿼리 조건을 걸어 필터링해 리뷰 데이터를 가져왔습니다.
 
@@ -188,7 +196,7 @@
 
 > 모바일 사용자 고려
 
-<img width="250" src="https://user-images.githubusercontent.com/90392240/197249911-997ba0e3-cdc3-4e6a-b01d-9e9082b47779.png" /> <img width="250" src="https://user-images.githubusercontent.com/90392240/197249837-429e1753-f45b-4583-b7e6-50f57ae04134.png" /> <img width="250" src="https://user-images.githubusercontent.com/90392240/197249883-d0c9c479-6bc9-41c8-a692-175c9cbe9124.png" /> <img width="250" src="https://user-images.githubusercontent.com/90392240/197249817-d6698460-1b9b-4c24-b192-9c427a1639b2.gif" />
+<img width="220" src="https://user-images.githubusercontent.com/90392240/197249911-997ba0e3-cdc3-4e6a-b01d-9e9082b47779.png" /> <img width="220" src="https://user-images.githubusercontent.com/90392240/197249837-429e1753-f45b-4583-b7e6-50f57ae04134.png" /> <img width="220" src="https://user-images.githubusercontent.com/90392240/197249883-d0c9c479-6bc9-41c8-a692-175c9cbe9124.png" /> <img width="220" src="https://user-images.githubusercontent.com/90392240/197249817-d6698460-1b9b-4c24-b192-9c427a1639b2.gif" />
 
 - 처음 기획부터 모바일을 고려하여 반응형으로 컴포넌트들을 설계했습니다.
 
