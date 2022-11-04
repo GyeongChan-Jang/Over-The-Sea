@@ -194,7 +194,7 @@
 
 > 모바일 사용자 고려
 
-<img width="220" src="https://user-images.githubusercontent.com/90392240/197249911-997ba0e3-cdc3-4e6a-b01d-9e9082b47779.png" /> <img width="220" src="https://user-images.githubusercontent.com/90392240/197249837-429e1753-f45b-4583-b7e6-50f57ae04134.png" /> <img width="220" src="https://user-images.githubusercontent.com/90392240/197249883-d0c9c479-6bc9-41c8-a692-175c9cbe9124.png" /> <img width="220" src="https://user-images.githubusercontent.com/90392240/197249817-d6698460-1b9b-4c24-b192-9c427a1639b2.gif" />
+<img width="200" src="https://user-images.githubusercontent.com/90392240/197249911-997ba0e3-cdc3-4e6a-b01d-9e9082b47779.png" /> <img width="200" src="https://user-images.githubusercontent.com/90392240/197249837-429e1753-f45b-4583-b7e6-50f57ae04134.png" /> <img width="200" src="https://user-images.githubusercontent.com/90392240/197249883-d0c9c479-6bc9-41c8-a692-175c9cbe9124.png" /> <img width="200" src="https://user-images.githubusercontent.com/90392240/197249817-d6698460-1b9b-4c24-b192-9c427a1639b2.gif" />
 
 - 처음 기획부터 모바일을 고려하여 반응형으로 컴포넌트들을 설계했습니다.
 
